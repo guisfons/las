@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swiper {
+  @apply w-full;
+}
+
+#swiper-custom {
+  .swiper-slide {
+    @apply w-full;
+    transform: scale(0.8) !important;
+    opacity: 0.6 !important;
+    background-position: center;
+    background-size: cover;
+    transition: all 0.2s;
+
+    &.swiper-slide-active {
+      transform: scale(1) !important;
+      opacity: 1 !important;
+    }
+  }
+}
