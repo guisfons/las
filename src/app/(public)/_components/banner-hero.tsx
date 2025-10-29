@@ -81,7 +81,9 @@ export default function BannerHero() {
                     priority={index === 0}
                     className="object-cover object-center opacity-80"
                   />
-                  {banner.customBg && <div className="absolute inset-0 bg-black/40 z-10" />}
+                  {banner.customBg && (
+                    <div className="absolute inset-0 bg-black/40 z-10" />
+                  )}
                 </>
 
                 {!banner.button && banner.url && (
