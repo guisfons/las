@@ -62,7 +62,8 @@ export default function BannerHero() {
         className="w-full h-dvh"
       >
         {banners.map((banner, index) => {
-          const imageSrc = isMobile && banner.imageMobile ? banner.imageMobile : banner.image;
+          const imageSrc =
+            isMobile && banner.imageMobile ? banner.imageMobile : banner.image;
 
           return (
             <SwiperSlide key={index}>
