@@ -1,16 +1,28 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import Icon from '@/shared/icon/icon';
 
 import 'swiper/css';
-import 'swiper/css/pagination';
 
 export default function BannerHero() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // check on mount
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const banners = [
     {
       image: '/images/landingpage/line-hero.png',
+      imageMobile: '',
       alt: 'Line Banner',
       url: '#Contact',
       target: '_self',
@@ -31,6 +43,7 @@ export default function BannerHero() {
     },
     {
       image: '/images/landingpage/Banner-site-SpineMED.avif',
+      imageMobile: '/images/landingpage/Banner-site-SpineMEDMobile.avif',
       alt: 'Banner - Laís Chat Bot',
       url: 'https://udify.app/chat/TPKKnNAf0hPmq1CM',
       target: '_blank',
@@ -43,69 +56,63 @@ export default function BannerHero() {
   return (
     <section className="relative w-full h-dvh overflow-hidden">
       <Swiper
-        modules={[Autoplay, Pagination]}
-        pagination={{ clickable: true }}
+        modules={[Autoplay]}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop
         className="w-full h-dvh"
       >
-        {banners.map((banner, index) => (
-          <SwiperSlide key={index}>
-            <div
-              className={`relative w-full h-dvh flex items-center justify-center ${
-                banner.customBg
-                  ? 'bg-black bg-bannerHeroMobile md:bg-BannerHeroWeb bg-no-repeat bg-top bg-cover px-1'
-                  : ''
-              }`}
-            >
-              {banner.customBg ? (
+        {banners.map((banner, index) => {
+          const imageSrc = isMobile && banner.imageMobile ? banner.imageMobile : banner.image;
+
+          return (
+            <SwiperSlide key={index}>
+              <div
+                className={`relative w-full h-dvh flex items-center justify-center ${
+                  banner.customBg
+                    ? 'bg-black bg-bannerHeroMobile md:bg-BannerHeroWeb bg-no-repeat bg-top bg-cover px-1'
+                    : ''
+                }`}
+              >
                 <>
                   <Image
-                    src={banner.image}
+                    src={imageSrc}
                     alt={banner.alt}
                     fill
                     priority={index === 0}
                     className="object-cover object-center opacity-80"
                   />
-                  <div className="absolute inset-0 bg-black/40 z-10" />
+                  {banner.customBg && <div className="absolute inset-0 bg-black/40 z-10" />}
                 </>
-              ) : (
-                <Image
-                  src={banner.image}
-                  alt={banner.alt}
-                  fill
-                  priority={index === 0}
-                  className="object-cover object-center opacity-80"
-                />
-              )}
-              {/* Conteúdo sobre o banner */}
-              {!banner.button && banner.url && (
-                <a
-                  href={banner.url}
-                  target={banner.target}
-                  className="absolute inset-0 z-10"
-                />
-              )}
-              <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 gap-6">
-                {banner.textContent && (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: banner.textContent }}
+
+                {!banner.button && banner.url && (
+                  <a
+                    href={banner.url}
+                    target={banner.target}
+                    className="absolute inset-0 z-10"
                   />
                 )}
 
-                {banner.button && banner.url && (
-                  <Link
-                    href={banner.url}
-                    target={banner.target}
-                    className="flex items-center justify-center gap-1 bg-[#f9d229] text-base font-exo2 font-medium rounded-full px-6 py-3 text-black hover:bg-[#f1c400] transition-all"
-                  >
-                    Entre em contato <Icon name="arrow_right" />
-                  </Link>
-                )}
+                <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 gap-6">
+                  {banner.textContent && (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: banner.textContent }}
+                    />
+                  )}
+
+                  {banner.button && banner.url && (
+                    <Link
+                      href={banner.url}
+                      target={banner.target}
+                      className="flex items-center justify-center gap-1 bg-[#f9d229] text-base font-exo2 font-medium rounded-full px-6 py-3 text-black hover:bg-[#f1c400] transition-all"
+                    >
+                      Entre em contato <Icon name="arrow_right" />
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </section>
   );
