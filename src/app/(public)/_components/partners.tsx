@@ -14,13 +14,13 @@ export default function Partners() {
     { alf: 'fziomed', url: '/images/brands/fziomed.png' },
     { alf: 'acf_medical_logo', url: '/images/brands/acf_medical_logo.png' },
     { alf: 'apex', url: '/images/brands/apex_logo.png' },
-    { alf: 'bowa_site', url: '/images/brands/bowa_site.png' },
+    // { alf: 'bowa_site', url: '/images/brands/bowa_site.png' },
     { alf: 'curaway', url: '/images/brands/curaway_logo.png' },
-    { alf: 'aap_joints', url: '/images/brands/aap_joints.png' },
-    {
-      alf: 'neomedic_international',
-      url: '/images/brands/neomedic_international.png',
-    },
+    // { alf: 'aap_joints', url: '/images/brands/aap_joints.png' },
+    // {
+    //   alf: 'neomedic_international',
+    //   url: '/images/brands/neomedic_international.png',
+    // },
     { alf: 'macom_logo', url: '/images/brands/macom_logo.png' },
     { alf: 'mdl_logo', url: '/images/brands/mdl_logo.png' },
     { alf: 'med_envision', url: '/images/brands/med_envision.png' },
@@ -37,6 +37,7 @@ export default function Partners() {
       alf: 'STORZ',
       url: '/images/brands/STORZ-ENDOSKOPE-NODIA-KSBLUE-HR.jpg',
     },
+    { alf: 'Kandel Medical', url: '/images/brands/kandel_medical.webp' },
   ];
 
   const swiperRef = useRef<SwiperType | null>(null);
@@ -75,17 +76,19 @@ export default function Partners() {
           modules={[Autoplay, Pagination, Navigation]}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
         >
-          {imageGallery?.map((image, index) => (
-            <SwiperSlide key={index}>
-              <Image
-                src={image.url}
-                width={150}
-                height={150}
-                alt={image.alf}
-                className="relative w-full h-32 aspect-square object-contain py-10"
-              />
-            </SwiperSlide>
-          ))}
+          {imageGallery
+            ?.sort((a, b) => a.alf.localeCompare(b.alf))
+            .map((image, index) => (
+              <SwiperSlide key={index}>
+                <Image
+                  src={image.url}
+                  width={150}
+                  height={150}
+                  alt={image.alf}
+                  className="relative w-full h-32 aspect-square object-contain py-10"
+                />
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
     </section>

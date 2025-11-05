@@ -17,7 +17,7 @@ export default function TechnicalHero() {
         </p>
 
         <p className="max-w-[300px] md:max-w-[565px] font-exo2 font-normal text-base text-center text-white mt-10 mb-10">
-          ENa LAS Brasil, entendemos que a excelência nos serviços técnicos é
+          Na LAS Brasil, entendemos que a excelência nos serviços técnicos é
           fundamental para a qualidade e desempenho dos equipamentos médicos.
           Nossa missão é garantir que as tecnologias médicas fornecidas através
           da LAS operem com eficiência e segurança, proporcionando o suporte

@@ -12,7 +12,7 @@ export default function ForHealth() {
       label: 'Gerar Saúde',
       background: 'bg-[#F9D229]',
       image: 'bg-createHealth',
-      text: 'Queremos transformar a saúde em algo cotidiano, começando por nós: colaboradores podem usar a primeira hora do expediente para se exercitar e incentivamos participação em corridas beneficentes. Apoiamos programas sociais com parte do nosso lucro e patrocinamos um time de handball para crianças sem condições financeiras.',
+      text: 'Queremos transformar a saúde em algo cotidiano, começando por nós. Nossos colaboradores podem usar a primeira hora do expediente para se exercitar e incentivamos participação em corridas beneficentes. Apoiamos programas sociais com parte do nosso lucro e patrocinamos um time de handball para crianças sem condições financeiras.',
       link: '/generate-health',
     },
     {

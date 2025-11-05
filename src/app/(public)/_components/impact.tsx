@@ -20,16 +20,16 @@ export default function Impact() {
     {
       icon: '/home+.svg',
       bg: 'bg-[#42BD5C1A]',
-      title: 'Fábricas no mundo',
+      title: 'Rede global de fornecedores',
       number: '15',
       // symbol: 'M',
     },
     {
       icon: '/microscopio.svg',
       bg: 'bg-[#F9D22933]',
-      title: 'Vidas impactadas',
-      symbol: '+',
-      number: '306k',
+      title: 'Médicos capacitados',
+      // symbol: '+',
+      number: '284',
     },
   ];
 
