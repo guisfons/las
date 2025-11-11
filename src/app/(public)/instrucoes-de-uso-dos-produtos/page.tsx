@@ -230,7 +230,8 @@ export default function Home() {
                 href={item.fileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#73CC00] font-exo2 py-3 px-6 rounded-full text-center text-white">
+                className="bg-[#73CC00] font-exo2 py-3 px-6 rounded-full text-center text-white"
+              >
                 Baixar PDF
               </a>
             </div>
