@@ -62,13 +62,15 @@ const products = [
     brand: 'EasyFill',
     name: 'Kit Descartável Para Osteocondroplastia De Joelho Macom',
     anvisa: '10243070056',
-    fileUrl: '/pdfs/instructions/Kit-para-osteocondroplastia-de-Joelho_EasyFill.pdf',
+    fileUrl:
+      '/pdfs/instructions/Kit-para-osteocondroplastia-de-Joelho_EasyFill.pdf',
   },
   {
     brand: 'EasyFill',
     name: 'Kit Descartável De Osteocondroplastia Para Pequenas Articulações Macom – Easy Fill Small Joints',
     anvisa: '10243079008',
-    fileUrl: '/pdfs/instructions/Kit-para-Osteocondroplastia-de-pequenas-articulacoes_Easyfill.pdf',
+    fileUrl:
+      '/pdfs/instructions/Kit-para-Osteocondroplastia-de-pequenas-articulacoes_Easyfill.pdf',
   },
   {
     brand: 'Fziomed',
@@ -182,7 +184,8 @@ const products = [
     brand: 'Spinemed',
     name: 'Spinemed',
     anvisa: '80517190003',
-    fileUrl: '/pdfs/instructions/WI-080-EXPRESS-Operator-Manual-E-Series-v2.1-Portuguese.pdf',
+    fileUrl:
+      '/pdfs/instructions/WI-080-EXPRESS-Operator-Manual-E-Series-v2.1-Portuguese.pdf',
   },
 ];
 
