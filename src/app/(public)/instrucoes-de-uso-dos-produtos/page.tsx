@@ -44,7 +44,7 @@ const products = [
     brand: 'EasyCore Hip',
     name: 'EasyCore Hip',
     anvisa: '80517190016',
-    fileUrl: '#',
+    fileUrl: '/pdfs/instructions/IU_EASYCORE_Instrumental_03.2023.PDF',
   },
   {
     brand: 'EasyCore Hip',
@@ -113,12 +113,6 @@ const products = [
     fileUrl: '/pdfs/instructions/EsySuit.pdf',
   },
   {
-    brand: 'Medigraft',
-    name: 'Kit Medigraft e Max',
-    anvisa: '80517199010',
-    fileUrl: '#',
-  },
-  {
     brand: 'Neurosign',
     name: 'Probe Estéril para Neurosign',
     anvisa: '80517190004',
@@ -147,12 +141,6 @@ const products = [
     name: 'Neuromonitor Neurosign V4',
     anvisa: '80517190035',
     fileUrl: '/pdfs/instructions/Neurosing-V4.pdf',
-  },
-  {
-    brand: 'Neurosign',
-    name: 'Clip de Estimulação Contínua Descartável',
-    anvisa: '80517199002',
-    fileUrl: '#',
   },
   {
     brand: 'Osartis',
