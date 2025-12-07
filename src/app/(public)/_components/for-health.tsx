@@ -98,7 +98,9 @@ export default function ForHealth() {
                       <span className="flex flex-col items-center font-exo2 font-light text-5xl mr-6 lg:mr-10">
                         {idx === activeItem ? '-' : '+'}
                       </span>{' '}
-                      <div dangerouslySetInnerHTML={{ __html: el.label }}></div>
+                      <span
+                        dangerouslySetInnerHTML={{ __html: el.label }}
+                      ></span>
                     </p>
                   </div>
                 </div>
