@@ -2,26 +2,28 @@
 
 import { useEffect, useState } from 'react';
 
+type CertData = {
+  email: string;
+  link: string;
+};
+
 export default function Home() {
   const [email, setEmail] = useState('');
-  const [emailData, setEmailData] = useState<any[]>([]);
-  const [resultado, setResultado] = useState<any | null>(null);
   const [mensagem, setMensagem] = useState<string | null>(null);
+  const [emailData, setEmailData] = useState<CertData[]>([]);
+  const [resultado, setResultado] = useState<CertData | null>(null);
 
   useEffect(() => {
     fetch('/api/certificados')
       .then((r) => r.json())
-      .then((d) => {
-        console.log("API retornou: '", d); // <--- AQUI
-        setEmailData(d);
-      });
+      .then((d: CertData[]) => setEmailData(d));
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const item = emailData.find(
-      (i) => i.email.toLowerCase() === email.toLowerCase()
+      (i) => i.email.toLowerCase() === email.toLowerCase(),
     );
 
     if (item) {
@@ -31,12 +33,11 @@ export default function Home() {
       setResultado(null);
       setMensagem('E-mail não encontrado.');
     }
-  }; // <-- ESTA CHAVE FALTAVA!
+  };
 
   return (
     <>
       <section className="flex-col relative w-full h-dvh flex items-center justify-center bg-bannerHeroMobile md:bg-BannerHeroWeb bg-no-repeat bg-top bg-cover px-1">
-
         <h1 className="text-white text-3xl md:text-4xl font-bold mb-4">
           Consulta de Certificado
         </h1>
@@ -65,7 +66,6 @@ export default function Home() {
           <div className="text-center mt-4 text-white text-lg flex flex-col items-center gap-4">
             {mensagem && <p>{mensagem}</p>}
 
-            {/* BOTÃO APARECE SOMENTE SE ENCONTROU */}
             {resultado && (
               <a
                 href={resultado.link}

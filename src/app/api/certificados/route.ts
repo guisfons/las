@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
 
+type CertItem = {
+  email: string;
+  link: string;
+};
+
 export async function GET() {
   const raw = process.env.CERTIFICATES_JSON;
 
@@ -11,7 +16,7 @@ export async function GET() {
   }
 
   try {
-    const data = JSON.parse(raw);
+    const data: CertItem[] = JSON.parse(raw);
 
     if (!Array.isArray(data)) {
       return NextResponse.json(
@@ -21,7 +26,7 @@ export async function GET() {
     }
 
     return NextResponse.json(data);
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: 'CERTIFICATES_JSON contém um JSON inválido.' },
       { status: 500 },
