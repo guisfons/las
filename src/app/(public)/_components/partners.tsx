@@ -37,7 +37,7 @@ export default function Partners() {
       alf: 'STORZ',
       url: '/images/brands/STORZ-ENDOSKOPE-NODIA-KSBLUE-HR.jpg',
     },
-    { alf: 'Kandel Medical', url: '/images/brands/kandel_medical.webp' },
+    { alf: 'Bioventus', url: '/images/brands/bioventus-logo-color-min.webp' },
   ];
 
   const swiperRef = useRef<SwiperType | null>(null);

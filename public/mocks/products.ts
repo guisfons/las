@@ -2794,7 +2794,7 @@ export const ALL_PRODUCTS: Product[] = [
         },
         {
           title: 'Spinemed',
-          url: '../images/use-instruction/SPINEMED.pdf',
+          url: '../pdfs/instructions/WI-080 EXPRESS - Operator Manual E-Series v2.2 Portuguese - 2024.12.18.pdf',
           file_name: 'Anvisa nº 80517190003',
           type: 'DIRECTIONS_FOR_USE',
         },
