@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import BannerHero from './_components/banner-hero';
 import Footer from '@/components/footer';
@@ -10,15 +11,25 @@ import { ALL_PRODUCTS } from '../../../../../public/mocks/products';
 
 export default function Home() {
   const router = useRouter();
-  const { id }: { id: string } = useParams();
+  // const { id }: { id: string } = useParams();
+  const { slug }: { slug: string } = useParams();
 
   const product: Product | undefined = ALL_PRODUCTS.find(
-    (el) => el.id === Number(id),
+    // (el) => el.id === Number(id),
+    (el) => el.slug === slug,
   );
 
-  if (!product?.id) {
-    router.push('/products');
-  }
+  // if (!product?.id) {
+  //   router.push('/produtos');
+  // }
+
+  useEffect(() => {
+    if (!product) {
+      router.push('/produtos');
+    }
+  }, [product, router]);
+
+  if (!product) return null;
 
   return (
     <>

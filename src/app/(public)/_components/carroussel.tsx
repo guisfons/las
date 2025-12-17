@@ -17,7 +17,7 @@ export default function Carroussel({ more = true }: { more?: boolean }) {
         'Uma lesão rara. Perda óssea de 10 cm. E um enxerto com antibiótico local que entregou regeneração, proteção e recuperação total.',
       logo_one: '/images/brands/osartis_logo.png',
       logo_two: '/logo.svg',
-      url: '/products/19',
+      url: '/produtos/19',
     },
     {
       img: '/products/momAndBaby.png',
@@ -26,7 +26,7 @@ export default function Carroussel({ more = true }: { more?: boolean }) {
         'Após anos tentando engravidar, com o suporte do gel de barreira de adesão Oxiplex/IU, ela transformou a esperança em realidade.',
       logo_one: '/oniplex.png',
       logo_two: '/logo.svg',
-      url: '/products/13',
+      url: '/produtos/13',
     },
     {
       img: '/products/babyAndGrandfather.png',
@@ -35,7 +35,7 @@ export default function Carroussel({ more = true }: { more?: boolean }) {
         'Um trauma. Uma cartilagem comprometida. E uma solução biológica que usa o que o próprio corpo tem de melhor.',
       logo_one: '/images/brands/mdl_logo.png',
       logo_two: '/logo.svg',
-      url: '/products/6',
+      url: '/produtos/6',
     },
     {
       img: '/products/aYoungPatient.png',
@@ -44,7 +44,7 @@ export default function Carroussel({ more = true }: { more?: boolean }) {
         'Um nódulo de grandes dimensões. Uma paciente jovem. E uma tecnologia que trata com eficácia, sem comprometer a função da glândula.',
       logo_one: '/images/brands/curaway_logo.png',
       logo_two: '/logo.svg',
-      url: '/products/22',
+      url: '/produtos/22',
     },
   ];
 
@@ -160,7 +160,7 @@ export default function Carroussel({ more = true }: { more?: boolean }) {
 
       {more && (
         <Link
-          href={'/products'}
+          href={'/produtos'}
           className="bg-[#73CC00] font-exo2 py-3 px-6 rounded-full text-center text-white"
         >
           <strong>Ver Todos</strong>

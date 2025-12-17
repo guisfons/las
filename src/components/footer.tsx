@@ -102,7 +102,7 @@ export default function Footer() {
                 return (
                   <Link
                     key={idx}
-                    href={`/products?specialty=${encodeURIComponent(el.label)}`}
+                    href={`/produtos?specialty=${encodeURIComponent(el.label)}`}
                     className="m-0 font-exo2 text-[#9494A1] font-light text-lg"
                   >
                     {el.label}
@@ -119,7 +119,7 @@ export default function Footer() {
             {marca.map((el, idx) => (
               <Link
                 key={idx}
-                href={`/products?brand=${encodeURIComponent(el.label)}`}
+                href={`/produtos?brand=${encodeURIComponent(el.label)}`}
                 className="m-0 font-exo2 text-[#9494A1] font-light text-lg"
               >
                 {el.label}

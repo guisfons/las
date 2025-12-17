@@ -90,24 +90,24 @@ const Navbar = ({
     },
     {
       title: 'Produtos',
-      url: '/products',
+      url: '/produtos',
     },
     {
       title: 'Eventos',
-      url: '/education',
+      url: '/eventos',
       sectionId: 'nextEvent',
     },
     {
       title: 'Serviços Técnicos',
-      url: '/technical',
+      url: '/servicos-tecnicos',
     },
   ],
   auth = {
-    login: { text: 'Seja um distribuidor', url: `/become-a-distributor` },
+    login: { text: 'Seja um distribuidor', url: `/seja-um-distribuidor` },
     signup: { text: 'Sign up', url: '/' },
     register: {
       text: 'Seja um distribuidor',
-      url: `/become-a-distributor`,
+      url: `/seja-um-distribuidor`,
     },
   },
 }: Navbar1Props) => {

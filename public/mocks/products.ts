@@ -1,6 +1,7 @@
-import { Product } from '@/app/(public)/products/_components/card-product';
+import { Product } from '@/app/(public)/produtos/_components/card-product';
+import { slugify } from '@/utils/slugify';
 
-export const ALL_PRODUCTS: Product[] = [
+const RAW_PRODUCTS: Product[] = [
   {
     id: 1,
     name: 'Lâminas de Serra',
@@ -3062,3 +3063,8 @@ export const ALL_PRODUCTS: Product[] = [
     },
   },
 ];
+
+export const ALL_PRODUCTS = RAW_PRODUCTS.map(product => ({
+  ...product,
+  slug: slugify(product.name),
+}));

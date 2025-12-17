@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { slugify } from '@/utils/slugify';
 
 export interface Product {
   id: number;
@@ -76,7 +77,7 @@ export default function CardProduct({ product }: { product: Product }) {
 
         <Link
           // href={`/products`}
-          href={`/products/${product.id}`}
+          href={`/produtos/${slugify(product.name)}`}
           className="border border-line rounded-full p-2 px-4 bg-white text-black font-light font-exo2 text-sm hover:bg-line hover:text-white transition-colors duration-300 ease-in-out"
         >
           Saiba Mais

@@ -25,7 +25,10 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: 'LAS',
+  title: {
+    default: 'LAS',
+    template: '%s | LAS',
+  },
   description: 'LAS',
 };
 

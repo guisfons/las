@@ -50,7 +50,7 @@ export default function Home() {
     selectedBrands.forEach((brand) => params.append('brand', brand));
 
     const queryString = params.toString();
-    router.replace(`/products?${queryString}`);
+    router.replace(`/produtos?${queryString}`);
   }, [selectedSpecialties, selectedBrands, router]);
 
   // Filtra produtos baseado nos filtros

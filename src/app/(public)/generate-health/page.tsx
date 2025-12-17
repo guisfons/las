@@ -1,7 +1,7 @@
 'use client';
 
 import Footer from '@/components/footer';
-import CardLas from '../education/_components/card-las';
+import CardLas from '../eventos/_components/card-las';
 import BannerLas from './_components/banner-las';
 import HowWeDoItToday from './_components/how-we-do-it-today';
 import HeroBanner from './_components/hero-banner';

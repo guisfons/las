@@ -5,13 +5,13 @@ import TechnicalHero from './_components/technical-hero';
 import TechnicalForm from './_components/technical-form';
 import WhatAreTechnicalForms from './_components/what-are-technical';
 
-export default function Home() {
+export default function ServicosTecnicosClient() {
   return (
     <>
-      <TechnicalHero></TechnicalHero>
-      <WhatAreTechnicalForms></WhatAreTechnicalForms>
-      <TechnicalForm></TechnicalForm>
-      <Footer></Footer>
+      <TechnicalHero />
+      <WhatAreTechnicalForms />
+      <TechnicalForm />
+      <Footer />
     </>
   );
 }
