@@ -61,9 +61,9 @@ export default function Events() {
         id="nextEvent"
         className="w-full max-w-7xl px-6 pt-20 mx-auto flex flex-col gap-6 py-12"
       >
-        <h1 className="font-exo2 text-2xl md:text-5xl">
+        <h2 className="font-exo2 text-2xl md:text-5xl">
           <strong>Próximos Eventos</strong>
-        </h1>
+        </h2>
 
         <div
           id="btns"
@@ -136,9 +136,9 @@ export default function Events() {
                     </div>
 
                     <div className="flex flex-col gap-4 mt-5">
-                      <h1 className="font-exo2 text-2xl">
+                      <h3 className="font-exo2 text-2xl">
                         <strong>{el.event}</strong>
-                      </h1>
+                      </h3>
 
                       {el.local && (
                         <p className="flex gap-2 items-start text-lg font-exo2">
