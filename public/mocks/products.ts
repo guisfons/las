@@ -2914,53 +2914,53 @@ const RAW_PRODUCTS: Product[] = [
   //     },
   //   },
   // },
-  {
-    id: 27,
-    name: 'Histeroscopia cirúrgica',
-    specialities: [],
-    brands: ['BioCer'],
-    logo_brand: '',
-    description:
-      'Equipamento utilizado para procedimento médico minimamente invasivo que permite tratar condições ginecológicas na cavidade uterina.',
-    imageUrl: '/images/products/foto-storz-06.webp',
-    detail: {
-      subtitle: '',
-      tags: [''],
-      about: [
-        'O ressectoscópio bipolar 26 Fr oferece uma solução completa para histeroscopias cirúrgicas precisas, seguras e minimamente invasivas. Equipado com tecnologia alemã de alto desempenho, é a escolha ideal para ginecologistas que buscam eficiência aliada à segurança. \nProjetado para uso em histeroscopias cirúrgicas, o equipamento conta com sistema óptico HOPKINS®️, eletrodos bipolares e camisa de trabalho de 26 Fr. A irrigação com solução salina proporciona um campo cirúrgico mais seguro e com excelente visibilidade.',
-      ],
-      general_information:
-        'Ideal para o tratamento de diversas alterações uterinas, incluindo: Miomas submucosos, Pólipos endometriais, Adenomiose, Sinéquias uterinas (Síndrome de Asherman), Istmocele, Útero septado',
-      technical_data: [['']],
-      pictures: ['/images/products/foto-storz-06.webp'],
-      links: [
-        {
-          title: 'Histeroscopia cirúrgica',
-          url: '/pdfs/Catálogo/Histeroscopia/Histeroscopia.pdf',
-          file_name: 'Histeroscopia cirúrgica',
-          type: 'CATALOG',
-        },
-        // {
-        //   title: 'Lâminas Cirúrgicas ACF',
-        //   url: '../images/use-instruction/80517190022-Laminas-ACF.pdf',
-        //   file_name: 'Anvisa nº 80517190022',
-        //   type: 'DIRECTIONS_FOR_USE',
-        // },
-      ],
-      videos: [],
-      images: [],
-      testimonial: {
-        testimonial:
-          '“Quando trabalhamos com o eletrodo bipolar e um ressectoscópio de qualidade superior, conseguimos realizar cortes precisos que otimizam o procedimento. A tecnologia bipolar oferece uma segurança significativamente maior em comparação à monopolar, permitindo o uso de soro fisiológico como meio líquido, o que proporciona ainda mais segurança para o paciente. Além disso, a energia bipolar possibilita maior tempo de trabalho durante os procedimentos, sendo especialmente vantajosa em intervenções mais longas. É um equipamento que não só eleva a qualidade do procedimento, mas também oferece um nível superior de segurança.”',
-        testimonial_pictures: [],
-        doctor: {
-          name: 'Dra. Mariana Cunha',
-          specialty: '',
-          photo: '',
-        },
-      },
-    },
-  },
+  // {
+  //   id: 27,
+  //   name: 'Histeroscopia cirúrgica',
+  //   specialities: [],
+  //   brands: ['BioCer'],
+  //   logo_brand: '',
+  //   description:
+  //     'Equipamento utilizado para procedimento médico minimamente invasivo que permite tratar condições ginecológicas na cavidade uterina.',
+  //   imageUrl: '/images/products/foto-storz-06.webp',
+  //   detail: {
+  //     subtitle: '',
+  //     tags: [''],
+  //     about: [
+  //       'O ressectoscópio bipolar 26 Fr oferece uma solução completa para histeroscopias cirúrgicas precisas, seguras e minimamente invasivas. Equipado com tecnologia alemã de alto desempenho, é a escolha ideal para ginecologistas que buscam eficiência aliada à segurança. \nProjetado para uso em histeroscopias cirúrgicas, o equipamento conta com sistema óptico HOPKINS®️, eletrodos bipolares e camisa de trabalho de 26 Fr. A irrigação com solução salina proporciona um campo cirúrgico mais seguro e com excelente visibilidade.',
+  //     ],
+  //     general_information:
+  //       'Ideal para o tratamento de diversas alterações uterinas, incluindo: Miomas submucosos, Pólipos endometriais, Adenomiose, Sinéquias uterinas (Síndrome de Asherman), Istmocele, Útero septado',
+  //     technical_data: [['']],
+  //     pictures: ['/images/products/foto-storz-06.webp'],
+  //     links: [
+  //       {
+  //         title: 'Histeroscopia cirúrgica',
+  //         url: '/pdfs/Catálogo/Histeroscopia/Histeroscopia.pdf',
+  //         file_name: 'Histeroscopia cirúrgica',
+  //         type: 'CATALOG',
+  //       },
+  //       {
+  //         title: 'Lâminas Cirúrgicas ACF',
+  //         url: '../images/use-instruction/80517190022-Laminas-ACF.pdf',
+  //         file_name: 'Anvisa nº 80517190022',
+  //         type: 'DIRECTIONS_FOR_USE',
+  //       },
+  //     ],
+  //     videos: [],
+  //     images: [],
+  //     testimonial: {
+  //       testimonial:
+  //         '“Quando trabalhamos com o eletrodo bipolar e um ressectoscópio de qualidade superior, conseguimos realizar cortes precisos que otimizam o procedimento. A tecnologia bipolar oferece uma segurança significativamente maior em comparação à monopolar, permitindo o uso de soro fisiológico como meio líquido, o que proporciona ainda mais segurança para o paciente. Além disso, a energia bipolar possibilita maior tempo de trabalho durante os procedimentos, sendo especialmente vantajosa em intervenções mais longas. É um equipamento que não só eleva a qualidade do procedimento, mas também oferece um nível superior de segurança.”',
+  //       testimonial_pictures: [],
+  //       doctor: {
+  //         name: 'Dra. Mariana Cunha',
+  //         specialty: '',
+  //         photo: '',
+  //       },
+  //     },
+  //   },
+  // },
   {
     id: 28,
     name: 'Microdissector smartOne® KLS',
@@ -3048,7 +3048,20 @@ const RAW_PRODUCTS: Product[] = [
         '/images/products/bonos_r_nf.png',
         '/images/products/Bonos.png',
       ],
-      links: [],
+      links: [
+        {
+          title: 'BonOs® R NF',
+          url: '/pdfs/IU.BonOs R NF v1.pdf',
+          file_name: 'BonOs R NF - Di Spiezio - Home Du Tecnhique',
+          type: 'DIRECTIONS_FOR_USE',
+        },
+        {
+          title: 'BonOs® R NF Genta',
+          url: '/pdfs/IU.BonOs R NF Genta v1.pdf',
+          file_name: 'BonOs R NF Genta - Di Spiezio - Home Du Tecnhique',
+          type: 'DIRECTIONS_FOR_USE',
+        },
+      ],
       videos: [],
       images: [],
       testimonial: {

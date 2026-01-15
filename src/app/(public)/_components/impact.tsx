@@ -29,7 +29,7 @@ export default function Impact() {
       bg: 'bg-[#F9D22933]',
       title: 'Médicos capacitados',
       // symbol: '+',
-      number: '284',
+      number: '345',
     },
   ];
 
@@ -69,7 +69,7 @@ export default function Impact() {
                 Vidas Impactadas
               </p>
               <p className="text-4xl lg:text-7xl font-exo2 font-bold">
-                306.522 <span className="opacity-60">mil</span>
+                343.503 <span className="opacity-60">mil</span>
               </p>
             </div>
           </div>
