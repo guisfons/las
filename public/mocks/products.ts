@@ -3052,13 +3052,13 @@ const RAW_PRODUCTS: Product[] = [
         {
           title: 'BonOs® R NF',
           url: '/pdfs/IU.BonOs R NF v1.pdf',
-          file_name: 'BonOs R NF - Di Spiezio - Home Du Tecnhique',
+          file_name: '',
           type: 'DIRECTIONS_FOR_USE',
         },
         {
           title: 'BonOs® R NF Genta',
           url: '/pdfs/IU.BonOs R NF Genta v1.pdf',
-          file_name: 'BonOs R NF Genta - Di Spiezio - Home Du Tecnhique',
+          file_name: '',
           type: 'DIRECTIONS_FOR_USE',
         },
       ],
