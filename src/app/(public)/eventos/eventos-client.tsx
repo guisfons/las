@@ -3,6 +3,7 @@
 import Footer from '@/components/footer';
 import EducationBanner from './_components/education-hero';
 import Program from './_components/program';
+import EventsPast from './_components/past-events';
 import Events from './_components/next-events';
 import EducationPillar from './_components/education-pillar';
 import EducationProgram from './_components/education-program';
@@ -18,6 +19,7 @@ export default function Home() {
       <Program />
       <EducationTrails />
       <CommercialEducationTrack />
+      <EventsPast />
       <Events />
       <Footer />
     </>

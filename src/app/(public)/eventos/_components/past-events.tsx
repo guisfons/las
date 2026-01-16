@@ -25,11 +25,11 @@ export default function Events() {
   ];
 
   const events = EVENTS;
+  const lastYear = new Date().getFullYear() - 1;
+
   const availableTypes = Array.from(
     new Set(
-      events
-        .filter((e) => Number(e.year) === new Date().getFullYear())
-        .flatMap((e) => e.type),
+      events.filter((e) => Number(e.year) === lastYear).flatMap((e) => e.type),
     ),
   );
 
@@ -69,7 +69,7 @@ export default function Events() {
         className="w-full max-w-7xl px-6 pt-20 mx-auto flex flex-col gap-6 py-12"
       >
         <h2 className="font-exo2 text-2xl md:text-5xl">
-          <strong>Próximos Eventos</strong>
+          <strong>Eventos Anteriores</strong>
         </h2>
 
         <div
@@ -104,7 +104,7 @@ export default function Events() {
               .filter(
                 (obj) =>
                   (filter === 'Todos' || obj.type.includes(filter)) &&
-                  obj.year === new Date().getFullYear().toString(),
+                  Number(obj.year) === lastYear,
               )
               .map((el) => {
                 return (
