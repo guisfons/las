@@ -19,8 +19,8 @@ export default function Home() {
       <Program />
       <EducationTrails />
       <CommercialEducationTrack />
-      <EventsPast />
       <Events />
+      <EventsPast />
       <Footer />
     </>
   );
