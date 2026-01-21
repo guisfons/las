@@ -1,5 +1,6 @@
 import { Product } from '@/app/(public)/produtos/_components/card-product';
 import { slugify } from '@/utils/slugify';
+import { type } from 'os';
 
 const RAW_PRODUCTS: Product[] = [
   {
@@ -3073,6 +3074,63 @@ const RAW_PRODUCTS: Product[] = [
           photo: '',
         },
       },
+    },
+  },
+  {
+    id: 30,
+    name: 'DUROLANE',
+    specialities: ['Ortopedia'],
+    brands: ['Bioventus'],
+    logo_brand: '/images/brands/bioventus-logo-color-min.webp',
+    description:
+      'É uma terapia de ácido hialurônico de uma única injeção que proporciona um alívio duradouro da dor da osteoartrite leve à moderada do joelho e quadril.¹',
+    imageUrl: '/images/products/bioventus_build_2a.webp',
+    detail: {
+      subtitle: '',
+      tags: ['Trauma'],
+      about: [
+        'É uma terapia de ácido hialurônico (AH) de alto peso molecular, único com 10kDal.',
+        'Fabricado com a tecnologia NASHA® exclusiva e patenteada, que lhe confere uma estrutura esférica de gel e prolonga o tempo de permanência. ⁵⁻⁶',
+        'Esta estrutura de esferas de gel têm uma meia-vida de 30 dias (aproximadamente 4 semanas) na articulação, comprovadamente proporcionando até 6 meses de alívio da dor em uma única injeção ⁵⁻⁷',
+        'Além disso é fabricado com o mesmo material que o HA natural presente no corpo humano. ⁸⁻⁹',
+        '+20 anos de uso clínico²',
+        '+ 20 estudos clínicos publicados³',
+        '+ 2 milhões de pacientes tratados⁴',
+      ],
+      general_information:
+        'Artroplastia total de joelho e quadril – cimentado e não cimentado, Revisões de artroplastias, Intervenções cirúrgicas, Limpeza de feridas',
+      technical_data: [
+        ['Código do produto', 'Embalagem', 'No. de registro Anvisa'],
+        ['1082019', 'Caixa com seringa de vidro de 3 ml com encaixe Luer-lok, em embalagem blister.', '80117580552'],
+      ],
+      pictures: ['/images/products/bioventus_build_2a.webp'],
+      links: [],
+      videos: [],
+      images: [
+        {
+          url: '/images/products/bioventus_build_2a.webp',
+          alt: 'Bioventus Build 2a',
+        },
+      ],
+      testimonial: {
+        testimonial: '',
+        testimonial_pictures: [],
+        doctor: {
+          name: '',
+          specialty: '',
+          photo: '',
+        },
+      },
+      sources: [
+          '1. Altman RD, Åkermark C, Beaulieu AD, Schnitzer T. Efficacy and safety of a single intra-articular injection of non-animal stabilized hyaluronic acid (NASHA) in patients with osteoarthritis of the knee',
+          '2.  Bioventus LLC. Claim for amount of studies investigating DUROLANE. Data on file, RPT-001367.',
+          '3.  Bioventus LLC. Supporting quantity of global patients treated with a single DUROLANE injection. Data on file, RPT-001056 ',
+          '4. Concoff A, Rosen J, Fu F, et al. A comparison of treatment effects for nonsurgical therapies and the minimum clinically important difference in knee osteoarthritis: a systematic review. JBJS Rev. 2019;7(8):e5. doi:10.2106/JBJS.RVW.18.00150',
+          '5.   Lindqvist U, Tolmachev V, Kairemo K, Aström G, Jonsson E, Lundqvist H. Elimination of stabilised hyaluronan from the knee joint in healthy men. Clin Pharmacokinet. 2002;41(8):603-13. doi:10.2165/00003088-200241080-00004',
+          '6. Edsman K, Melin H, Näsström J. A study of the ability of Durolane to withstand degradation by free radicals while maintaining its viscoelastic properties. Poster presented at: 55th Annual Meeting of the Orthopaedic Research Society; February 22-25, 2009; Las Vegas, NV. Poster 1149. ',
+          '7. Leighton R, Åkermark C, Therrien R, et al. NASHA hyaluronic acid vs methylprednisolone for knee osteoarthritis: a prospective, multi-center, randomized, non-inferiority trial. Osteoarthritis Cartilage. 2014;22(1):17-25. doi:10.1016/j.joca.2013.10.009 ',
+          '8. Q-Med Scandinavia, Inc. Q-Med NASHA™ the monograph. 2008.',
+      ],
     },
   },
 ];

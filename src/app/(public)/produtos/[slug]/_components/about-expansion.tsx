@@ -7,6 +7,7 @@ import TechnicalDataProduct from './expansion/technical-data-product';
 import MediasProduct from './expansion/medias-product';
 import ContentsProduct from './expansion/contents-product';
 import ProductTestimonials from './expansion/product-testimonials';
+import SourceProduct from './expansion/source-product';
 
 export default function AboutExpansion({ product }: { product: Product }) {
   const expansion = [
@@ -47,6 +48,12 @@ export default function AboutExpansion({ product }: { product: Product }) {
       number: '03',
       title: 'Imagens e Mídias',
       content: <MediasProduct product={product}></MediasProduct>,
+      is_active: true,
+    },
+    {
+      number: '04',
+      title: 'Fontes',
+      content: <SourceProduct product={product}></SourceProduct>,
       is_active: true,
     },
   ];
