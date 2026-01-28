@@ -3,6 +3,7 @@
 import { Product } from '../../_components/card-product';
 import { cn } from '@/lib/utils';
 import GeneralInformationProduct from './expansion/general_information-product';
+import UsageIndicationProduct from './expansion/usage_indication';
 import TechnicalDataProduct from './expansion/technical-data-product';
 import MediasProduct from './expansion/medias-product';
 import ContentsProduct from './expansion/contents-product';
@@ -23,6 +24,14 @@ export default function AboutExpansion({ product }: { product: Product }) {
     },
     {
       number: '02',
+      title: 'Indicações de Uso',
+      content: (
+        <UsageIndicationProduct product={product}></UsageIndicationProduct>
+      ),
+      is_active: true,
+    },
+    {
+      number: '03',
       title: 'Dados Técnicos',
       content: <TechnicalDataProduct product={product}></TechnicalDataProduct>,
       is_active: (product.detail?.technical_data || []).length > 0,
@@ -33,26 +42,26 @@ export default function AboutExpansion({ product }: { product: Product }) {
     //   content: <p> - </p>,
     // },
     {
-      number: '03',
+      number: '04',
       title: 'Conteúdo',
       content: <ContentsProduct product={product} />,
       is_active: true,
     },
     {
-      number: '04',
+      number: '05',
       title: 'Depoimentos',
       content: <ProductTestimonials product={product}></ProductTestimonials>, // ← Substitui VideoProduct
       is_active: product.detail?.testimonial?.doctor?.name !== '',
     },
     {
-      number: '03',
+      number: '06',
       title: 'Imagens e Mídias',
       content: <MediasProduct product={product}></MediasProduct>,
       is_active: true,
     },
     {
-      number: '04',
-      title: 'Fontes',
+      number: '07',
+      title: 'Referências',
       content: <SourceProduct product={product}></SourceProduct>,
       is_active: true,
     },

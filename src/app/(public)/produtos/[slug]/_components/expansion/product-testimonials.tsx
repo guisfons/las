@@ -25,6 +25,7 @@ interface ProductDetailExtended {
   tags?: string[];
   about?: string[];
   general_information?: string;
+  usage_indication?: string;
   technical_data?: Record<string, string | undefined>;
   links?: Array<{ title: string; url: string }>;
 }

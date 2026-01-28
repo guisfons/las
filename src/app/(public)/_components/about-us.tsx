@@ -26,7 +26,7 @@ export default function AboutUs() {
           ></Image>
 
           <p className="w-full max-w-md font-exo2 font-semibold text-2xl md:text-4xl text-black">
-            Transformando a Indústria da Doença em Indústria da Saúde
+            +
           </p>
 
           <p className="w-full max-w-md font-exo2 text-[#9494A1] text-sm md:text-lg font-light">

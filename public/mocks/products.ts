@@ -1,5 +1,6 @@
 import { Product } from '@/app/(public)/produtos/_components/card-product';
 import { slugify } from '@/utils/slugify';
+import { m } from 'motion/react';
 import { type } from 'os';
 
 const RAW_PRODUCTS: Product[] = [
@@ -3091,14 +3092,16 @@ const RAW_PRODUCTS: Product[] = [
       about: [
         'É uma terapia de ácido hialurônico (AH) de alto peso molecular, único com 10kDal.',
         'Fabricado com a tecnologia NASHA® exclusiva e patenteada, que lhe confere uma estrutura esférica de gel e prolonga o tempo de permanência. ⁵⁻⁶',
-        'Esta estrutura de esferas de gel têm uma meia-vida de 30 dias (aproximadamente 4 semanas) na articulação, comprovadamente proporcionando até 6 meses de alívio da dor em uma única injeção ⁵⁻⁷',
-        'Além disso é fabricado com o mesmo material que o HA natural presente no corpo humano. ⁸⁻⁹',
+        'Estas estruturas têm uma meia-vida de 30 dias (aproximadamente 4 semanas) na articulação, comprovadamente proporcionando até 6 meses de alívio da dor em uma única injeção ⁵⁻⁷. Além disso é composto de ácido hialurônico biossinteticamente produzido, purificado e estabilizado sem origem animal. ⁸⁻⁹',
+        '⠀',
         '+20 anos de uso clínico²',
         '+ 20 estudos clínicos publicados³',
         '+ 2 milhões de pacientes tratados⁴',
       ],
       general_information:
         'Artroplastia total de joelho e quadril – cimentado e não cimentado, Revisões de artroplastias, Intervenções cirúrgicas, Limpeza de feridas',
+      usage_indication:
+        'Injeção intra-articular para o tratamento sintomático de osteoartrite ou osteoartrose leve à moderada do joelho ou do quadril.',
       technical_data: [
         ['Código do produto', 'Embalagem', 'No. de registro Anvisa'],
         ['1082019', 'Caixa com seringa de vidro de 3 ml com encaixe Luer-lok, em embalagem blister.', '80117580552'],
