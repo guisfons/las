@@ -16,7 +16,6 @@ export interface Product {
     tags: string[];
     about: string[];
     general_information: string;
-    usage_indication?: string;
     technical_data: string[][];
     pictures: string[];
     links: {

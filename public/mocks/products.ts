@@ -3097,8 +3097,6 @@ const RAW_PRODUCTS: Product[] = [
         '+ 2 milhões de pacientes tratados⁴',
       ],
       general_information:
-        '',
-      usage_indication:
         'Injeção intra-articular para o tratamento sintomático de osteoartrite ou osteoartrose leve à moderada do joelho ou do quadril.',
       technical_data: [
         ['Código do produto', 'Embalagem', 'No. de registro Anvisa'],
