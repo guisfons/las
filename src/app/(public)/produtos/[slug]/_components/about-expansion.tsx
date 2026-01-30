@@ -72,7 +72,7 @@ export default function AboutExpansion({ product }: { product: Product }) {
       <div className="w-full max-w-7xl px-3 mx-auto flex flex-col justify-start gap-6 py-10">
         <div className="mb-10">
           <p className="font-exo2 font-bold text-xl md:text-4xl mb-4">
-            Sobre o {product.name}{' '}
+            Sobre o produto
           </p>
           {product.detail?.about?.map((item, index) => (
             <p

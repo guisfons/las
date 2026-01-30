@@ -17,11 +17,9 @@ const RAW_PRODUCTS: Product[] = [
       subtitle: '',
       tags: ['Joelho', 'Quadril', 'Trauma'],
       about: [
-        'A homogeneidade da espessura da lâmina permite cortes lisos e precisos.',
-        'A qualidade do aço utilizado contribui em minimizar a possibilidade de necrose térmica em até 90%.',
-        'As lâminas possuem bordas arredondadas para fornecer maior segurança a seus usuários.',
-        'Modelos fornecidos estéreis e seguramente embalados. A embalagem mantém a estabilidade do dispositivo durante seus 5 anos de vida útil.',
-        'As lâminas de serra ACF Medical também permitem ótimo controle das peças de mão. A velocidade variável permite ao cirurgião moldar o osso.',
+        'A espessura uniforme ao longo de toda a superfície das lâminas garante cortes lisos, precisos e consistentes. As lâminas possuem bordas arredondadas, proporcionando maior segurança durante o manuseio e o uso clínico.',
+        'O aço de alta qualidade utilizado em sua fabricação contribui significativamente para a redução do risco de necrose térmica, minimizando sua ocorrência em até 90%.',
+        'Os modelos são fornecidos estéreis e acondicionados em embalagens seguras, que preservam a integridade e a estabilidade do dispositivo ao longo de seus 5 anos de vida útil.',
       ],
       general_information:
         'Para cirurgias de: Artroplastia de Joelho, Quadril, Ombro e Cirurgias de Revisão, cirurgias cardíacas, Trauma ACL (Ligamento Cruzado Anterior), Cirurgias de Mão, Pé e Pulso. As lâminas estão disponíveis para todos os engates dos motores: Aesculap, AO Synthes, De Soutter, Linvatec, Hall, MicroAire, Otyker, Stryker.',
@@ -3099,7 +3097,7 @@ const RAW_PRODUCTS: Product[] = [
         '+ 2 milhões de pacientes tratados⁴',
       ],
       general_information:
-        'Artroplastia total de joelho e quadril – cimentado e não cimentado, Revisões de artroplastias, Intervenções cirúrgicas, Limpeza de feridas',
+        '',
       usage_indication:
         'Injeção intra-articular para o tratamento sintomático de osteoartrite ou osteoartrose leve à moderada do joelho ou do quadril.',
       technical_data: [
