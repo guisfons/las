@@ -65,22 +65,21 @@ const RAW_PRODUCTS: Product[] = [
   },
   {
     id: 2,
-    name: 'Motor ACF',
+    name: 'Motor Cirúrgico ACF Sign',
     specialities: ['Ortopedia'],
     brands: ['ACF Medical'],
     logo_brand: '/images/brands/acf_medical_logo.png',
     description:
-      'Um dos equipamentos mais modernos e atuais do mercado brasileiro. O motor ACF Sign, composto por Serra e Perfurador, é a combinação perfeita de design e performance.',
+      'É composto por Serra e Perfurador, a combinação perfeita de design e performance.',
     imageUrl: '/images/products/motor_acf.png',
     detail: {
       subtitle: '',
       tags: ['Joelho', 'Quadril', 'Trauma'],
       about: [
-        "Equipado com IPX 6, que o torna praticamente à prova d'água.",
-        'Tem todo o seu corpo revestido com alumínio aeroespacial que evita corrosão.',
-        'Maior controle para o cirurgião durante toda a operação.',
-        'Carga rápida: em apenas 25 minutos seu equipamento está pronto para ser utilizado novamente.',
-        'Tecnologia Nano Drive: não estraga com a esterilização.',
+        'Equipado com certificação IPX6, possui corpo totalmente revestido em alumínio aeroespacial, garantindo alta resistência à corrosão.',
+        'Proporciona maior controle e precisão ao cirurgião durante toda a operação.',
+        'Carga rápida: em apenas 25 minutos, o equipamento está pronto para uso.',
+        'Tecnologia Nano Drive: projetada para suportar processos de esterilização sem comprometer o desempenho ou a durabilidade.',
       ],
       general_information:
         'Artroplastia (Joelho, quadril, ombro, Punho, mão tornozelo e pé), Cirurgia de amputação, Cirurgia de trauma',
@@ -132,7 +131,7 @@ const RAW_PRODUCTS: Product[] = [
         doctor: {
           name: 'Dr. Inácio Ventura',
           specialty: 'CRM 222230',
-          photo: '/images/testimonials/Dr.Inacio Ventura.jpg',
+          photo: '/images/testimonials/Dr.InacioVentura.jpg',
         },
       },
     },
@@ -286,7 +285,7 @@ const RAW_PRODUCTS: Product[] = [
     brands: ['MDL'],
     logo_brand: '/images/brands/mdl_logo.png',
     description:
-      'O CellColt™ é composto por um Kit de Cânulas que fazem a sucção de células mesenquimais de forma seletiva e fechada, criando um fluxo exclusivamente posterior e radial. Esta característica minimiza a diluição do aspirado de medula com o sangue periférico potencializando terapias de regeneração tecidual.',
+      'O CellColt® é composto por um Kit de Cânulas que fazem a sucção de células mesenquimais de forma seletiva e fechada, criando um fluxo exclusivamente posterior e radial. Esta característica minimiza a diluição do aspirado de medula com o sangue periférico potencializando terapias de regeneração tecidual.',
     imageUrl: '/images/products/produto_cellcolt1.png',
     detail: {
       subtitle: '',
@@ -300,7 +299,7 @@ const RAW_PRODUCTS: Product[] = [
         'Abertura alternada de 6 dos 12 orifícios.',
       ],
       general_information:
-        'Pode ser utilizado em vários tipos de procedimentos cirúrgicos:, Ortopedia, Bucomaxilo, Coluna, Podendo ser utilizado em conjunto com matrizes ósseas, cartilagens, enxertos de todos os tipos, com êxito em variados procedimentos cirúrgicos, principalmente:, Alívio da dor, Artrite, Artrose, Tendinopatias, Injúrias de ligamento, Degeneração de disco, Artrodese, Pseudoartrose, Necrose óssea, Próteses, Reconstrução maxilar, Ortognática, Fraturas ',
+        'Pode ser utilizado em vários tipos de procedimentos cirúrgicos: ortopedia, bucomaxilo, coluna. É possível ser utilizado em conjunto com matrizes ósseas, cartilagens, enxertos de todos os tipos, com êxito em variados procedimentos cirúrgicos, como alívio da dor, artrite, artrose, tendinopatias, injúrias de ligamento, degeneração de disco, artrodese, pseudoartrose, necrose óssea, próteses, reconstrução maxilar, ortognática, fraturas.',
       technical_data: [
         ['Componente', 'Comprimento', 'Largura (manopla)', 'Diâmetro'],
         ['Introdutor com ponta diamantada', '150,70 mm', '71,40 mm', '2,20 mm'],
@@ -424,42 +423,30 @@ const RAW_PRODUCTS: Product[] = [
   },
   {
     id: 6,
-    name: 'CellHarvest',
+    name: 'CellHarvest®',
     specialities: ['Ortopedia'],
     brands: ['MDL'],
     logo_brand: '/images/brands/mdl_logo.png',
     description:
-      'O CellHarvest é um kit de cânulas projetado especificamente para aspiração intraóssea. Seu design permite uma coleta radial eficiente, com cinco pontos estrategicamente posicionados, além de uma coleta frontal. O kit inclui uma cânula principal graduada, que fornece precisão nas profundidades, e dois introdutores: um com ponta diamantada para uma perfuração da cortical mais eficaz e outro com ponta romba, que facilita a inserção até a profundidade ideal para a aspiração, minimizando a presença de fragmentos ósseos no material coletado e assegurando uma amostra mais limpa.',
-    imageUrl: '/images/products/CellHarvest.png',
+      'O CellHarvest® é um kit de cânulas projetado especificamente para aspiração intraóssea. Seu design permite uma coleta radial eficiente, com cinco pontos estrategicamente posicionados, além de uma coleta frontal. O kit inclui uma cânula principal graduada, que fornece precisão nas profundidades, e dois introdutores: um com ponta diamantada para uma perfuração da cortical mais eficaz e outro com ponta romba, que facilita a inserção até a profundidade ideal para a aspiração, minimizando a presença de fragmentos ósseos no material coletado e assegurando uma amostra mais limpa.',
+    imageUrl: '/images/products/CellHarvest.webp',
     detail: {
       subtitle: '',
       tags: ['Mão', 'Quadril', 'Trauma', 'Joelho', 'Coluna'],
       about: [
-        'A cânula de ponta romba facilita a inserção até a profundidade ideal, garantindo que o procedimento seja feito com precisão, sem causar traumas excessivos aos tecidos circundantes. Isso é especialmente importante em procedimentos intraósseos, onde o risco de perfurações indesejadas ou lesões é reduzido.',
-        'A ponta romba da cânula ajuda a minimizar a presença de fragmentos ósseos no material coletado, o que melhora a qualidade da amostra obtida para uso em enxertos, matrizes ósseas ou outras terapias regenerativas.',
-        'A aspiração radial e frontal proporciona uma coleta mais abrangente e eficiente ao redor e à frente do ponto de inserção. Combinando as duas abordagens, aumenta-se a área de coleta sem a necessidade de reposicionamento frequente, permitindo a obtenção de uma amostra maior e mais completa. Isso reduz a quantidade de perfurações necessárias, tornando o procedimento significativamente mais eficiente e menos invasivo para o paciente. A coleta radial amplia o alcance lateral, enquanto a coleta frontal explora o material à frente da cânula, maximizando a obtenção de células em uma única inserção.',
+        'O aspirado intraósseo pode ser utilizado em uma ampla variedade de procedimentos, em especial nas áreas de ortopedia, bucomaxilofacial, coluna e fisiatria. Ele pode ser combinado com matrizes ósseas, cartilagens e enxertos de todos os tipos, apresentando excelentes resultados em diversas intervenções. Entre os principais benefícios clínicos estão: alívio da dor, tratamento da artrite, abordagem da artrose, terapia para tendinopatias, tratamento de lesões ligamentares, regeneração de disco intervertebral, tratamento de feridas.',
       ],
       general_information:
         'O aspirado intraósseo pode ser utilizado em uma ampla variedade de procedimentos, em especial nas áreas de Ortopedia, Bucomaxilofacial, Coluna e Fisiatria. Ele pode ser combinado com matrizes ósseas, cartilagens e enxertos de todos os tipos, apresentando excelentes resultados em diversas intervenções. Entre os principais benefícios clínicos estão:,  , Alívio da dor, Tratamento da artrite, Abordagem da artrose, Terapia para tendinopatias, Tratamento de lesões ligamentares, Regeneração de disco intervertebral, Tratamento de Feridas',
       technical_data: [
-        ['Categoria', 'Item', 'Descrição'],
+        ['Código', 'Tamanho', 'N° de Registro ANVISA'],
         [
-          'Componente',
-          'Cânula CellHarvest / Introdutor com ponta diamantada / Introdutor com ponta romba / Tampa do conector leur',
-          'Aço inoxidável AISI 304 / ISO 9626 + Polipropileno branco | Aço inoxidável AISI 302 / ISO 9626 + Polipropileno branco | Aço inoxidável AISI 302 / ISO 9626 + Polipropileno branco | lock	Polietileno',
-        ],
-        [
-          'Esterilização e uso',
-          'Método de esterilização | Condição de uso | Reprocessamento',
-          'Óxido de etileno | Produto de uso único | Proibido',
-        ],
-        [
-          'Apresentação',
-          'Embalagem primária | Embalagem secundária',
-          'Pouch PET/Papel cirúrgico (Tyvek) com filme de alumínio (PA/PE e PET/PE) | Caixa cartonada individual',
+          'LASE1310',
+          '13Gx100mm',
+          '80517199011',
         ],
       ],
-      pictures: ['/images/products/CellHarvest.png'],
+      pictures: ['/images/products/CellHarvest.webp'],
       links: [
         {
           title: 'CellHarvest',
@@ -477,7 +464,7 @@ const RAW_PRODUCTS: Product[] = [
       videos: [],
       images: [
         {
-          url: '/images/products/CellHarvest.png',
+          url: '/images/products/CellHarvest.webp',
           alt: 'Kit CellHarvest para aspiração intraóssea',
         },
       ],
@@ -3103,7 +3090,14 @@ const RAW_PRODUCTS: Product[] = [
         ['1082019', 'Caixa com seringa de vidro de 3 ml com encaixe Luer-lok, em embalagem blister.', '80117580552'],
       ],
       pictures: ['/images/products/bioventus_build_2a.webp'],
-      links: [],
+      links: [
+        {
+          title: 'Durolane',
+          url: '../pdfs/instructions/Durolane_IFU_BR_90-76270-05_2025-05-22_signed.pdf',
+          file_name: 'Anvisa nº 80117580552',
+          type: 'DIRECTIONS_FOR_USE',
+        },
+      ],
       videos: [],
       images: [
         {

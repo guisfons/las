@@ -220,10 +220,10 @@ export default function ProductTestimonials({ product }: { product: Product }) {
             testimonialData.doctor.photo) && (
             <div className="flex items-center gap-4 pt-4">
               {/* Foto do médico - só mostra se tiver foto */}
-              {testimonialData.doctor.photo && (
+              {testimonialData?.doctor?.photo && (
                 <div className="w-16 h-16 lg:w-[81px] lg:h-[81px] flex-shrink-0 overflow-hidden bg-gray-200 rounded-full">
                   <Image
-                    src={testimonialData.doctor.photo || '/placeholder.svg'}
+                    src={testimonialData.doctor.photo}
                     alt={`Foto de ${testimonialData.doctor.name}`}
                     width={81}
                     height={81}
