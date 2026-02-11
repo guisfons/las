@@ -4,6 +4,7 @@ import { Product } from '../../_components/card-product';
 import { cn } from '@/lib/utils';
 import GeneralInformationProduct from './expansion/general_information-product';
 import TechnicalDataProduct from './expansion/technical-data-product';
+import AdditionalDataProduct from './expansion/additional-data-product';
 import MediasProduct from './expansion/medias-product';
 import ContentsProduct from './expansion/contents-product';
 import ProductTestimonials from './expansion/product-testimonials';
@@ -27,31 +28,39 @@ export default function AboutExpansion({ product }: { product: Product }) {
       content: <TechnicalDataProduct product={product}></TechnicalDataProduct>,
       is_active: (product.detail?.technical_data || []).length > 0,
     },
+    {
+      number: '03',
+      title: 'Dados Adicionais',
+      content: (
+        <AdditionalDataProduct product={product}></AdditionalDataProduct>
+      ),
+      is_active: (product.detail?.additional_data || []).length > 0,
+    },
     // {
     //   number: '03',
     //   title: 'Preços e Comercial',
     //   content: <p> - </p>,
     // },
     {
-      number: '03',
+      number: '04',
       title: 'Conteúdo',
       content: <ContentsProduct product={product} />,
       is_active: true,
     },
     {
-      number: '04',
+      number: '05',
       title: 'Depoimentos',
       content: <ProductTestimonials product={product}></ProductTestimonials>, // ← Substitui VideoProduct
       is_active: product.detail?.testimonial?.doctor?.name !== '',
     },
     {
-      number: '05',
+      number: '06',
       title: 'Imagens e Mídias',
       content: <MediasProduct product={product}></MediasProduct>,
       is_active: true,
     },
     {
-      number: '06',
+      number: '07',
       title: 'Referências',
       content: <SourceProduct product={product}></SourceProduct>,
       is_active: true,
@@ -65,14 +74,20 @@ export default function AboutExpansion({ product }: { product: Product }) {
           <p className="font-exo2 font-bold text-xl md:text-4xl mb-4">
             Sobre o produto
           </p>
-          {product.detail?.about?.map((item, index) => (
-            <p
-              key={index}
-              className="w-11/12 font-exo2 text-sm md:text-lg text-label"
-            >
-              {item}
-            </p>
-          ))}
+          {product.detail?.about?.map((item, index) => {
+            // empty string → line break
+            if (item === '') {
+              return <div key={index} className="h-3 md:h-4" />;
+            }
+
+            return (
+              <p
+                key={index}
+                className="w-11/12 font-exo2 text-sm md:text-lg text-label"
+                dangerouslySetInnerHTML={{ __html: item }}
+              />
+            );
+          })}
         </div>
 
         {expansion

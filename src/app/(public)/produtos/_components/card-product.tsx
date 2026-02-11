@@ -17,6 +17,7 @@ export interface Product {
     about: string[];
     general_information: string;
     technical_data: string[][];
+    additional_data?: string[][];
     pictures: string[];
     links: {
       title: string;

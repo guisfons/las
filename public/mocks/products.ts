@@ -318,6 +318,10 @@ const RAW_PRODUCTS: Product[] = [
           '2,30 mm (interno)',
         ],
       ],
+      additional_data: [
+        ['Tamanho', 'Código', 'N° de Registro ANVISA'],
+        ['11G x 100mm', 'PSH1D21110', '80517199005'],
+      ],
       pictures: ['/images/products/produto_cellcolt1.png'],
       links: [
         {
@@ -539,6 +543,11 @@ const RAW_PRODUCTS: Product[] = [
           'Condições',
           'Local com umidade relativa < 80%, ventilado, sem gases corrosivos',
         ],
+      ],
+      additional_data: [
+        ['Código', 'Descrição', 'N° de Registro ANVISA'],
+        ['207-8-1', '<strong>Lâmina expansível</strong><br/> Em m Nitinol, pode ser ampliada e retraída com facilidade.', '80517199001'],
+        ['MA-2275ONQ', '<strong>Kit de necrose avascular do quadril</strong><br/> Kit cânula descartável para enxertia óssea do quadril.', '10243070088'],
       ],
       pictures: ['/images/products/produto_banner_Easycore_Hip_3.png'],
       links: [
@@ -3014,22 +3023,22 @@ const RAW_PRODUCTS: Product[] = [
     brands: ['Osartis'],
     logo_brand: '/images/brands/osartis_logo.png',
     description:
-      'Cimento ósseo de PMMA de alta viscosidade e secagem rápida para utilização em cirurgia óssea. A mistura de dois componentes estéreis individuais produz um cimento ósseo dúctil que, após o seu endurecimento, fixa o implante e transfere uniformemente para o osso as tensões produzidas durante o movimento.',
+      'Cimento ósseo de PMMA de alta viscosidade e secagem rápida para utilização em cirurgia óssea.',
     imageUrl: '/images/products/bonos_r_nf.png',
     detail: {
       subtitle: '',
       tags: ['Joelho', 'Quadril'],
       about: [
-        'BonOs® R NF é uma resina acrílica de secagem rápida para uso em cirurgia óssea. Indicado na substituição parcial ou total do quadril, joelho e demais articulações, o BonOs® R NF é indicado para fixação de resinas sintéticas e de componentes de próteses metálicas em ossos vitais não infectados, caso seja necessária a reconstrução da articulação. Na cirurgia de tumores, o BonOs® R NF é utilizado em combinação com fixação interna para preenchimento de cavidades ósseas após remoção do tumor.',
+        '<strong>BonOs® R NF</strong> é uma resina acrílica de secagem rápida para uso em cirurgia óssea. Indicado na substituição parcial ou total do quadril, joelho e demais articulações, para fixação de resinas sintéticas e de próteses metálicas em ossos não infectados.',
         '',
-        'BonOs® R NF Genta é uma resina acrílica de secagem rápida para uso em cirurgia óssea e contém o antibiótico sulfato de gentamicina, que protege o implante e o tecido circundante da colonização por patógenos sensíveis à gentamicina.',
+        '<strong>BonOs® R NF Genta</strong> é uma resina acrílica de secagem rápida para uso em cirurgia óssea e contém o antibiótico sulfato de gentamicina, que protege o implante e o tecido circundante da colonização por patógenos sensíveis à gentamicina. O antibiótico confere proteção contra a colonização bacteriana no implante e nos tecidos envolventes.',
       ],
       general_information:
-        'Indicado para fixação de resinas sintéticas e de componentes de próteses metálicas durante a substituição parcial ou total da anca, joelho e outras articulações, caso seja diagnosticada ou exista a suspeita de infecção por organismos sensíveis à gentamicina. O antibiótico confere proteção contra a colonização bacteriana no implante e nos tecidos envolventes.',
+        '',
       technical_data: [
-        ['Categoria', 'Item', 'Descrição'],
-        ['Modelos Comerciais', 'Código', '01-0137 / 01-0236'],
-        ['Registro ANVISA', 'Número', '80517190045 / 80517190046'],
+        ['Código', 'Descrição', 'Volume', 'Anvisa'],
+        ['01-0137', 'BonOs® R NF', '1x40', '80517190045'],
+        ['01-0236', 'BonOs® R NF Genta', '1x40', '80517190046'],
       ],
       pictures: [
         '/images/products/bonos_r_nf.png',
