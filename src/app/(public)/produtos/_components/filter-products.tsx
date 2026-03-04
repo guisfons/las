@@ -1,28 +1,30 @@
 import { Button } from '@/components/ui';
 import Icon from '@/shared/icon/icon';
-import { ALL_PRODUCTS } from '../../../../../public/mocks/products';
+import { Product } from './card-product';
 
 type FilterProductsProps = {
+  products: Product[];
   selectedSpecialties: string[];
   setSelectedSpecialties: React.Dispatch<React.SetStateAction<string[]>>;
   selectedBrands: string[];
   setSelectedBrands: React.Dispatch<React.SetStateAction<string[]>>;
-  onClose?: () => void; // novo prop
+  onClose?: () => void;
 };
 
 export default function FilterProducts({
+  products,
   selectedSpecialties,
   setSelectedSpecialties,
   selectedBrands,
   setSelectedBrands,
   onClose,
 }: FilterProductsProps) {
-  const allSpecialties = ALL_PRODUCTS.flatMap(
+  const allSpecialties = products.flatMap(
     (product) => product.specialities,
   );
   const specialities = Array.from(new Set(allSpecialties));
 
-  const allProductsFilter = ALL_PRODUCTS.filter(
+  const allProductsFilter = products.filter(
     (product) => product.brands.length > 0,
   );
   const allBrands = allProductsFilter.flatMap((product) => product.brands[0]);
@@ -93,11 +95,10 @@ export default function FilterProducts({
           <div
             key={brand}
             onClick={() => toggleBrand(brand)}
-            className={`rounded-full px-5 py-2 cursor-pointer select-none ${
-              selectedBrands.includes(brand)
-                ? 'bg-green text-white'
-                : 'bg-[#F0F0F0] text-black/60'
-            }`}
+            className={`rounded-full px-5 py-2 cursor-pointer select-none ${selectedBrands.includes(brand)
+              ? 'bg-green text-white'
+              : 'bg-[#F0F0F0] text-black/60'
+              }`}
           >
             <p className="font-exo2 font-normal text-sm">{brand}</p>
           </div>

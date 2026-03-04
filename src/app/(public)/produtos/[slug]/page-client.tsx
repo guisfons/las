@@ -7,21 +7,12 @@ import Footer from '@/components/footer';
 
 import { Product } from '../_components/card-product';
 import AboutExpansion from './_components/about-expansion';
-import { ALL_PRODUCTS } from '../../../../../public/mocks/products';
 
-export default function Home() {
+export default function Home({ initialProduct }: { initialProduct: Product }) {
   const router = useRouter();
-  // const { id }: { id: string } = useParams();
   const { slug }: { slug: string } = useParams();
 
-  const product: Product | undefined = ALL_PRODUCTS.find(
-    // (el) => el.id === Number(id),
-    (el) => el.slug === slug,
-  );
-
-  // if (!product?.id) {
-  //   router.push('/produtos');
-  // }
+  const product = initialProduct;
 
   useEffect(() => {
     if (!product) {

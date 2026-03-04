@@ -11,9 +11,9 @@ import { Dialog, DialogTrigger } from '@radix-ui/react-dialog';
 import { Button } from '@/components/ui';
 import { DialogContent } from '@/components/ui/dialog';
 import Icon from '@/shared/icon/icon';
-import { ALL_PRODUCTS } from '../../../../public/mocks/products';
+import { Product } from './_components/card-product';
 
-export default function Home() {
+export default function Home({ initialProducts }: { initialProducts: Product[] }) {
   const router = useRouter();
 
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
@@ -54,7 +54,7 @@ export default function Home() {
   }, [selectedSpecialties, selectedBrands, router]);
 
   // Filtra produtos baseado nos filtros
-  const filteredProducts = ALL_PRODUCTS.filter((product) => {
+  const filteredProducts = initialProducts.filter((product) => {
     const specialtyMatch =
       selectedSpecialties.length === 0 ||
       product.specialities.some((s) => selectedSpecialties.includes(s));
@@ -93,6 +93,7 @@ export default function Home() {
             </DialogTrigger>
             <DialogContent className="max-w-[calc(20rem+1rem)] pt-12 !px-4 !pb-4 rounded-2xl">
               <FilterProducts
+                products={initialProducts}
                 selectedSpecialties={selectedSpecialties}
                 setSelectedSpecialties={setSelectedSpecialties}
                 selectedBrands={selectedBrands}
@@ -106,6 +107,7 @@ export default function Home() {
         <div className="w-full flex gap-6 md:mt-10">
           <div className="hidden md:block">
             <FilterProducts
+              products={initialProducts}
               selectedSpecialties={selectedSpecialties}
               setSelectedSpecialties={setSelectedSpecialties}
               selectedBrands={selectedBrands}

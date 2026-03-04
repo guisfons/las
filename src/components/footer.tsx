@@ -4,28 +4,42 @@ import { Facebook, Instagram, Linkedin, YoutubeIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button, Input } from './ui';
-import { ALL_PRODUCTS } from '../../public/mocks/products';
+import { getAllProducts } from '@/lib/api/products';
+import { mapWPProductToProduct } from '@/lib/utils/product-mapper';
+import { Product } from '@/app/(public)/produtos/_components/card-product';
+import { useEffect, useState } from 'react';
 
 export default function Footer() {
-  const allSpecialties = ALL_PRODUCTS.flatMap(
-    (product) => product.specialities,
-  );
-  const specialities = Array.from(new Set(allSpecialties));
-  const especialidades = specialities.map((el) => {
-    return {
-      label: el,
-      router: '/',
-    };
-  });
+  const [specialities, setSpecialities] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
 
-  const allBrands = ALL_PRODUCTS.flatMap((product) => product.brands[0]);
-  const brands = Array.from(new Set(allBrands));
-  const marca = brands.map((el) => {
-    return {
-      label: el,
-      router: '/',
-    };
-  });
+  useEffect(() => {
+    async function loadFooterData() {
+      try {
+        const wpProducts = await getAllProducts();
+        const products = wpProducts.map(mapWPProductToProduct);
+
+        const allSpecialties = products.flatMap(p => p.specialities);
+        setSpecialities(Array.from(new Set(allSpecialties)));
+
+        const allBrands = products.flatMap(p => p.brands[0]).filter(Boolean);
+        setBrands(Array.from(new Set(allBrands)));
+      } catch (error) {
+        console.error("Failed to load footer data", error);
+      }
+    }
+    loadFooterData();
+  }, []);
+
+  const especialidades = specialities.map((el) => ({
+    label: el,
+    router: '/',
+  }));
+
+  const marca = brands.map((el) => ({
+    label: el,
+    router: '/',
+  }));
 
   const redes_sociais = [
     { link: 'https://www.facebook.com/lasbrasil', icon: <Facebook></Facebook> },

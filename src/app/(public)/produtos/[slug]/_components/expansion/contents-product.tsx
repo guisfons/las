@@ -12,11 +12,11 @@ interface PopupItem {
   description?: string;
   author?: string;
   type:
-    | 'CATALOG'
-    | 'CASE_REPORTS'
-    | 'ARTICLES'
-    | 'DIRECTIONS_FOR_USE'
-    | 'DEFAULT';
+  | 'CATALOG'
+  | 'CASE_REPORTS'
+  | 'ARTICLES'
+  | 'DIRECTIONS_FOR_USE'
+  | 'DEFAULT';
   url?: string;
   onClick?: () => void;
 }
@@ -24,11 +24,11 @@ interface PopupItem {
 interface PopupState {
   isOpen: boolean;
   type:
-    | 'CATALOG'
-    | 'CASE_REPORTS'
-    | 'ARTICLES'
-    | 'DIRECTIONS_FOR_USE'
-    | 'DEFAULT';
+  | 'CATALOG'
+  | 'CASE_REPORTS'
+  | 'ARTICLES'
+  | 'DIRECTIONS_FOR_USE'
+  | 'DEFAULT';
   title: string;
   items: PopupItem[];
   iconName: string;
@@ -47,11 +47,11 @@ interface PopupContentProps {
   onClose: () => void;
   iconName: string;
   type:
-    | 'CATALOG'
-    | 'CASE_REPORTS'
-    | 'ARTICLES'
-    | 'DIRECTIONS_FOR_USE'
-    | 'DEFAULT';
+  | 'CATALOG'
+  | 'CASE_REPORTS'
+  | 'ARTICLES'
+  | 'DIRECTIONS_FOR_USE'
+  | 'DEFAULT';
 }
 
 interface ContentsProductProps {
@@ -159,8 +159,22 @@ const PopupContent: React.FC<PopupContentProps> = ({
   );
 };
 
+// Resolve a URL that may be relative to the Next.js public folder
+function resolveFileUrl(url: string): string {
+  if (!url) return url;
+  // Already absolute (http/https)
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+
+  // Normalize "../" paths — they were relative to a PHP template in the old site
+  // e.g. "../images/use-instruction/foo.pdf" → "/images/use-instruction/foo.pdf"
+  const normalized = url.replace(/^\.\.\//, '/');
+
+  // Prepend the Next.js origin (works in browser context)
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  return `${origin}${normalized}`;
+}
+
 export default function ContentsProduct({ product }: ContentsProductProps) {
-  console.log(product);
 
   const [popupState, setPopupState] = useState<PopupState>({
     isOpen: false,
@@ -217,13 +231,11 @@ export default function ContentsProduct({ product }: ContentsProductProps) {
             ? product.detail?.testimonial?.doctor?.name
             : undefined,
         type: type,
-        url: link.url,
+        url: resolveFileUrl(link.url),
         onClick: () => {
-          // Aqui você pode adicionar a lógica para abrir o link
           if (link.url) {
-            window.open(link.url, '_blank');
+            window.open(resolveFileUrl(link.url), '_blank');
           }
-          console.log(`Abrir ${type}:`, link);
         },
       }));
   };
