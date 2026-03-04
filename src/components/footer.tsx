@@ -53,7 +53,11 @@ export default function Footer() {
             className="mb-10"
             noValidate
           >
-            <input type="hidden" name="_subject" value="Novidades - Newsletter" />
+            <input
+              type="hidden"
+              name="_subject"
+              value="Novidades - Newsletter"
+            />
             <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_template" value="table" />
 
@@ -87,14 +91,16 @@ export default function Footer() {
           </form>
 
           <p className="font-exo2 text-lg font-light text-[#9494A1] md:block text-center md:text-left">
-            Rua das Rosas, 762 - Mirandópolis, São Paulo - SP <br /> CEP 04048-001
+            Rua das Rosas, 762 - Mirandópolis, São Paulo - SP <br />
+            CEP 04048-001
           </p>
           <br />
           <p className="font-exo2 text-lg font-light text-[#9494A1] md:block text-center md:text-left">
             <a href="tel:1135694106" target="_blank" rel="noopener noreferrer">
               (11) 3569-4106
             </a>{' '}
-            | <a href="tel:11971772946" target="_blank" rel="noopener noreferrer">
+            |{' '}
+            <a href="tel:11971772946" target="_blank" rel="noopener noreferrer">
               (11) 97177-2946
             </a>
           </p>
