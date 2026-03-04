@@ -45,45 +45,60 @@ export default function Footer() {
 
   return (
     <section className="relative w-full max-w-7xl px-6 pt-20 mx-auto flex flex-col gap-10 py-4">
-      <div className="relative w-full flex justify-center items-center md:items-start flex-col md:grid md:grid-cols-5 gap-2">
-        <form
-          action="https://formsubmit.co/m.sousa@lasforlife.com.br"
-          method="POST"
-          className="md:col-span-2 flex justify-center items-center flex-col md:justify-start md:items-start"
-          noValidate
-        >
-          <input type="hidden" name="_subject" value="Novidades - Newsletter" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_template" value="table" />
-
-          <Image
-            width={198}
-            height={42}
-            alt="hero image mask"
-            src={'/images/footer/logo-lasforlife.svg'}
-            className="w-48 object-contain"
-          ></Image>
-
-          <p className="max-w-96 font-exo2 text-[#9494A1] text-lg font-light text-center md:text-left my-4">
-            Deseja ficar por dentro de todas as novidades do Movimento LAS FOR
-            LIFE? Deixe seu e-mail aqui embaixo:
-          </p>
-
-          <Input
-            type="email" // Mudança aqui
-            name="email"
-            className="w-full font-exo2 !text-lg h-12 md:w-11/12 max-w-96 rounded-full bg-[#f7f7f7]"
-            placeholder="E-mail"
-            required
-          />
-
-          <Button
-            type="submit"
-            className="w-full md:w-max font-exo2 font-bold text-base mt-4 rounded-full bg-[#31a1ff] hover:bg-[rgba(49,162,255,0.5)] text-white !px-8 !py-0"
+      <div className="flex flex-row gap-20  justify-center md:justify-start">
+        <div className="md:col-span-2 flex justify-center items-center flex-col md:justify-start md:items-start md:mr-auto">
+          <form
+            action="https://formsubmit.co/m.sousa@lasforlife.com.br"
+            method="POST"
+            className="mb-10"
+            noValidate
           >
-            Enviar
-          </Button>
-        </form>
+            <input type="hidden" name="_subject" value="Novidades - Newsletter" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+
+            <Image
+              width={198}
+              height={42}
+              alt="hero image mask"
+              src={'/images/footer/logo-lasforlife.svg'}
+              className="w-48 object-contain"
+            ></Image>
+
+            <p className="max-w-96 font-exo2 text-[#9494A1] text-lg font-light text-center md:text-left my-4">
+              Deseja ficar por dentro de todas as novidades do Movimento LAS FOR
+              LIFE? Deixe seu e-mail aqui embaixo:
+            </p>
+
+            <Input
+              type="email" // Mudança aqui
+              name="email"
+              className="w-full font-exo2 !text-lg h-12 md:w-11/12 max-w-96 rounded-full bg-[#f7f7f7]"
+              placeholder="E-mail"
+              required
+            />
+
+            <Button
+              type="submit"
+              className="w-full md:w-max font-exo2 font-bold text-base mt-4 rounded-full bg-[#31a1ff] hover:bg-[rgba(49,162,255,0.5)] text-white !px-8 !py-0"
+            >
+              Enviar
+            </Button>
+          </form>
+
+          <p className="font-exo2 text-lg font-light text-[#9494A1] md:block text-center md:text-left">
+            Rua das Rosas, 762 - Mirandópolis, São Paulo - SP <br /> CEP 04048-001
+          </p>
+          <br />
+          <p className="font-exo2 text-lg font-light text-[#9494A1] md:block text-center md:text-left">
+            <a href="tel:1135694106" target="_blank" rel="noopener noreferrer">
+              (11) 3569-4106
+            </a>{' '}
+            | <a href="tel:11971772946" target="_blank" rel="noopener noreferrer">
+              (11) 97177-2946
+            </a>
+          </p>
+        </div>
 
         <div className="flex-col gap-10 hidden md:flex">
           <p className="font-exo2 font-bold text-xl"> Especialidades </p>
@@ -116,15 +131,17 @@ export default function Footer() {
           <p className="font-exo2 font-bold text-xl"> Marcas </p>
 
           <div className="flex flex-col gap-4">
-            {marca.map((el, idx) => (
-              <Link
-                key={idx}
-                href={`/produtos?brand=${encodeURIComponent(el.label)}`}
-                className="m-0 font-exo2 text-[#9494A1] font-light text-lg"
-              >
-                {el.label}
-              </Link>
-            ))}
+            <div className="grid grid-cols-2 gap-x-10 gap-y-4">
+              {marca.map((el, idx) => (
+                <Link
+                  key={idx}
+                  href={`/produtos?brand=${encodeURIComponent(el.label)}`}
+                  className="m-0 font-exo2 text-[#9494A1] font-light text-lg"
+                >
+                  {el.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
