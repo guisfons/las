@@ -5,8 +5,17 @@ import CardLas from '../eventos/_components/card-las';
 import BannerLas from './_components/banner-las';
 import HowWeDoItToday from './_components/how-we-do-it-today';
 import HeroBanner from './_components/hero-banner';
+import { getPageBySlug } from '@/lib/api/pages';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
+  const { data: pageData } = useQuery({
+    queryKey: ['page', 'gerar-saude'],
+    queryFn: () => getPageBySlug('generate-health'),
+  });
+
+  const acfData = pageData?.pageGenerate;
+
   const grid = [
     {
       logo: '/las-social.png',
@@ -33,6 +42,7 @@ export default function Home() {
         classNameDescription="text-black"
         classNameBanner="bg-generateHealthBanner sm:bg-generateHealthBanner"
         classNameBotton="bg-[#F9D229] text-[#000000]"
+        acfData={acfData?.heroBanner}
       />
 
       <HowWeDoItToday
@@ -43,11 +53,13 @@ export default function Home() {
           'Começamos por nós: nossos colaboradores podem usar a primeira hora do expediente para se exercitar.',
           'Também incentivamos nossos colaboradores a participarem de eventos como a corrida contra o câncer e cobrimos os custos de inscrição, porque apoiar essa causa também faz parte do nosso propósito.',
         ]}
+        acfData={acfData?.howWeDoItToday}
       />
       <CardLas
         title="Iniciativas de Educação que Transformam"
         grid={grid}
         description="Criamos espaços de aprendizado, troca e evolução — conectando profissionais à inovação e ao futuro da saúde."
+        acfData={acfData?.cardLas}
       />
       <BannerLas
         title="Movimento que começa em casa"
@@ -56,6 +68,7 @@ export default function Home() {
         ]}
         link="https://las.com.br/sobre-nos/#nossa-cultura"
         imageBanner="/images/generate-health/banner-walking.png"
+        acfData={acfData?.bannerLas}
       />
       <Footer />
     </>

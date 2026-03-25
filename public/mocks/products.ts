@@ -7,6 +7,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 1,
     name: 'Lâminas de Serra',
+    slug: 'laminas-de-serra',
     specialities: ['Ortopedia'],
     brands: ['ACF Medical'],
     logo_brand: '/images/brands/acf_medical_logo.png',
@@ -66,6 +67,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 2,
     name: 'Motor Cirúrgico ACF Sign',
+    slug: 'motor-cirurgico-acf-sign',
     specialities: ['Ortopedia'],
     brands: ['ACF Medical'],
     logo_brand: '/images/brands/acf_medical_logo.png',
@@ -281,6 +283,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 5,
     name: 'CellColt',
+    slug: 'cellcolt',
     specialities: ['Ortopedia'],
     brands: ['MDL'],
     logo_brand: '/images/brands/mdl_logo.png',
@@ -424,6 +427,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 6,
     name: 'CellHarvest®',
+    slug: 'cellharvest',
     specialities: ['Ortopedia'],
     brands: ['MDL'],
     logo_brand: '/images/brands/mdl_logo.png',
@@ -440,11 +444,7 @@ const RAW_PRODUCTS: Product[] = [
         'O aspirado intraósseo pode ser utilizado em uma ampla variedade de procedimentos, em especial nas áreas de Ortopedia, Bucomaxilofacial, Coluna e Fisiatria. Ele pode ser combinado com matrizes ósseas, cartilagens e enxertos de todos os tipos, apresentando excelentes resultados em diversas intervenções. Entre os principais benefícios clínicos estão:,  , Alívio da dor, Tratamento da artrite, Abordagem da artrose, Terapia para tendinopatias, Tratamento de lesões ligamentares, Regeneração de disco intervertebral, Tratamento de Feridas',
       technical_data: [
         ['Código', 'Tamanho', 'N° de Registro ANVISA'],
-        [
-          'LASE1310',
-          '13Gx100mm',
-          '80517199011',
-        ],
+        ['LASE1310', '13Gx100mm', '80517199011'],
       ],
       pictures: ['/images/products/CellHarvest.webp'],
       links: [
@@ -483,6 +483,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 7,
     name: 'EasyCore Hip',
+    slug: 'easycore-hip',
     specialities: ['Ortopedia'],
     brands: ['Apex'],
     logo_brand: '/images/brands/apex_logo.png',
@@ -592,6 +593,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 8,
     name: 'EasyFill Knee',
+    slug: 'easyfill-knee',
     specialities: ['Ortopedia'],
     brands: ['Apex', 'Macom'],
     logo_brand: '/images/brands/apex_logo.png',
@@ -728,6 +730,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 9,
     name: 'EasyFill Small Joints',
+    slug: 'easyfill-small-joints',
     specialities: ['Ortopedia'],
     brands: ['Macom'],
     logo_brand: '/images/brands/macom_logo.png',
@@ -840,6 +843,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 10,
     name: 'Dynavisc',
+    slug: 'dynavisc',
     specialities: ['Ortopedia'],
     brands: ['Fziomed'],
     logo_brand: '/images/brands/fziomed.png',
@@ -1031,6 +1035,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 11,
     name: 'Interpose',
+    slug: 'interpose',
     specialities: ['Coluna'],
     brands: ['Fziomed'],
     logo_brand: '/images/brands/fziomed.png',
@@ -1178,6 +1183,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 12,
     name: 'Oxiplex/AP',
+    slug: 'oxiplex-ap',
     specialities: ['Ginecologia'],
     brands: ['Fziomed'],
     logo_brand: '/images/brands/fziomed.png',
@@ -1317,6 +1323,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 13,
     name: 'Oxiplex/IU',
+    slug: 'oxiplex-iu',
     specialities: ['Ginecologia'],
     brands: ['Fziomed'],
     logo_brand: '/images/brands/fziomed.png',
@@ -1509,6 +1516,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 14,
     name: 'Gripper',
+    slug: 'gripper',
     specialities: ['Ortopedia'],
     brands: ['MedEnvision'],
     logo_brand: '/images/brands/medenvision_logo.png',
@@ -1592,6 +1600,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 15,
     name: 'EsySuit',
+    slug: 'esysuit',
     specialities: ['Ortopedia'],
     brands: ['MedEnvision'],
     logo_brand: '/images/brands/medenvision_logo.png',
@@ -1696,6 +1705,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 16,
     name: 'V4 - Monitor de Nervos Intra-operatórios',
+    slug: 'v4-monitor-de-nervos-intra-operatorios',
     specialities: ['Cabeça e Pescoço'],
     brands: ['Neurosign'],
     logo_brand: '/images/brands/neurosign.png',
@@ -1851,6 +1861,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 17,
     name: 'SafeSign',
+    slug: 'safesign',
     specialities: ['Cabeça e Pescoço'],
     brands: ['Neurosign'],
     logo_brand: '/images/brands/neurosign.png',
@@ -1908,6 +1919,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 19,
     name: 'PerOssal',
+    slug: 'perossal',
     specialities: ['Ortopedia', 'Coluna'],
     brands: ['Osartis'],
     logo_brand: '/images/brands/osartis_logo.png',
@@ -2096,6 +2108,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 20,
     name: 'PulsaClean',
+    slug: 'pulsaclean',
     specialities: ['Ortopedia'],
     brands: ['Osartis'],
     logo_brand: '/images/brands/osartis_logo.png',
@@ -2199,6 +2212,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 21,
     name: 'QuickDraw',
+    slug: 'quickdraw',
     specialities: ['Ortopedia'],
     brands: ['Paradigm BioDevices'],
     logo_brand: '/images/brands/paradigm_biodevices.png',
@@ -2390,6 +2404,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 22,
     name: 'RFA - Ablação por Radiofrequência',
+    slug: 'rfa-ablacao-por-radiofrequencia',
     specialities: ['Cabeça e Pescoço'],
     brands: ['Curaway'],
     logo_brand: '/images/brands/curaway_logo.png',
@@ -2518,6 +2533,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 23,
     name: 'SafeView',
+    slug: 'safeview',
     specialities: ['Ortopedia'],
     brands: ['Mission Surgical Innovations'],
     logo_brand: '/images/brands/mission_surgical.png',
@@ -2640,6 +2656,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 24,
     name: 'SpineMED',
+    slug: 'spinemed',
     specialities: ['Coluna'],
     brands: ['SpineMED'],
     logo_brand: '/images/brands/spinemed.png',
@@ -2951,6 +2968,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 28,
     name: 'Microdissector smartOne® KLS',
+    slug: 'microdissector-smartone-kls',
     specialities: [],
     brands: ['KLS'],
     logo_brand: '/images/brands/KLS_Logo.svg',
@@ -3010,6 +3028,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 29,
     name: 'BonOs® R NF & BonOs® R NF Genta',
+    slug: 'bonos-r-nf-bonos-r-nf-genta',
     specialities: ['Ortopedia'],
     brands: ['Osartis'],
     logo_brand: '/images/brands/osartis_logo.png',
@@ -3065,6 +3084,7 @@ const RAW_PRODUCTS: Product[] = [
   {
     id: 30,
     name: 'DUROLANE',
+    slug: 'durolane',
     specialities: ['Ortopedia'],
     brands: ['Bioventus'],
     logo_brand: '/images/brands/bioventus-logo-color-min.webp',
@@ -3087,7 +3107,11 @@ const RAW_PRODUCTS: Product[] = [
         'Injeção intra-articular para o tratamento sintomático de osteoartrite ou osteoartrose leve à moderada do joelho ou do quadril.',
       technical_data: [
         ['Código do produto', 'Embalagem', 'No. de registro Anvisa'],
-        ['1082019', 'Caixa com seringa de vidro de 3 ml com encaixe Luer-lok, em embalagem blister.', '80117580552'],
+        [
+          '1082019',
+          'Caixa com seringa de vidro de 3 ml com encaixe Luer-lok, em embalagem blister.',
+          '80117580552',
+        ],
       ],
       pictures: ['/images/products/bioventus_build_2a.webp'],
       links: [
@@ -3115,20 +3139,20 @@ const RAW_PRODUCTS: Product[] = [
         },
       },
       sources: [
-          '1. Altman RD, Åkermark C, Beaulieu AD, Schnitzer T. Efficacy and safety of a single intra-articular injection of non-animal stabilized hyaluronic acid (NASHA) in patients with osteoarthritis of the knee',
-          '2.  Bioventus LLC. Claim for amount of studies investigating DUROLANE. Data on file, RPT-001367.',
-          '3.  Bioventus LLC. Supporting quantity of global patients treated with a single DUROLANE injection. Data on file, RPT-001056 ',
-          '4. Concoff A, Rosen J, Fu F, et al. A comparison of treatment effects for nonsurgical therapies and the minimum clinically important difference in knee osteoarthritis: a systematic review. JBJS Rev. 2019;7(8):e5. doi:10.2106/JBJS.RVW.18.00150',
-          '5.   Lindqvist U, Tolmachev V, Kairemo K, Aström G, Jonsson E, Lundqvist H. Elimination of stabilised hyaluronan from the knee joint in healthy men. Clin Pharmacokinet. 2002;41(8):603-13. doi:10.2165/00003088-200241080-00004',
-          '6. Edsman K, Melin H, Näsström J. A study of the ability of Durolane to withstand degradation by free radicals while maintaining its viscoelastic properties. Poster presented at: 55th Annual Meeting of the Orthopaedic Research Society; February 22-25, 2009; Las Vegas, NV. Poster 1149. ',
-          '7. Leighton R, Åkermark C, Therrien R, et al. NASHA hyaluronic acid vs methylprednisolone for knee osteoarthritis: a prospective, multi-center, randomized, non-inferiority trial. Osteoarthritis Cartilage. 2014;22(1):17-25. doi:10.1016/j.joca.2013.10.009 ',
-          '8. Q-Med Scandinavia, Inc. Q-Med NASHA™ the monograph. 2008.',
+        '1. Altman RD, Åkermark C, Beaulieu AD, Schnitzer T. Efficacy and safety of a single intra-articular injection of non-animal stabilized hyaluronic acid (NASHA) in patients with osteoarthritis of the knee',
+        '2.  Bioventus LLC. Claim for amount of studies investigating DUROLANE. Data on file, RPT-001367.',
+        '3.  Bioventus LLC. Supporting quantity of global patients treated with a single DUROLANE injection. Data on file, RPT-001056 ',
+        '4. Concoff A, Rosen J, Fu F, et al. A comparison of treatment effects for nonsurgical therapies and the minimum clinically important difference in knee osteoarthritis: a systematic review. JBJS Rev. 2019;7(8):e5. doi:10.2106/JBJS.RVW.18.00150',
+        '5.   Lindqvist U, Tolmachev V, Kairemo K, Aström G, Jonsson E, Lundqvist H. Elimination of stabilised hyaluronan from the knee joint in healthy men. Clin Pharmacokinet. 2002;41(8):603-13. doi:10.2165/00003088-200241080-00004',
+        '6. Edsman K, Melin H, Näsström J. A study of the ability of Durolane to withstand degradation by free radicals while maintaining its viscoelastic properties. Poster presented at: 55th Annual Meeting of the Orthopaedic Research Society; February 22-25, 2009; Las Vegas, NV. Poster 1149. ',
+        '7. Leighton R, Åkermark C, Therrien R, et al. NASHA hyaluronic acid vs methylprednisolone for knee osteoarthritis: a prospective, multi-center, randomized, non-inferiority trial. Osteoarthritis Cartilage. 2014;22(1):17-25. doi:10.1016/j.joca.2013.10.009 ',
+        '8. Q-Med Scandinavia, Inc. Q-Med NASHA™ the monograph. 2008.',
       ],
     },
   },
 ];
 
-export const ALL_PRODUCTS = RAW_PRODUCTS.map(product => ({
+export const ALL_PRODUCTS = RAW_PRODUCTS.map((product) => ({
   ...product,
   slug: slugify(product.name),
 }));

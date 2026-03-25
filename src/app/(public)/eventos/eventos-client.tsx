@@ -9,8 +9,13 @@ import EducationPillar from './_components/education-pillar';
 import EducationProgram from './_components/education-program';
 import EducationTrails from './_components/education-trails';
 import CommercialEducationTrack from './_components/commercial-education-track';
+import { WPEventoNode } from '@/lib/types/events';
 
-export default function Home() {
+interface EventosClientProps {
+  eventos: WPEventoNode[];
+}
+
+export default function Home({ eventos }: EventosClientProps) {
   return (
     <>
       <EducationBanner />
@@ -19,8 +24,8 @@ export default function Home() {
       <Program />
       <EducationTrails />
       <CommercialEducationTrack />
-      <Events />
-      <EventsPast />
+      <Events eventos={eventos} />
+      <EventsPast eventos={eventos} />
       <Footer />
     </>
   );

@@ -12,6 +12,7 @@ export default function HeroBanner({
   classNameDescription,
   classNameBanner,
   classNameBotton,
+  acfData,
 }: {
   imageLine: string;
   title?: string;
@@ -21,7 +22,18 @@ export default function HeroBanner({
   classNameDescription?: string;
   classNameBanner?: string;
   classNameBotton?: string;
+  acfData?: {
+    imageLine?: { node?: { sourceUrl?: string } };
+    title?: string;
+    description?: string;
+    label?: string;
+  };
 }) {
+  const displayTitle = acfData?.title || title;
+  const displayDescription = acfData?.description || description;
+  const displayLabel = acfData?.label || label;
+  const displayImageLine = acfData?.imageLine?.node?.sourceUrl || imageLine;
+
   return (
     <section
       className={cn(
@@ -30,7 +42,7 @@ export default function HeroBanner({
       )}
     >
       <Image
-        src={imageLine}
+        src={displayImageLine}
         width={1440}
         height={774}
         alt="line"
@@ -44,7 +56,7 @@ export default function HeroBanner({
             classNameTitle,
           )}
         >
-          {title}
+          {displayTitle}
         </p>
 
         <p
@@ -53,7 +65,7 @@ export default function HeroBanner({
             classNameDescription,
           )}
         >
-          {description}
+          {displayDescription}
         </p>
 
         <Link
@@ -63,7 +75,7 @@ export default function HeroBanner({
             classNameBotton,
           )}
         >
-          {label} <Icon name="arrow_right"></Icon>
+          {displayLabel} <Icon name="arrow_right"></Icon>
         </Link>
       </div>
     </section>

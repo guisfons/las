@@ -2,16 +2,29 @@
 
 import Footer from '@/components/footer';
 import HeaderLas from '../../_components/header-las';
-import GridPictures from '../../articulate-the-ecosystem/_components/grid-pictures';
+import GridPictures from '../../articular-o-ecossistema/_components/grid-pictures';
+import { getPageBySlug } from '@/lib/api/pages';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
+  const { data: pageData, isLoading } = useQuery({
+    queryKey: ['page', 'las-xperts'],
+    queryFn: () => getPageBySlug('las-xperts'),
+  });
+  const acfData = pageData?.pageLasXperts;
+
+  if (isLoading) return null;
   return (
     <>
       <HeaderLas
-        logo="/las-xperts.png"
-        description={[
-          'Nossos produtos nas mãos dos médicos, em projetos de Medicina Baseada em Evidência. Foram 32 Estudos de Caso publicados em 2024.',
-        ]}
+        logo={
+          acfData?.howWeDoItToday?.logo?.node?.sourceUrl || '/las-xperts.png'
+        }
+        description={
+          acfData?.howWeDoItToday?.description?.map((d) => d.text || '') || [
+            'Nossos produtos nas mãos dos médicos, em projetos de Medicina Baseada em Evidência. Foram 32 Estudos de Caso publicados em 2024.',
+          ]
+        }
       ></HeaderLas>
 
       <GridPictures

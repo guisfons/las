@@ -3,6 +3,7 @@ import './styles/globals.scss';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { Navbar } from '@/components/navbar';
+import { getPrimaryMenu } from '@/lib/api/globals';
 import { getLocale } from 'next-intl/server';
 import { Exo_2 } from 'next/font/google';
 import { ReactNode } from 'react';
@@ -34,13 +35,14 @@ export const metadata: Metadata = {
 
 export default async function LocaleLayout({ children }: Props) {
   const locale = await getLocale();
+  const primaryMenu = await getPrimaryMenu();
 
   return (
     <html lang={locale}>
       <body className={`${exo2.variable} antialiased`}>
         <QueryProvider>
           <NextIntlClientProvider>
-            <Navbar />
+            <Navbar wpMenu={primaryMenu} />
             {/* <SmoothScrollProvider> */}
             {children}
             {/* </SmoothScrollProvider> */}

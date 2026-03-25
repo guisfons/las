@@ -2,8 +2,14 @@
 
 import { Check } from 'lucide-react';
 
-export default function WhatAreTechnicalForms() {
-  const array = [
+import { WPPageTechnicalAcf } from '@/lib/types/pages';
+
+export default function WhatAreTechnicalForms({
+  acfData,
+}: {
+  acfData?: WPPageTechnicalAcf['whatIs'];
+}) {
+  const defaultItems = [
     {
       title: 'Manutenção Preventiva',
       description:
@@ -21,11 +27,15 @@ export default function WhatAreTechnicalForms() {
     },
   ];
 
+  const array =
+    acfData?.items && acfData.items.length > 0 ? acfData.items : defaultItems;
+  const title = acfData?.title || 'O que são os Serviços Técnicos?';
+
   return (
     <section id="Contact" className="relative overflow-hidden">
       <div className="max-w-7xl px-6 py-20 mx-auto flex flex-col items-center justify-center">
         <p className="font-exo2 max-w-[525px] text-center leading-10 font-bold mb-4 text-2xl md:text-[44px] text-black">
-          O que são os Serviços Técnicos?
+          {title}
         </p>
 
         <div className="w-full grid lg:grid-cols-3 gap-8 mt-10">

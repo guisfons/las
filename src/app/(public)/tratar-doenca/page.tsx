@@ -1,14 +1,23 @@
 'use client';
 
 import Footer from '@/components/footer';
-import HeroBanner from '../generate-health/_components/hero-banner';
+import HeroBanner from '../gerar-saude/_components/hero-banner';
 import Carroussel from '../_components/carroussel';
 import GridContent from './_components/grid-content';
-import HowWeDoItToday from '../generate-health/_components/how-we-do-it-today';
+import HowWeDoItToday from '../gerar-saude/_components/how-we-do-it-today';
 import BannerTreatingDisease from './_components/banner-treating-disease';
 import Segmentations from './_components/segmentations';
+import { getPageBySlug } from '@/lib/api/pages';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
+  const { data: pageData } = useQuery({
+    queryKey: ['page', 'tratar-doenca'],
+    queryFn: () => getPageBySlug('treating-disease'),
+  });
+
+  const acfData = pageData?.pageTreating;
+
   return (
     <>
       <HeroBanner
@@ -20,6 +29,7 @@ export default function Home() {
         classNameDescription="text-white"
         classNameBanner="bg-treatingDiseaseBanner sm:bg-treatingDiseaseBanner"
         classNameBotton="bg-[#7ee000] text-[#000]"
+        acfData={acfData?.heroBanner}
       />
 
       <HowWeDoItToday
@@ -30,9 +40,10 @@ export default function Home() {
           'Buscamos as melhores soluções e equipamentos médicos do mundo para trazer para o Brasil. Oferecemos produtos que realmente fazem diferença - do material cirúrgico mais preciso aos dispositivos de medicina regenerativa que estão mudando vidas. ',
           'Nosso papel é garantir que médicos brasileiros tenham acesso ao que há de melhor para tratar seus pacientes com resultados comprovados e recuperação mais rápida.',
         ]}
+        acfData={acfData?.howWeDoItToday}
       />
 
-      <Carroussel more={false} />
+      <Carroussel />
 
       <GridContent />
 

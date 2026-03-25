@@ -7,11 +7,33 @@ export default function CardLas({
   title,
   description,
   grid,
+  acfData,
 }: {
-  title: string;
-  description: string;
-  grid: { logo: string; picture: string; description: string; link: string }[];
+  title?: string;
+  description?: string;
+  grid?: { logo: string; picture: string; description: string; link: string }[];
+  acfData?: {
+    title?: string;
+    description?: string;
+    grid?: {
+      logo?: { node?: { sourceUrl?: string } };
+      picture?: { node?: { sourceUrl?: string } };
+      description?: string;
+      link?: string;
+    }[];
+  };
 }) {
+  const displayTitle = acfData?.title || title || '';
+  const displayDescription = acfData?.description || description || '';
+  const displayGrid =
+    acfData?.grid && acfData.grid.length > 0
+      ? acfData.grid.map((item) => ({
+          logo: item.logo?.node?.sourceUrl || '',
+          picture: item.picture?.node?.sourceUrl || '',
+          description: item.description || '',
+          link: item.link || '',
+        }))
+      : grid || [];
   return (
     <section
       id="Initiatives"
@@ -20,16 +42,16 @@ export default function CardLas({
       <div className="relative z-20 max-w-7xl px-6 py-20 mx-auto w-full flex flex-col gap-10 items-center">
         <div className="flex flex-col">
           <h1 className="font-exo2 text-2xl text-center md:text-3xl pb-6">
-            <strong> {title} </strong>
+            <strong> {displayTitle} </strong>
           </h1>
 
           <span className="font-exo2 text-gray-500 text-center text-lg flex-wrap p-0 m-0">
-            {description}
+            {displayDescription}
           </span>
         </div>
 
         <div className="w-full h-full grid md:grid-cols-2 gap-9">
-          {grid.map((el, idx) => {
+          {displayGrid.map((el, idx) => {
             return (
               <Link
                 href={el.link || ''}

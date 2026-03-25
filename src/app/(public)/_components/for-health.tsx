@@ -6,21 +6,27 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 import Icon from '@/shared/icon/icon';
 
-export default function ForHealth() {
-  const options = [
+import { WPPageHomeAcf } from '@/lib/types/pages';
+
+export default function ForHealth({
+  acfData,
+}: {
+  acfData?: WPPageHomeAcf['forHealth'];
+}) {
+  const defaultOptions = [
     {
       label: 'Gerar Saúde',
       background: 'bg-[#F9D229]',
       image: 'bg-createHealth',
       text: 'Queremos transformar a saúde em algo cotidiano, começando por nós. Nossos colaboradores podem usar a primeira hora do expediente para se exercitar e incentivamos participação em corridas beneficentes. Apoiamos programas sociais com parte do nosso lucro e patrocinamos um time de handball para crianças sem condições financeiras.',
-      link: '/generate-health',
+      link: '/gerar-saude',
     },
     {
       label: 'Tratar Doença',
       background: 'bg-[#7EE000]',
       image: 'bg-treatDesease',
       text: 'Trazemos ao Brasil as melhores tecnologias e soluções médicas do mundo, para que médicos tenham acesso ao que há de mais eficaz para cuidar de seus pacientes.',
-      link: '/treating-disease',
+      link: '/tratar-doenca',
     },
     {
       label: `Desenvolver Tecnologia <br/>e Inovação`,
@@ -44,6 +50,11 @@ export default function ForHealth() {
       link: '/education',
     },
   ];
+
+  const options =
+    acfData?.options && acfData.options.length > 0
+      ? acfData.options
+      : defaultOptions;
 
   const [activeItem, setActiveItem] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
@@ -99,7 +110,7 @@ export default function ForHealth() {
                         {idx === activeItem ? '-' : '+'}
                       </span>{' '}
                       <span
-                        dangerouslySetInnerHTML={{ __html: el.label }}
+                        dangerouslySetInnerHTML={{ __html: el.label || '' }}
                       ></span>
                     </p>
                   </div>

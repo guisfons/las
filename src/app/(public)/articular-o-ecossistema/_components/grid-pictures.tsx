@@ -2,27 +2,37 @@
 
 import { cn } from '@/lib/utils';
 
+import { WPPageArticulateAcf } from '@/lib/types/pages';
+
 export default function GridPictures({
   title,
   pictures,
+  acfData,
 }: {
   title?: string;
   pictures: string[];
+  acfData?: WPPageArticulateAcf['gridPictures'];
 }) {
+  const displayTitle = acfData?.title || title;
+  const displayPictures =
+    acfData?.pictures?.nodes && acfData.pictures.nodes.length > 0
+      ? acfData.pictures.nodes.map((n) => n.sourceUrl)
+      : pictures;
+
   return (
     <section
       id="Initiatives"
       className="relative w-full flex items-center justify-center flex-wrap"
     >
       <div className="relative z-20 max-w-7xl w-full px-6 py-6">
-        {title && (
+        {displayTitle && (
           <p className="w-full font-exo2 text-2xl font-bold md:text-3xl">
-            {title}
+            {displayTitle}
           </p>
         )}
 
         <div className="w-full h-[460px] grid grid-cols-2 md:grid-cols-7 md:grid-rows-2 gap-6 mt-10 mx-auto">
-          {pictures.map((el, idx) => {
+          {displayPictures.map((el, idx) => {
             return (
               <div
                 key={idx}

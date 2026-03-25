@@ -8,8 +8,12 @@ import { Autoplay } from 'swiper/modules';
 import Icon from '@/shared/icon/icon';
 
 import 'swiper/css';
-
-export default function BannerHero() {
+export default function BannerHero({
+  acfData,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  acfData?: any;
+}) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -21,12 +25,15 @@ export default function BannerHero() {
 
   const banners = [
     {
-      image: '/images/landingpage/line-hero.png',
+      image:
+        acfData?.image?.node?.sourceUrl || '/images/landingpage/line-hero.png',
       imageMobile: '',
-      alt: 'Line Banner',
+      alt: acfData?.title || 'Line Banner',
       url: '#Contact',
       target: '_self',
-      textContent: `
+      textContent:
+        acfData?.description ||
+        `
         <p class="font-exo2 font-normal text-3xl sm:text-4xl md:text-7xl text-white">
           Somos o Movimento
         </p>

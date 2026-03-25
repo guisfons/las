@@ -1,9 +1,11 @@
 'use client';
 
 import Footer from '@/components/footer';
+import { getPageBySlug } from '@/lib/api/pages';
+import { useQuery } from '@tanstack/react-query';
 
 // Array de produtos
-const products = [
+const defaultProducts = [
   {
     brand: 'ACF Medical',
     name: 'Lâminas Cirúrgicas ACF',
@@ -190,12 +192,32 @@ const products = [
 ];
 
 export default function Home() {
+  const { data: pageData } = useQuery({
+    queryKey: ['page', 'instructions'],
+    queryFn: () => getPageBySlug('instructions'),
+  });
+
+  const acfData = pageData?.pageInstructions;
+
+  const displayTitle = acfData?.titleHeader || 'Instruções de uso dos produtos';
+
+  const products =
+    acfData?.productsList && acfData.productsList.length > 0
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        acfData.productsList.map((item: any) => ({
+          brand: item.brand || '',
+          name: item.name || '',
+          anvisa: item.anvisa || '',
+          fileUrl: item.fileUrl?.node?.sourceUrl || '#',
+        }))
+      : defaultProducts;
+
   return (
     <>
       <section className="w-full max-w-7xl px-3 pt-36 mx-auto flex flex-col gap-3 md:gap-6 py-12">
         <header className="flex flex-col gap-6">
           <h1 className="max-w-60 md:max-w-full mx-auto font-exo2 text-2xl md:text-4xl font-bold text-center">
-            Instruções de uso dos produtos
+            {displayTitle}
           </h1>
         </header>
       </section>

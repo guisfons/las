@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import BannerHero from './_components/banner-hero';
 import Footer from '@/components/footer';
 
@@ -10,7 +10,6 @@ import AboutExpansion from './_components/about-expansion';
 
 export default function Home({ initialProduct }: { initialProduct: Product }) {
   const router = useRouter();
-  const { slug }: { slug: string } = useParams();
 
   const product = initialProduct;
 

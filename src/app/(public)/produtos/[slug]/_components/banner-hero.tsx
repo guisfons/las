@@ -64,7 +64,7 @@ export default function BannerHero({ product }: { product: Product }) {
 
           <Link
             className="inline-flex items-center px-6 bg-green focus:bg-green active:bg-green hover:bg-green text-white font-exo2 text-lg font-bold w-max h-14 rounded-full"
-            href={`/budget-request?product=${product?.name}`}
+            href={`/solicitar-orcamento?product=${product?.name}`}
           >
             Solicite um orçamento
             <Icon name="arrow_right" className="text-2xl"></Icon>

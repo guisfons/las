@@ -12,6 +12,7 @@ export default function HowWeDoItToday({
   link,
   classNameTitle,
   reverse = false,
+  acfData,
 }: {
   banner: string;
   title?: string;
@@ -20,7 +21,19 @@ export default function HowWeDoItToday({
   link?: string;
   classNameTitle?: string;
   reverse?: boolean;
+  acfData?: {
+    banner?: { node?: { sourceUrl?: string } };
+    title?: string;
+    description?: { text?: string }[];
+  } | null;
 }) {
+  const displayTitle = acfData?.title || title;
+  const displayBanner = acfData?.banner?.node?.sourceUrl || banner;
+  const displayDescription =
+    acfData?.description && acfData.description.length > 0
+      ? acfData.description.map((d) => d.text || '')
+      : description;
+
   return (
     <section
       className={cn(
@@ -30,7 +43,7 @@ export default function HowWeDoItToday({
       )}
     >
       <Image
-        src={banner}
+        src={displayBanner}
         width={1440}
         height={774}
         alt="line"
@@ -48,14 +61,14 @@ export default function HowWeDoItToday({
           />
         )}
 
-        {title && (
+        {displayTitle && (
           <p className={cn('font-exo2 font-bold text-4xl', classNameTitle)}>
-            {title}
+            {displayTitle}
           </p>
         )}
 
         <div className="flex flex-col gap-6">
-          {description.map((item, index) => (
+          {displayDescription.map((item, index) => (
             <p key={index} className="font-exo2 mt-6 text-lg text-label">
               {item}
             </p>

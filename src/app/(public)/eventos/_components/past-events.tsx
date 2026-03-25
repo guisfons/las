@@ -1,11 +1,15 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Icon from '@/shared/icon/icon';
-import { EVENTS } from '../../../../../public/mocks/events';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WPEventoNode } from '@/lib/types/events';
 
-export default function Events() {
+interface EventsProps {
+  eventos: WPEventoNode[];
+}
+
+export default function Events({ eventos }: EventsProps) {
   const btns = [
     {
       title: 'Todos',
@@ -24,7 +28,17 @@ export default function Events() {
     },
   ];
 
-  const events = EVENTS;
+  const events = eventos.map((node) => ({
+    id: node.id,
+    img: node.eventoacf?.img?.node?.sourceUrl || '',
+    date_number: node.eventoacf?.dateNumber || '',
+    month: node.eventoacf?.month || '',
+    year: node.eventoacf?.year || '',
+    event: node.title,
+    local: node.eventoacf?.local || '',
+    type: node.eventoCategorias?.nodes?.map((c) => c.name) || ['Todos'],
+  }));
+
   const lastYear = new Date().getFullYear() - 1;
 
   const availableTypes = Array.from(
@@ -109,7 +123,7 @@ export default function Events() {
               .map((el) => {
                 return (
                   <motion.figure
-                    key={`${el.event}-${el.date_number}`} // Key única baseada no evento
+                    key={`${el.id}`} // Key única baseada no evento
                     className="flex flex-col"
                     variants={cardVariants}
                     initial="hidden"

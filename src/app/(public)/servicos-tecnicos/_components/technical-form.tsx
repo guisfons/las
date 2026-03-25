@@ -9,10 +9,24 @@ import { useToast } from '@/hooks/use-toast';
 import { useEffect, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-export default function TechnicalForm() {
+import { WPPageTechnicalAcf } from '@/lib/types/pages';
+
+export default function TechnicalForm({
+  acfData,
+}: {
+  acfData?: WPPageTechnicalAcf['form'];
+}) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  const subtitle = acfData?.subtitle || 'LAS FOR LIFE';
+  const title = acfData?.title || 'Formulário';
+  const description =
+    acfData?.description ||
+    'Para solicitação de serviços técnicos, por favor, solicitamos o preenchimento do formulário abaixo. Após o recebimento das informações, nossa equipe técnica irá analisar a solicitação e entrará em contato.';
+  const formAction =
+    acfData?.formAction || 'https://formsubmit.co/gui.santana19@hotmail.com';
 
   const {
     register,
@@ -82,9 +96,6 @@ export default function TechnicalForm() {
     console.log('=== INÍCIO DO ENVIO DO FORMULÁRIO ===');
     setIsSubmitting(true);
 
-    console.log('Form data sendo enviado:', data);
-    console.log('Arquivos selecionados:', selectedFiles);
-
     try {
       const formData = new FormData();
 
@@ -95,7 +106,10 @@ export default function TechnicalForm() {
       );
       formData.append('_captcha', 'false');
       formData.append('_template', 'table');
-      formData.append('_next', window.location.href); // URL de retorno
+      formData.append(
+        '_next',
+        typeof window !== 'undefined' ? window.location.href : '',
+      ); // URL de retorno
       formData.append('name', data.name);
       formData.append('cnpj', data.cnpj);
       formData.append('phone', data.phone);
@@ -109,38 +123,15 @@ export default function TechnicalForm() {
 
       // Adicionar arquivos (se houver)
       if (selectedFiles.length > 0) {
-        // Verificar o tamanho total dos arquivos (limite: 5MB)
-        const totalSizeBytes = selectedFiles.reduce(
-          (sum, file) => sum + file.size,
-          0,
-        );
-        const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
-
-        if (totalSizeBytes > MAX_SIZE_BYTES) {
-          throw new Error(
-            `O tamanho do arquivo (${formatFileSize(totalSizeBytes)}) excede o limite de 5MB.`,
-          );
-        }
-
-        selectedFiles.forEach((file, index) => {
-          console.log(`Adicionando arquivo ${index}:`, file.name, file.size);
-          // Use 'attachment' as the field name for better compatibility with FormSubmit
+        selectedFiles.forEach((file) => {
           formData.append('attachment', file);
         });
       }
 
-      // Log dos dados sendo enviados
-      console.log('FormData criado com sucesso');
-
-      const response = await fetch(
-        'https://formsubmit.co/gui.santana19@hotmail.com',
-        {
-          method: 'POST',
-          body: formData,
-          // Don't set Content-Type header for multipart/form-data
-          // The browser will set it correctly with the boundary
-        },
-      );
+      const response = await fetch(formAction, {
+        method: 'POST',
+        body: formData,
+      });
 
       console.log('FormSubmit response status:', response.status);
       console.log(
@@ -220,18 +211,15 @@ export default function TechnicalForm() {
         >
           <div className="mb-2">
             <p className="uppercase font-exo2 font-bold text-lg text-[#9494A1]">
-              LAS FOR LIFE
+              {subtitle}
             </p>
 
             <p className="font-exo2 leading-10 font-bold mb-4 text-2xl md:text-[44px] text-black">
-              Formulário
+              {title}
             </p>
 
             <p className="max-w-[445px] font-exo2 font-light text-lg text-[#9494A1]">
-              Para solicitação de serviços técnicos, por favor, solicitamos o
-              preenchimento do formulário abaixo. Após o recebimento das
-              informações, nossa equipe técnica irá analisar a solicitação e
-              entrará em contato.
+              {description}
             </p>
           </div>
 

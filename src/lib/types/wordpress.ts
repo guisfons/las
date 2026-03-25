@@ -54,7 +54,7 @@ export type WPProductNode = {
   databaseId: number;
   slug: string;
   title: string;
-  productacf?: WPProductAcf; 
+  productacf?: WPProductAcf;
 };
 
 export type WPProductsConnection = {

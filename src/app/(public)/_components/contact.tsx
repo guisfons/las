@@ -5,12 +5,24 @@ import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/shared/icon/icon';
 import Image from 'next/image';
 
-export default function Contact() {
+import { WPPageHomeAcf } from '@/lib/types/pages';
+
+export default function Contact({
+  acfData,
+}: {
+  acfData?: WPPageHomeAcf['contact'];
+}) {
+  const subtitle = acfData?.subtitle || 'Contato';
+  const formAction =
+    acfData?.formAction || 'https://formsubmit.co/m.sousa@lasforlife.com.br';
+  const image =
+    acfData?.image?.node?.sourceUrl || '/images/landingpage/coffee-cup-las.png';
+
   return (
     <section id="Contact" className="relative overflow-hidden">
       <div className="max-w-7xl px-6 py-20 mx-auto flex items-center justify-center">
         <form
-          action="https://formsubmit.co/m.sousa@lasforlife.com.br"
+          action={formAction}
           method="POST"
           className="w-full flex flex-col gap-6"
         >
@@ -26,12 +38,15 @@ export default function Contact() {
 
           <div className="mb-2">
             <p className="uppercase font-exo2 font-bold text-lg text-[#9494A1]">
-              Contato
+              {subtitle}
             </p>
 
-            <p className="font-exo2 leading-10 font-bold text-2xl md:text-[44px] text-black">
-              Dúvidas? <br /> Vamos Conversar!
-            </p>
+            <p
+              className="font-exo2 leading-10 font-bold text-2xl md:text-[44px] text-black"
+              dangerouslySetInnerHTML={{
+                __html: acfData?.title || 'Dúvidas?<br/>Vamos Conversar!',
+              }}
+            />
           </div>
 
           <Input
@@ -66,7 +81,7 @@ export default function Contact() {
           </Button>
 
           <Image
-            src={'/images/landingpage/coffee-cup-las.png'}
+            src={image}
             width={710}
             height={400}
             alt="coffee cup"

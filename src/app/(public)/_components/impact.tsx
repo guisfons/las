@@ -1,14 +1,19 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-export default function Impact() {
-  const estatistics = [
+import { WPPageHomeAcf } from '@/lib/types/pages';
+
+export default function Impact({
+  acfData,
+}: {
+  acfData?: WPPageHomeAcf['impact'];
+}) {
+  const defaultStatistics = [
     {
       icon: '/batimentos.svg',
       bg: 'bg-[#31A1FF1A]',
       title: 'Anos no mercado',
       number: '18',
-      // symbol: '%',
     },
     {
       icon: '/dna.svg',
@@ -22,22 +27,48 @@ export default function Impact() {
       bg: 'bg-[#42BD5C1A]',
       title: 'Rede global de fornecedores',
       number: '15',
-      // symbol: 'M',
     },
     {
       icon: '/microscopio.svg',
       bg: 'bg-[#F9D22933]',
       title: 'Médicos capacitados',
-      // symbol: '+',
       number: '345',
     },
   ];
 
+  const estatistics =
+    acfData?.estatistics && acfData.estatistics.length > 0
+      ? acfData.estatistics.map((el) => ({
+          icon: el.icon?.node?.sourceUrl || '',
+          bg: el.bg || 'bg-[#31A1FF1A]',
+          title: el.title || '',
+          number: el.number || '',
+          symbol: el.symbol || '',
+        }))
+      : defaultStatistics;
+
+  const mainBlock = {
+    title: acfData?.mainBlock?.title || 'Vidas Impactadas',
+    number: acfData?.mainBlock?.number || '343.503',
+    symbol: acfData?.mainBlock?.symbol || 'mil',
+    icon: acfData?.mainBlock?.icon?.node?.sourceUrl || '/hearth.svg',
+    backgroundImage: acfData?.mainBlock?.backgroundImage?.node?.sourceUrl || '',
+  };
+
+  const title = acfData?.title
+    ? acfData.title.split('\n')
+    : ['Impacto Real na', 'Saúde das Pessoas'];
+  const wavesImage = acfData?.wavesImage?.node?.sourceUrl || '/waves.png';
+
   return (
     <section className="flex flex-col gap-12 p-2">
       <h1 className="font-exo2 text-3xl font-semibold lg:text-4xl text-center">
-        Impacto Real na <br />
-        Saúde das Pessoas
+        {title.map((line, i) => (
+          <span key={i}>
+            {line}
+            {i < title.length - 1 && <br />}
+          </span>
+        ))}
       </h1>
 
       <div
@@ -48,28 +79,36 @@ export default function Impact() {
           <Image
             width={300}
             height={150}
-            src="/waves.png"
+            src={wavesImage}
             alt=""
             className="w-full h-[50rem] object-cover -mt-28"
           />
         </figure>
 
         <div className="w-full max-w-7xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-6">
-          <div className="w-full flex justify-start items-end aspect-square rounded-2xl relative bg-center bg-divRunners bg-no-repeat bg-cover max-h-[35rem] p-6 sm:p-14">
+          <div
+            className="w-full flex justify-start items-end aspect-square rounded-2xl relative bg-center bg-no-repeat bg-cover max-h-[35rem] p-6 sm:p-14"
+            style={{
+              backgroundImage: mainBlock.backgroundImage
+                ? `url(${mainBlock.backgroundImage})`
+                : 'url(/runners.png)',
+            }}
+          >
             <div className="w-full !text-white relative flex flex-col gap-2 md:gap-4">
               <Image
                 width={100}
                 height={50}
-                src="/hearth.svg"
+                src={mainBlock.icon}
                 alt=""
                 className="size-8 md:size-14"
               />
 
               <p className="text-xl font-bold lg:text-4xl font-exo2">
-                Vidas Impactadas
+                {mainBlock.title}
               </p>
               <p className="text-4xl lg:text-7xl font-exo2 font-bold">
-                343.503 <span className="opacity-60">mil</span>
+                {mainBlock.number}{' '}
+                <span className="opacity-60">{mainBlock.symbol}</span>
               </p>
             </div>
           </div>

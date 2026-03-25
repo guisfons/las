@@ -19,9 +19,7 @@ export default function FilterProducts({
   setSelectedBrands,
   onClose,
 }: FilterProductsProps) {
-  const allSpecialties = products.flatMap(
-    (product) => product.specialities,
-  );
+  const allSpecialties = products.flatMap((product) => product.specialities);
   const specialities = Array.from(new Set(allSpecialties));
 
   const allProductsFilter = products.filter(
@@ -95,10 +93,11 @@ export default function FilterProducts({
           <div
             key={brand}
             onClick={() => toggleBrand(brand)}
-            className={`rounded-full px-5 py-2 cursor-pointer select-none ${selectedBrands.includes(brand)
-              ? 'bg-green text-white'
-              : 'bg-[#F0F0F0] text-black/60'
-              }`}
+            className={`rounded-full px-5 py-2 cursor-pointer select-none ${
+              selectedBrands.includes(brand)
+                ? 'bg-green text-white'
+                : 'bg-[#F0F0F0] text-black/60'
+            }`}
           >
             <p className="font-exo2 font-normal text-sm">{brand}</p>
           </div>

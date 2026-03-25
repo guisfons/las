@@ -24,11 +24,11 @@ export interface Product {
       url: string;
       file_name: string;
       type:
-      | 'CATALOG'
-      | 'CASE_REPORTS'
-      | 'ARTICLES'
-      | 'DIRECTIONS_FOR_USE'
-      | 'DEFAULT';
+        | 'CATALOG'
+        | 'CASE_REPORTS'
+        | 'ARTICLES'
+        | 'DIRECTIONS_FOR_USE'
+        | 'DEFAULT';
     }[];
     videos: {
       description: string;

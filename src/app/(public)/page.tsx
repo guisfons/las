@@ -1,25 +1,9 @@
-'use client';
+import HomeClient from './home-client';
+import { getPageBySlug } from '@/lib/api/pages';
 
-import BannerHero from './_components/banner-hero';
-import AboutUs from './_components/about-us';
-import ForHealth from './_components/for-health';
-import Carroussel from './_components/carroussel';
-import Partners from './_components/partners';
-import Impact from './_components/impact';
-import Contact from './_components/contact';
-import Footer from '@/components/footer';
+export default async function Home() {
+  // Fetch ACF data from WordPress using the 'home' slug
+  const pageData = await getPageBySlug('home');
 
-export default function Home() {
-  return (
-    <>
-      <BannerHero></BannerHero>
-      <AboutUs></AboutUs>
-      <ForHealth></ForHealth>
-      <Carroussel></Carroussel>
-      <Partners></Partners>
-      <Impact></Impact>
-      <Contact></Contact>
-      <Footer></Footer>
-    </>
-  );
+  return <HomeClient pageData={pageData} />;
 }

@@ -9,8 +9,14 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useRef } from 'react';
 
-export default function Partners() {
-  const imageGallery: { alf: string; url: string }[] = [
+import { WPPageHomeAcf } from '@/lib/types/pages';
+
+export default function Partners({
+  acfData,
+}: {
+  acfData?: WPPageHomeAcf['partners'];
+}) {
+  const defaultGallery: { alf: string; url: string }[] = [
     { alf: 'fziomed', url: '/images/brands/fziomed.png' },
     { alf: 'acf_medical_logo', url: '/images/brands/acf_medical_logo.png' },
     { alf: 'apex', url: '/images/brands/apex_logo.png' },
@@ -40,11 +46,21 @@ export default function Partners() {
     { alf: 'Bioventus', url: '/images/brands/bioventus-logo-color-min.webp' },
   ];
 
+  const imageGallery =
+    acfData?.gallery && acfData.gallery.length > 0
+      ? acfData.gallery.map((item) => ({
+          alf: item.alf || '',
+          url: item.url?.node?.sourceUrl || '',
+        }))
+      : defaultGallery;
+
+  const title = acfData?.title || 'Parceiros';
+
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
     <section className="relative max-w-7xl px-2 md:px-6 py-10 md:py-20 mx-auto flex flex-col items-center justify-center">
-      <p className="font-exo2 font-semibold text-4xl"> Parceiros </p>
+      <p className="font-exo2 font-semibold text-4xl"> {title} </p>
 
       <div className="w-11/12 mx-auto md:w-full">
         <Swiper

@@ -4,7 +4,9 @@ async function test() {
     const res = await fetch('https://las-wp.lndo.site/graphql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: '{ generalSettings { title description } }' })
+      body: JSON.stringify({
+        query: '{ generalSettings { title description } }',
+      }),
     });
     const json = await res.json();
     console.log(JSON.stringify(json, null, 2));

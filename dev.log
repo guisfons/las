@@ -1,0 +1,108 @@
+
+> bp@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+  ▲ Next.js 14.2.23
+  - Local:        http://localhost:3001
+  - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1452ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.7s (1837 modules)
+GraphQL Errors: [
+  {
+    message: 'Field "image" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "image" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "imageLine" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "banner" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "pictures" of type "AcfMediaItemConnection" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "imageLine" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "banner" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "imageLine" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "banner" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "logo" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "picture" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "imageBanner" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  },
+  {
+    message: 'Field "fileUrl" of type "AcfMediaItemConnectionEdge" must have a sub selection.',
+    locations: [ [Object] ]
+  }
+]
+Error fetching WP GraphQL: Error: Failed to fetch API
+    at fetchWPGraphQL (webpack-internal:///(rsc)/./src/lib/wp.ts:32:19)
+    at async getPageBySlug (webpack-internal:///(rsc)/./src/lib/api/pages.ts:140:22)
+    at async Home (webpack-internal:///(rsc)/./src/app/(public)/page.tsx:14:22)
+Failed to fetch page home from WP. Error: Failed to fetch API
+    at fetchWPGraphQL (webpack-internal:///(rsc)/./src/lib/wp.ts:32:19)
+    at async getPageBySlug (webpack-internal:///(rsc)/./src/lib/api/pages.ts:140:22)
+    at async Home (webpack-internal:///(rsc)/./src/app/(public)/page.tsx:14:22)
+(node:33921) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ GET / 200 in 3112ms
+ ✓ Compiled in 397ms (866 modules)
+ ⨯ ./src/lib/api/pages.ts
+Error: 
+  [31mx[0m Expected unicode escape
+     ,-[[36;1;4m/home/guisfons/doppiod/las/src/lib/api/pages.ts[0m:194:1]
+ [2m194[0m |     });
+ [2m195[0m |     return data?.page || null;
+ [2m196[0m |   } catch (error) {
+ [2m197[0m |     console.error(\`Failed to fetch page \${slug} from WP.\`, error);
+     : [31;1m                  ^[0m
+ [2m198[0m |     return null;
+ [2m199[0m |   }
+ [2m200[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/api/pages.ts
+./src/app/(public)/page.tsx
+ ✓ Compiled in 409ms (866 modules)
+ ✓ Compiled in 204ms (866 modules)
+ ✓ Compiled / in 139ms (971 modules)
+ GET / 200 in 428ms
+ ✓ Compiled in 781ms (866 modules)
+ ✓ Compiled in 267ms (866 modules)
+ ✓ Compiled in 187ms (866 modules)
+ ✓ Compiled in 249ms (866 modules)
+ ✓ Compiled in 332ms (866 modules)

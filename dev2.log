@@ -1,0 +1,24 @@
+
+> bp@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+  ▲ Next.js 14.2.23
+  - Local:        http://localhost:3002
+  - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1870ms
+ ○ Compiling / ...
+ ✓ Compiled / in 3.6s (1885 modules)
+(node:35364) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ GET / 200 in 3996ms
+ ✓ Compiled in 369ms (866 modules)
+ GET / 200 in 37ms
+ ✓ Compiled in 472ms (866 modules)
+ ✓ Compiled in 286ms (866 modules)
+ ✓ Compiled in 196ms (866 modules)
+ ✓ Compiled in 284ms (866 modules)
+ ✓ Compiled in 610ms (866 modules)

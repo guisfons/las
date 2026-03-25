@@ -8,8 +8,14 @@ import 'swiper/css/pagination';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-export default function Carroussel({ more = true }: { more?: boolean }) {
-  const divsOfCarroussel = [
+import { WPPageHomeAcf } from '@/lib/types/pages';
+
+export default function Carroussel({
+  acfData,
+}: {
+  acfData?: WPPageHomeAcf['carroussel'];
+}) {
+  const defaultItems = [
     {
       img: '/products/tennisPlayer.png',
       title: 'Superando Desafios',
@@ -48,16 +54,32 @@ export default function Carroussel({ more = true }: { more?: boolean }) {
     },
   ];
 
+  const divsOfCarroussel =
+    acfData?.items && acfData.items.length > 0
+      ? acfData.items.map((item) => ({
+          img: item.img?.node?.sourceUrl || '',
+          title: item.title || '',
+          description: item.description || '',
+          logo_one: item.logoOne?.node?.sourceUrl || '',
+          logo_two: item.logoTwo?.node?.sourceUrl || '',
+          url: item.url || '#',
+        }))
+      : defaultItems;
+
+  const title = acfData?.title || 'Produtos que Impactam Vidas';
+  const description =
+    acfData?.description ||
+    'Oferecemos soluções pensadas para proporcionar o conforto, bem-estar e apoiar a saúde em cada passo.';
+
   return (
     <section className="relative max-w-8xl px-6 py-10 lg:py-20 mx-auto flex items-center flex-col gap-10 justify-center overflow-hidden">
       <div className="flex flex-col justify-center items-center">
         <h1 className="max-w-52 md:max-w-max  text-2xl md:text-3xl font-exo2 text-center">
-          <strong>Produtos que Impactam Vidas</strong>
+          <strong>{title}</strong>
         </h1>
 
         <p className="text-gray-500 font-exo2 text-lg md:text-xl w-full lg:w-3/5 pt-4 flex flex-wrap text-center">
-          Oferecemos soluções pensadas para proporcionar o conforto, bem-estar e
-          apoiar a saúde em cada passo.
+          {description}
         </p>
       </div>
 
@@ -158,7 +180,7 @@ export default function Carroussel({ more = true }: { more?: boolean }) {
         </Swiper>
       </div>
 
-      {more && (
+      {acfData?.showMoreButton !== false && (
         <Link
           href={'/produtos'}
           className="bg-[#73CC00] font-exo2 py-3 px-6 rounded-full text-center text-white"

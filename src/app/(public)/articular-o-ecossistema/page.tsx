@@ -1,12 +1,23 @@
 'use client';
 
-import HeroBanner from '../generate-health/_components/hero-banner';
+import HeroBanner from '../gerar-saude/_components/hero-banner';
 import Footer from '@/components/footer';
-import HowWeDoItToday from '../generate-health/_components/how-we-do-it-today';
+import HowWeDoItToday from '../gerar-saude/_components/how-we-do-it-today';
 import GridEvents from './_components/grid-events';
 import GridPictures from './_components/grid-pictures';
+import { getPageBySlug } from '@/lib/api/pages';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
+  const { data: pageData, isLoading } = useQuery({
+    queryKey: ['page', 'articulate-the-ecosystem'],
+    queryFn: () => getPageBySlug('articulate-the-ecosystem'),
+  });
+
+  const acfData = pageData?.pageArticulate;
+
+  if (isLoading) return null;
+
   return (
     <>
       <HeroBanner
@@ -18,6 +29,7 @@ export default function Home() {
         classNameDescription="text-white"
         classNameBanner="bg-articulateEcosystemBanner sm:bg-articulateEcosystemBanner"
         classNameBotton="bg-[#00b5c8] text-[#ffffff]"
+        acfData={acfData?.heroBanner}
       />
 
       <HowWeDoItToday
@@ -29,9 +41,10 @@ export default function Home() {
           'Estamos desenvolvendo iniciativas que conectem diferentes Atores do nosso Ecossistema e também participamos de eventos, mesas redondas, palestras podcasts de parceiros para falar sobre o Movimento LAS e os paradigmas do nosso setor hoje.',
         ]}
         reverse={true}
+        acfData={acfData?.howWeDoItToday}
       />
 
-      <GridEvents />
+      <GridEvents acfData={acfData?.gridEvents} />
 
       <GridPictures
         title="Dia do Médico e Dia da Secretária"
@@ -41,6 +54,7 @@ export default function Home() {
           '/images/articulate-the-ecosystem/grid-day-doctor-3.png',
           '/images/articulate-the-ecosystem/grid-day-doctor-4.png',
         ]}
+        acfData={acfData?.gridPictures}
       />
 
       <Footer />

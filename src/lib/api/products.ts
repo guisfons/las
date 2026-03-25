@@ -1,5 +1,5 @@
-import { fetchWPGraphQL } from "../wp";
-import { WPProductNode, WPProductsConnection } from "../types/wordpress";
+import { fetchWPGraphQL } from '../wp';
+import { WPProductNode, WPProductsConnection } from '../types/wordpress';
 
 // A GraphQL fragment to avoid repeating the long list of fields
 const PRODUCT_FIELDS = `
@@ -95,17 +95,21 @@ export async function getAllProducts(): Promise<WPProductNode[]> {
   `;
 
   try {
-    const data = await fetchWPGraphQL<{ products: WPProductsConnection }>(query);
+    const data = await fetchWPGraphQL<{ products: WPProductsConnection }>(
+      query,
+    );
     const nodes = data?.products?.nodes || [];
     console.log(`Fetched ${nodes.length} products from WP.`);
     return nodes;
   } catch (error) {
-    console.error("Failed to fetch products from WP:", error);
+    console.error('Failed to fetch products from WP:', error);
     return [];
   }
 }
 
-export async function getProductBySlug(slug: string): Promise<WPProductNode | null> {
+export async function getProductBySlug(
+  slug: string,
+): Promise<WPProductNode | null> {
   const query = `
     query GetProductBySlug($id: ID!) {
       product(id: $id, idType: SLUG) {
@@ -115,7 +119,9 @@ export async function getProductBySlug(slug: string): Promise<WPProductNode | nu
   `;
 
   try {
-    const data = await fetchWPGraphQL<{ product: WPProductNode }>(query, { id: slug });
+    const data = await fetchWPGraphQL<{ product: WPProductNode }>(query, {
+      id: slug,
+    });
     return data?.product || null;
   } catch (error) {
     console.error(`Failed to fetch product ${slug} from WP.`, error);

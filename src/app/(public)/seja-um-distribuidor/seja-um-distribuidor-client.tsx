@@ -3,32 +3,48 @@
 import Footer from '@/components/footer';
 import { Button, Input } from '@/components/ui';
 import { Textarea } from '@/components/ui/textarea';
+import { getPageBySlug } from '@/lib/api/pages';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
+  const { data: pageData, isLoading } = useQuery({
+    queryKey: ['page', 'seja-um-distribuidor'],
+    queryFn: () => getPageBySlug('seja-um-distribuidor'),
+  });
+
+  const acfData = pageData?.pageDistributor;
+
+  if (isLoading) return null;
+
+  const headerTitle = acfData?.header?.title || 'Seja um distribuidor';
+  const headerDescription =
+    acfData?.header?.description ||
+    'Quer se tornar um distribuidor e levar esse produto para o seu mercado? Preencha seus dados e entraremos em contato!';
+  const formAction =
+    acfData?.form?.formAction ||
+    'https://formsubmit.co/m.sousa@lasforlife.com.br';
+  const formSubject =
+    acfData?.form?.subject || 'Nova solicitação de distribuidor';
+
   return (
     <>
       <section className="w-full max-w-7xl px-3 pt-36 mx-auto flex flex-col gap-3 md:gap-6 py-12">
         <header className="flex flex-col gap-6">
           <h1 className="max-w-60 md:max-w-full mx-auto font-exo2 text-2xl md:text-4xl font-bold text-center">
-            Seja um distribuidor
+            {headerTitle}
           </h1>
           <p className="max-w-2xl w-11/12 mx-auto font-exo2 text-lg text-label text-center">
-            Quer se tornar um distribuidor e levar esse produto para o seu
-            mercado? <br /> Preencha seus dados e entraremos em contato!
+            {headerDescription}
           </p>
         </header>
 
         <form
-          action="https://formsubmit.co/m.sousa@lasforlife.com.br"
+          action={formAction}
           method="POST"
           className="w-full max-w-2xl mx-auto flex flex-col gap-10 mt-10"
         >
           {/* Configurações do FormSubmit */}
-          <input
-            type="hidden"
-            name="_subject"
-            value="Nova solicitação de distribuidor"
-          />
+          <input type="hidden" name="_subject" value={formSubject} />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
           <input

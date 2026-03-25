@@ -110,9 +110,13 @@ const Navbar = ({
       url: `/seja-um-distribuidor`,
     },
   },
-}: Navbar1Props) => {
+  wpMenu,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}: Navbar1Props & { wpMenu?: any[] }) => {
   const [activeSection, setActiveSection] = useState('');
   const { scrollToSection } = useScrollTo();
+
+  const activeMenu = wpMenu && wpMenu.length > 0 ? wpMenu : menu;
 
   const handleMobileNavClick = (item: MenuItem, e: React.MouseEvent) => {
     e.preventDefault();
@@ -151,7 +155,9 @@ const Navbar = ({
               <div className="flex items-center ml-auto">
                 <NavigationMenu>
                   <NavigationMenuList>
-                    {menu.map((item) => renderMenuItem(item, activeSection))}
+                    {activeMenu.map((item) =>
+                      renderMenuItem(item as MenuItem, activeSection),
+                    )}
                   </NavigationMenuList>
                 </NavigationMenu>
               </div>
@@ -209,9 +215,9 @@ const Navbar = ({
                         collapsible
                         className="relative flex w-full flex-col gap-4 px-4 pb-24 z-10 max-h-accordionNav overflow-auto"
                       >
-                        {menu.map((item, idx) =>
+                        {activeMenu.map((item, idx) =>
                           renderMobileMenuItem(
-                            item,
+                            item as MenuItem,
                             idx,
                             handleMobileNavClick,
                             activeSection,

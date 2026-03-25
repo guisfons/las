@@ -12,11 +12,11 @@ interface PopupItem {
   description?: string;
   author?: string;
   type:
-  | 'CATALOG'
-  | 'CASE_REPORTS'
-  | 'ARTICLES'
-  | 'DIRECTIONS_FOR_USE'
-  | 'DEFAULT';
+    | 'CATALOG'
+    | 'CASE_REPORTS'
+    | 'ARTICLES'
+    | 'DIRECTIONS_FOR_USE'
+    | 'DEFAULT';
   url?: string;
   onClick?: () => void;
 }
@@ -24,11 +24,11 @@ interface PopupItem {
 interface PopupState {
   isOpen: boolean;
   type:
-  | 'CATALOG'
-  | 'CASE_REPORTS'
-  | 'ARTICLES'
-  | 'DIRECTIONS_FOR_USE'
-  | 'DEFAULT';
+    | 'CATALOG'
+    | 'CASE_REPORTS'
+    | 'ARTICLES'
+    | 'DIRECTIONS_FOR_USE'
+    | 'DEFAULT';
   title: string;
   items: PopupItem[];
   iconName: string;
@@ -47,11 +47,11 @@ interface PopupContentProps {
   onClose: () => void;
   iconName: string;
   type:
-  | 'CATALOG'
-  | 'CASE_REPORTS'
-  | 'ARTICLES'
-  | 'DIRECTIONS_FOR_USE'
-  | 'DEFAULT';
+    | 'CATALOG'
+    | 'CASE_REPORTS'
+    | 'ARTICLES'
+    | 'DIRECTIONS_FOR_USE'
+    | 'DEFAULT';
 }
 
 interface ContentsProductProps {
@@ -175,7 +175,6 @@ function resolveFileUrl(url: string): string {
 }
 
 export default function ContentsProduct({ product }: ContentsProductProps) {
-
   const [popupState, setPopupState] = useState<PopupState>({
     isOpen: false,
     type: 'DEFAULT',

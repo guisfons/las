@@ -9,18 +9,33 @@ export default function BannerLas({
   link,
   labelLink = 'Saiba Mais',
   imageBanner,
+  acfData,
 }: {
-  title: string;
-  description: string[];
+  title?: string;
+  description?: string[];
   link?: string;
   labelLink?: string;
-  imageBanner: string;
+  imageBanner?: string;
+  acfData?: {
+    title?: string;
+    description?: { text?: string }[];
+    link?: string;
+    imageBanner?: { node?: { sourceUrl?: string } };
+  };
 }) {
+  const displayTitle = acfData?.title || title || '';
+  const displayDescription =
+    acfData?.description && acfData.description.length > 0
+      ? acfData.description.map((d) => d.text || '')
+      : description || [];
+  const displayLink = acfData?.link || link;
+  const displayImageBanner =
+    acfData?.imageBanner?.node?.sourceUrl || imageBanner || '';
   return (
     <section className="relative size-full">
       <figure className="absolute left-0 top-0 w-full h-full -z-10">
         <Image
-          src={imageBanner}
+          src={displayImageBanner}
           width={1920}
           height={1080}
           alt=""
@@ -31,11 +46,11 @@ export default function BannerLas({
       <div className="relative max-w-7xl min-h-[100dvh] mx-auto w-full flex items-center justify-start gap-20 py-24">
         <div className="max-w-[530px]">
           <p className="font-exo2 font-bold text-2xl lg:text-[56px] text-white leading-none">
-            {title}
+            {displayTitle}
           </p>
 
           <div className="max-w-[300px] md:max-w-[565px] flex flex-col gap-6 my-6">
-            {description.map((item, index) => (
+            {displayDescription.map((item, index) => (
               <p
                 key={index}
                 className="font-exo2 font-normal text-base text-white"
@@ -45,9 +60,9 @@ export default function BannerLas({
             ))}
           </div>
 
-          {link && (
+          {displayLink && (
             <Link
-              href={link}
+              href={displayLink}
               className="w-max z-20 mt-10 flex items-center justify-center gap-1 bg-[#F9D229] text-base font-exo2 text-center font-medium rounded-full px-7 py-2 text-[#000000]"
             >
               {labelLink}

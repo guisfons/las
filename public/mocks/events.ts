@@ -64,7 +64,8 @@ export const EVENTS: Evento[] = [
     hours: '',
     month: 'OUTUBRO',
     year: '2025',
-    event: 'II Simpósio Internacional Einstein de Cirurgia Ginecológica Minimamente Invasiva e Robótica',
+    event:
+      'II Simpósio Internacional Einstein de Cirurgia Ginecológica Minimamente Invasiva e Robótica',
     speaker: '',
     moderator: '',
     local: '',

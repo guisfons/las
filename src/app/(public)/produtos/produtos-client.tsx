@@ -13,7 +13,11 @@ import { DialogContent } from '@/components/ui/dialog';
 import Icon from '@/shared/icon/icon';
 import { Product } from './_components/card-product';
 
-export default function Home({ initialProducts }: { initialProducts: Product[] }) {
+export default function Home({
+  initialProducts,
+}: {
+  initialProducts: Product[];
+}) {
   const router = useRouter();
 
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);

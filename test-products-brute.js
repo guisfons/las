@@ -18,13 +18,16 @@ async function test(fieldName) {
     const res = await fetch('https://las-wp.lndo.site/graphql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query })
+      body: JSON.stringify({ query }),
     });
     const json = await res.json();
     if (json.errors) {
       console.log(`Field "${fieldName}" failed:`, json.errors[0].message);
     } else {
-      console.log(`Field "${fieldName}" SUCCESS!`, JSON.stringify(json.data, null, 2));
+      console.log(
+        `Field "${fieldName}" SUCCESS!`,
+        JSON.stringify(json.data, null, 2),
+      );
     }
   } catch (e) {
     console.error('Error:', e.message);
