@@ -9,7 +9,9 @@ interface LasXperienceClientProps {
   pageData: WPPageNode | null;
 }
 
-export default function LasXperienceClient({ pageData }: LasXperienceClientProps) {
+export default function LasXperienceClient({
+  pageData,
+}: LasXperienceClientProps) {
   const acfData = pageData?.pageLasXperience;
 
   return (

@@ -13,7 +13,9 @@ interface TratarDoencaClientProps {
   pageData: WPPageNode | null;
 }
 
-export default function TratarDoencaClient({ pageData }: TratarDoencaClientProps) {
+export default function TratarDoencaClient({
+  pageData,
+}: TratarDoencaClientProps) {
   const acfData = pageData?.pageTreating;
 
   return (

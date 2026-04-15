@@ -15,7 +15,9 @@ export function generateSeoMetadata(
 ): Metadata {
   const title = seo?.title || defaults.title || 'LAS For Life';
   const description =
-    seo?.metaDesc || defaults.description || 'LAS For Life – Saúde para a vida.';
+    seo?.metaDesc ||
+    defaults.description ||
+    'LAS For Life – Saúde para a vida.';
   const ogImage = seo?.opengraphImage?.node?.sourceUrl || defaults.image;
   const twitterImage = seo?.twitterImage?.node?.sourceUrl || ogImage;
 
