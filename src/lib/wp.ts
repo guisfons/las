@@ -2,12 +2,17 @@ export async function fetchWPGraphQL<T = unknown>(
   query: string,
   variables: Record<string, unknown> = {},
 ): Promise<T> {
-  const wpUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+  let wpUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
   if (!wpUrl) {
     throw new Error(
       'The environment variable NEXT_PUBLIC_WORDPRESS_API_URL is missing. Please add it to .env.local',
     );
+  }
+
+  // Ensure the URL ends with /graphql
+  if (!wpUrl.endsWith('/graphql')) {
+    wpUrl = wpUrl.replace(/\/$/, '') + '/graphql';
   }
 
   // Bypass SSL verification in development for Lando/Local
