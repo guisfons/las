@@ -1,0 +1,103 @@
+'use client';
+
+import Footer from '@/components/footer';
+import { WPPageNode } from '@/lib/types/pages';
+
+// Array de produtos (fallback quando WP não retorna dados)
+const defaultProducts = [
+  { brand: 'ACF Medical', name: 'Lâminas Cirúrgicas ACF', anvisa: '80517190022', fileUrl: '/pdfs/instructions/Laminas-ACF.pdf' },
+  { brand: 'ACF Medical', name: 'Lâminas para Serra Cirúrgica', anvisa: '80517199006', fileUrl: '/pdfs/instructions/Laminas-Cirurgicas.pdf' },
+  { brand: 'ACF Medical', name: 'Sistema de Ferramenta Elétrica Cirúrgica', anvisa: '80517199007', fileUrl: '/pdfs/instructions/Serra-e-Perfurador-ACF.pdf' },
+  { brand: 'CellColt MDL', name: 'Kit Cirúrgico CellColt', anvisa: '80517199005', fileUrl: '/pdfs/instructions/CellColt.pdf' },
+  { brand: 'CellColt Care', name: 'CellColt Care', anvisa: '80517199008', fileUrl: '/pdfs/instructions/Rev01.pdf' },
+  { brand: 'CellHarvest', name: 'CellHarvest', anvisa: '80517199011', fileUrl: '/pdfs/instructions/Rev.02-1.pdf' },
+  { brand: 'EasyCore Hip', name: 'EasyCore Hip', anvisa: '80517190016', fileUrl: '/pdfs/instructions/IU_EASYCORE_Instrumental_03.2023.PDF' },
+  { brand: 'EasyCore Hip', name: 'Lâmina expansível descartável EasyCore Hip', anvisa: '80517199001', fileUrl: '/pdfs/instructions/Lamina-EasyCore.pdf' },
+  { brand: 'EasyCore Hip', name: 'Kit Cânula Para Necrose Avascular Do Quadril', anvisa: '10243070088', fileUrl: '/pdfs/instructions/Kit-Canula-Avascular-do-Quadril.pdf' },
+  { brand: 'EasyFill', name: 'Kit Descartável Para Osteocondroplastia De Joelho Macom', anvisa: '10243070056', fileUrl: '/pdfs/instructions/Kit-para-osteocondroplastia-de-Joelho_EasyFill.pdf' },
+  { brand: 'EasyFill', name: 'Kit Descartável De Osteocondroplastia Para Pequenas Articulações Macom – Easy Fill Small Joints', anvisa: '10243079008', fileUrl: '/pdfs/instructions/Kit-para-Osteocondroplastia-de-pequenas-articulacoes_Easyfill.pdf' },
+  { brand: 'Fziomed', name: 'Dynavisc', anvisa: '80517190037', fileUrl: '/pdfs/instructions/IFU_Dynavisc_02402B-Draft.pdf' },
+  { brand: 'Fziomed', name: 'Interpose', anvisa: '80517190034', fileUrl: '/pdfs/instructions/IFU_Interpose_02391B-Draft.pdf' },
+  { brand: 'Fziomed', name: 'Oxiplex/AP', anvisa: '80517190041', fileUrl: '/pdfs/instructions/OXIPLEX-AP.pdf' },
+  { brand: 'Fziomed', name: 'Oxiplex/IU', anvisa: '80517190040', fileUrl: '/pdfs/instructions/Oxiplex-IU.pdf' },
+  { brand: 'MedEnvision', name: 'Retrator de Acesso Cirúrgico – GRIPPER', anvisa: '80517190032', fileUrl: '/pdfs/instructions/Gripper.pdf' },
+  { brand: 'MedEnvision', name: 'Afastadores Cirúrgicos MedEnvision', anvisa: '80517190039', fileUrl: '/pdfs/instructions/afast-gripper.pdf' },
+  { brand: 'MedEnvision', name: 'EsySuit', anvisa: '80517190042', fileUrl: '/pdfs/instructions/EsySuit.pdf' },
+  { brand: 'Neurosign', name: 'Probe Estéril para Neurosign', anvisa: '80517190004', fileUrl: '/pdfs/instructions/PROBES.pdf' },
+  { brand: 'Neurosign', name: 'Eletrodo de Laringe', anvisa: '80517190005', fileUrl: '/pdfs/instructions/eletrodo-laringe.pdf' },
+  { brand: 'Neurosign', name: 'Eletrodo Estéril para Neurosign', anvisa: '80517190006', fileUrl: '/pdfs/instructions/eletrodo-agulha.pdf' },
+  { brand: 'Neurosign', name: 'Eletrodo Cirúrgico para Neurosign Magstim', anvisa: '80517190007', fileUrl: '/pdfs/instructions/eletrodos-cirurgicos.pdf' },
+  { brand: 'Neurosign', name: 'Neuromonitor Neurosign V4', anvisa: '80517190035', fileUrl: '/pdfs/instructions/Neurosing-V4.pdf' },
+  { brand: 'Osartis', name: 'Pulsaclean: Sistema de Lavagem Pulsada Descartável', anvisa: '80517199003', fileUrl: '/pdfs/instructions/PulsaClean.pdf' },
+  { brand: 'Osartis', name: 'Perossal', anvisa: '80517190044', fileUrl: '/pdfs/instructions/PEROSSAL.pdf' },
+  { brand: 'QuickDraw', name: 'Conjunto Instrumental QuickDraw BR', anvisa: '80517190043', fileUrl: '/pdfs/instructions/Conj-QuickDraw-BR.pdf' },
+  { brand: 'QuickDraw', name: 'Cânula coletora de enxerto autólogo com ponta cortante QuickDraw', anvisa: '80517199004', fileUrl: '/pdfs/instructions/Canula-QuickDraw.pdf' },
+  { brand: 'SafeView', name: 'Kit Safeview – Sistema Endoscópico De Liberação De Tecidos Moles', anvisa: '80517190033', fileUrl: '/pdfs/instructions/SafeView-A.pdf' },
+  { brand: 'SafeView', name: 'Kit Safeview-R – Sistema Endoscópico De Liberação De Tecidos Moles, Corte Reverso', anvisa: '80517190038', fileUrl: '/pdfs/instructions/SafeView-R.pdf' },
+  { brand: 'Spinemed', name: 'Spinemed', anvisa: '80517190003', fileUrl: '/pdfs/instructions/WI-080-EXPRESS-Operator-Manual-E-Series-v2.1-Portuguese.pdf' },
+];
+
+interface InstrucoesClientProps {
+  pageData: WPPageNode | null;
+}
+
+export default function InstrucoesClient({ pageData }: InstrucoesClientProps) {
+  const acfData = pageData?.pageInstructions;
+
+  const displayTitle = acfData?.titleHeader || 'Instruções de uso dos produtos';
+
+  const products =
+    acfData?.productsList && acfData.productsList.length > 0
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        acfData.productsList.map((item: any) => ({
+          brand: item.brand || '',
+          name: item.name || '',
+          anvisa: item.anvisa || '',
+          fileUrl: item.fileUrl?.node?.sourceUrl || '#',
+        }))
+      : defaultProducts;
+
+  return (
+    <>
+      <section className="w-full max-w-7xl px-3 pt-36 mx-auto flex flex-col gap-3 md:gap-6 py-12">
+        <header className="flex flex-col gap-6">
+          <h1 className="max-w-60 md:max-w-full mx-auto font-exo2 text-2xl md:text-4xl font-bold text-center">
+            {displayTitle}
+          </h1>
+        </header>
+      </section>
+
+      <section className="relative z-20 max-w-7xl px-6 pt-20 mx-auto w-full flex flex-col md:flex-row items-center md:items-start md:justify-between">
+        <h2 className="w-full max-w-md font-exo2 font-semibold text-2xl md:text-4xl text-black">
+          Baixe aqui as instruções de uso dos produtos
+        </h2>
+
+        <article className="w-full flex flex-col gap-5 mb-10">
+          {products.map((item, index) => (
+            <div
+              key={index}
+              className="border border-gray-200 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between"
+            >
+              <div className="flex flex-col">
+                <span className="font-semibold text-lg">{item.name}</span>
+                <span className="text-sm text-gray-600">
+                  <strong>{item.brand}</strong> • Anvisa nº {item.anvisa}
+                </span>
+              </div>
+              <a
+                href={item.fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#73CC00] font-exo2 py-3 px-6 rounded-full text-center text-white"
+              >
+                Baixar PDF
+              </a>
+            </div>
+          ))}
+        </article>
+      </section>
+
+      <Footer />
+    </>
+  );
+}

@@ -4,18 +4,16 @@ import Footer from '@/components/footer';
 import TechnicalHero from './_components/technical-hero';
 import TechnicalForm from './_components/technical-form';
 import WhatAreTechnicalForms from './_components/what-are-technical';
-import { getPageBySlug } from '@/lib/api/pages';
-import { useQuery } from '@tanstack/react-query';
+import { WPPageNode } from '@/lib/types/pages';
 
-export default function ServicosTecnicosClient() {
-  const { data: pageData, isLoading } = useQuery({
-    queryKey: ['page', 'servicos-tecnicos'],
-    queryFn: () => getPageBySlug('servicos-tecnicos'),
-  });
+interface ServicosTecnicosClientProps {
+  pageData: WPPageNode | null;
+}
 
+export default function ServicosTecnicosClient({
+  pageData,
+}: ServicosTecnicosClientProps) {
   const acfData = pageData?.pageTechnical;
-
-  if (isLoading) return null;
 
   return (
     <>

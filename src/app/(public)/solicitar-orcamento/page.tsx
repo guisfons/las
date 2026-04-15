@@ -1,6 +1,17 @@
+import { Metadata } from 'next';
 import Footer from '@/components/footer';
 import BudgetForm from './_components/form';
 import { getPageBySlug } from '@/lib/api/pages';
+import { generateSeoMetadata } from '@/lib/utils/seo';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = await getPageBySlug('solicitar-orcamento');
+  return generateSeoMetadata(pageData?.seo, {
+    title: 'Solicitar Orçamento | LAS For Life',
+    description:
+      'Solicite um orçamento personalizado para sua região e especialidade com a LAS For Life.',
+  });
+}
 
 export default async function Home() {
   const pageData = await getPageBySlug('solicitar-orcamento');

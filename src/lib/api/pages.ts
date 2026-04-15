@@ -7,6 +7,26 @@ const PAGE_FIELDS = `
   slug
   title
 
+  seo {
+    title
+    metaDesc
+    canonical
+    opengraphTitle
+    opengraphDescription
+    opengraphImage {
+      node {
+        sourceUrl
+      }
+    }
+    twitterTitle
+    twitterDescription
+    twitterImage {
+      node {
+        sourceUrl
+      }
+    }
+  }
+
   pageHome {
     aboutUs {
       logo {

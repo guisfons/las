@@ -1,42 +1,18 @@
-'use client';
-
-import Footer from '@/components/footer';
-import HeaderLas from '../../_components/header-las';
-import GridPictures from '../../articular-o-ecossistema/_components/grid-pictures';
+import { Metadata } from 'next';
 import { getPageBySlug } from '@/lib/api/pages';
-import { useQuery } from '@tanstack/react-query';
+import { generateSeoMetadata } from '@/lib/utils/seo';
+import LasXpertsClient from './las-xperts-client';
 
-export default function Home() {
-  const { data: pageData, isLoading } = useQuery({
-    queryKey: ['page', 'las-xperts'],
-    queryFn: () => getPageBySlug('las-xperts'),
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = await getPageBySlug('las-xperts');
+  return generateSeoMetadata(pageData?.seo, {
+    title: 'LAS Xperts | LAS For Life',
+    description:
+      'Nossos produtos nas mãos dos médicos, em projetos de Medicina Baseada em Evidência.',
   });
-  const acfData = pageData?.pageLasXperts;
+}
 
-  if (isLoading) return null;
-  return (
-    <>
-      <HeaderLas
-        logo={
-          acfData?.howWeDoItToday?.logo?.node?.sourceUrl || '/las-xperts.png'
-        }
-        description={
-          acfData?.howWeDoItToday?.description?.map((d) => d.text || '') || [
-            'Nossos produtos nas mãos dos médicos, em projetos de Medicina Baseada em Evidência. Foram 32 Estudos de Caso publicados em 2024.',
-          ]
-        }
-      ></HeaderLas>
-
-      <GridPictures
-        pictures={[
-          '/images/las-screen/grid-las-xperts-1.png',
-          '/images/las-screen/grid-las-xperts-2.png',
-          '/images/las-screen/grid-las-xperts-3.png',
-          '/images/las-screen/grid-las-xperts-4.png',
-        ]}
-      />
-
-      <Footer />
-    </>
-  );
+export default async function LasXpertsPage() {
+  const pageData = await getPageBySlug('las-xperts');
+  return <LasXpertsClient pageData={pageData} />;
 }

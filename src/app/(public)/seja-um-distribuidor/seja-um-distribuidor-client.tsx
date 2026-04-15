@@ -3,18 +3,14 @@
 import Footer from '@/components/footer';
 import { Button, Input } from '@/components/ui';
 import { Textarea } from '@/components/ui/textarea';
-import { getPageBySlug } from '@/lib/api/pages';
-import { useQuery } from '@tanstack/react-query';
+import { WPPageNode } from '@/lib/types/pages';
 
-export default function Home() {
-  const { data: pageData, isLoading } = useQuery({
-    queryKey: ['page', 'seja-um-distribuidor'],
-    queryFn: () => getPageBySlug('seja-um-distribuidor'),
-  });
+interface SejaUmDistribuidorClientProps {
+  pageData: WPPageNode | null;
+}
 
+export default function Home({ pageData }: SejaUmDistribuidorClientProps) {
   const acfData = pageData?.pageDistributor;
-
-  if (isLoading) return null;
 
   const headerTitle = acfData?.header?.title || 'Seja um distribuidor';
   const headerDescription =

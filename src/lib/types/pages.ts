@@ -5,6 +5,21 @@ export type WPTextGroup = {
 };
 
 // =======================
+// Yoast SEO (WPGraphQL SEO plugin)
+// =======================
+export type WPSeo = {
+  title?: string;
+  metaDesc?: string;
+  canonical?: string;
+  opengraphTitle?: string;
+  opengraphDescription?: string;
+  opengraphImage?: WPImage;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: WPImage;
+};
+
+// =======================
 // Home
 // =======================
 export type WPPageHomeAcf = {
@@ -245,6 +260,8 @@ export type WPPageNode = {
   databaseId: number;
   slug: string;
   title: string;
+
+  seo?: WPSeo;
 
   pageHome?: WPPageHomeAcf;
   pageArticulate?: WPPageArticulateAcf;
