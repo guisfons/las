@@ -10,8 +10,8 @@ export async function fetchWPGraphQL<T = unknown>(
     );
   }
 
-  // Ensure the URL ends with /graphql
-  if (!wpUrl.endsWith('/graphql')) {
+  // Ensure the URL contains graphql (either as a path or query param)
+  if (!wpUrl.includes('graphql')) {
     wpUrl = wpUrl.replace(/\/$/, '') + '/graphql';
   }
 
