@@ -79,7 +79,7 @@ export default function CardProduct({ product }: { product: Product }) {
 
         <Link
           // href={`/products`}
-          href={`/produtos/${slugify(product.name)}`}
+          href={`/produtos/${product.slug}`}
           className="border border-line rounded-full p-2 px-4 bg-white text-black font-light font-exo2 text-sm hover:bg-line hover:text-white transition-colors duration-300 ease-in-out"
         >
           Saiba Mais

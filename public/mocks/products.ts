@@ -3154,5 +3154,5 @@ const RAW_PRODUCTS: Product[] = [
 
 export const ALL_PRODUCTS = RAW_PRODUCTS.map((product) => ({
   ...product,
-  slug: slugify(product.name),
+  slug: product.slug || slugify(product.name),
 }));
