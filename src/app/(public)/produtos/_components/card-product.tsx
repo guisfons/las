@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-
 export interface Product {
   id: number;
   slug: string;
