@@ -33,18 +33,21 @@ export function mapWPProductToProduct(wpProduct: WPProductNode): Product {
         ) || [],
       pictures: acf?.pictures?.nodes?.map((img) => img.sourceUrl) || [],
       links:
-        acf?.links?.map((link) => ({
-          title: link.title || '',
-          url: link.fileUrl || '',
-          file_name: link.fileName || '',
-          type:
-            (link.type as
-              | 'DEFAULT'
-              | 'CATALOG'
-              | 'CASE_REPORTS'
-              | 'ARTICLES'
-              | 'DIRECTIONS_FOR_USE') || 'DEFAULT',
-        })) || [],
+        acf?.links?.map((link) => {
+          const rawType = Array.isArray(link.type) ? link.type[0] : link.type;
+          return {
+            title: link.title || '',
+            url: link.fileUrl || '',
+            file_name: link.fileName || '',
+            type:
+              (rawType as
+                | 'DEFAULT'
+                | 'CATALOG'
+                | 'CASE_REPORTS'
+                | 'ARTICLES'
+                | 'DIRECTIONS_FOR_USE') || 'DEFAULT',
+          };
+        }) || [],
       videos:
         acf?.videos?.map((v) => ({
           description: v.description || '',

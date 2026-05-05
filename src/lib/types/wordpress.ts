@@ -33,7 +33,7 @@ export type WPProductAcf = {
     title?: string;
     fileUrl?: string; // the actual uploaded file or external url
     fileName?: string;
-    type?: string;
+    type?: string | string[];
   }[];
   videos?: {
     description?: string;
