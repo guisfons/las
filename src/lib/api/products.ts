@@ -7,9 +7,22 @@ const PRODUCT_FIELDS = `
   databaseId
   slug
   title
+  productSpecialities {
+    nodes {
+      name
+    }
+  }
+  productBrands {
+    nodes {
+      name
+    }
+  }
+  productTags {
+    nodes {
+      name
+    }
+  }
   productacf {
-    specialities
-    brands
     logoBrand {
       node {
         sourceUrl
@@ -30,7 +43,6 @@ const PRODUCT_FIELDS = `
     }
     description
     subtitle
-    tags
     about {
       point
     }

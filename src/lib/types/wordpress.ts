@@ -8,14 +8,11 @@ export type WPImage = {
 };
 
 export type WPProductAcf = {
-  specialities?: string[];
-  brands?: string[];
   logoBrand?: WPImage;
   logoBrandSecond?: WPImage;
   imageUrl?: WPImage;
   description?: string;
   subtitle?: string;
-  tags?: string[];
   about?: {
     point?: string;
   }[];
@@ -55,6 +52,9 @@ export type WPProductNode = {
   slug: string;
   title: string;
   productacf?: WPProductAcf;
+  productSpecialities?: { nodes: { name: string }[] };
+  productBrands?: { nodes: { name: string }[] };
+  productTags?: { nodes: { name: string }[] };
 };
 
 export type WPProductsConnection = {

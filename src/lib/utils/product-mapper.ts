@@ -8,15 +8,16 @@ export function mapWPProductToProduct(wpProduct: WPProductNode): Product {
     id: wpProduct.databaseId,
     name: wpProduct.title,
     slug: wpProduct.slug, // Adding slug as it is used in the frontend
-    specialities: acf?.specialities || [],
-    brands: acf?.brands || [],
+    specialities:
+      wpProduct.productSpecialities?.nodes?.map((n) => n.name) || [],
+    brands: wpProduct.productBrands?.nodes?.map((n) => n.name) || [],
     logo_brand: acf?.logoBrand?.node?.sourceUrl,
     logo_brand_second: acf?.logoBrandSecond?.node?.sourceUrl,
     description: acf?.description || '',
     imageUrl: acf?.imageUrl?.node?.sourceUrl || '/placeholder.svg',
     detail: {
       subtitle: acf?.subtitle || '',
-      tags: acf?.tags || [],
+      tags: wpProduct.productTags?.nodes?.map((n) => n.name) || [],
       // map repeater to array of strings
       about:
         acf?.about?.map((item) => item.point).filter((p): p is string => !!p) ||
