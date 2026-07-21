@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getMediaBySlug } from '@/lib/api/media';
 
 /**
  * Rota de proxy de mídias: /midias/[...slug]
@@ -8,11 +7,18 @@ import { getMediaBySlug } from '@/lib/api/media';
  * sempre vê lasforlife.com.br/midias/nomedodoc.
  * Isso permite rastrear acessos via Google Analytics.
  *
- * Para cadastrar uma mídia:
- *   1. Acesse o WordPress Admin → Mídias (CPT)
- *   2. Crie um novo item com um slug amigável (ex: "bula-neurosign")
- *   3. Cole a URL do arquivo (pode ser do WP, Drive, Dropbox, etc.)
- *   4. O link para o usuário será: lasforlife.com.br/midias/bula-neurosign
+ * COMO ADICIONAR UMA MÍDIA:
+ *   Adicione uma entrada no STATIC_MEDIA_MAP abaixo:
+ *   'slug-amigavel': 'https://url-do-arquivo.pdf'
+ *
+ *   O link para o usuário será: lasforlife.com.br/midias/slug-amigavel
+ *
+ * INTEGRAÇÃO COM WORDPRESS (futura):
+ *   Quando o CPT "Mídia" for criado no WP, descomentar a importação:
+ *   import { getMediaBySlug } from '@/lib/api/media';
+ *   E adicionar antes do STATIC_MEDIA_MAP:
+ *   const media = await getMediaBySlug(slug);
+ *   fileUrl = media?.mediaacf?.fileUrl;
  */
 export async function GET(
   _req: NextRequest,
@@ -20,16 +26,8 @@ export async function GET(
 ) {
   const slug = params.slug.join('/');
 
-  let fileUrl: string | undefined;
-
-  // 1. Tenta buscar do WordPress (CPT "Mídia")
-  const media = await getMediaBySlug(slug);
-  fileUrl = media?.mediaacf?.fileUrl;
-
-  // 2. Fallback: mapa estático (útil antes de ter o CPT configurado no WP)
-  if (!fileUrl) {
-    fileUrl = STATIC_MEDIA_MAP[slug];
-  }
+  // Busca no mapa estático
+  const fileUrl = STATIC_MEDIA_MAP[slug];
 
   if (!fileUrl) {
     return new NextResponse(
