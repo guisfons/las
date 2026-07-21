@@ -20,9 +20,16 @@ export async function POST(request: NextRequest) {
       revalidatePath('/', 'layout');
     }
 
-    return NextResponse.json({ revalidated: true, now: Date.now(), path: path || 'all' });
+    return NextResponse.json({
+      revalidated: true,
+      now: Date.now(),
+      path: path || 'all',
+    });
   } catch (err) {
     console.error('Error revalidating:', err);
-    return NextResponse.json({ message: 'Error revalidating' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Error revalidating' },
+      { status: 500 },
+    );
   }
 }
