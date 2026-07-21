@@ -46,7 +46,7 @@ export default function Home({ pageData }: SejaUmDistribuidorClientProps) {
           <input
             type="hidden"
             name="_next"
-            value="https://seusite.com/obrigado"
+            value="https://lasforlife.com.br/seja-um-distribuidor?enviado=true"
           />
 
           <div>

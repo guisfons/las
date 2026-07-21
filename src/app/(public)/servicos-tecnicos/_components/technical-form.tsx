@@ -26,7 +26,7 @@ export default function TechnicalForm({
     acfData?.description ||
     'Para solicitação de serviços técnicos, por favor, solicitamos o preenchimento do formulário abaixo. Após o recebimento das informações, nossa equipe técnica irá analisar a solicitação e entrará em contato.';
   const formAction =
-    acfData?.formAction || 'https://formsubmit.co/gui.santana19@hotmail.com';
+    acfData?.formAction || 'https://formsubmit.co/m.sousa@lasforlife.com.br';
 
   const {
     register,
@@ -108,8 +108,8 @@ export default function TechnicalForm({
       formData.append('_template', 'table');
       formData.append(
         '_next',
-        typeof window !== 'undefined' ? window.location.href : '',
-      ); // URL de retorno
+        'https://lasforlife.com.br/servicos-tecnicos?enviado=true',
+      );
       formData.append('name', data.name);
       formData.append('cnpj', data.cnpj);
       formData.append('phone', data.phone);

@@ -26,11 +26,17 @@ type Props = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://lasforlife.com.br',
+  ),
   title: {
-    default: 'LAS',
-    template: '%s | LAS',
+    default: 'LAS For Life | Saúde para a vida',
+    template: '%s | LAS For Life',
   },
-  description: 'LAS',
+  description: 'LAS For Life – Saúde para a vida.',
+  verification: {
+    google: 'gOdDm5gusQ5L0ct9RtMDyCaeKwi6F_10ytEGyudd8_c',
+  },
 };
 
 export default async function LocaleLayout({ children }: Props) {

@@ -24,6 +24,11 @@ function FormInner({ formAction }: { formAction: string }) {
       <input type="hidden" name="_captcha" value="false" />
       <input type="hidden" name="_template" value="table" />
       {/* <input type="hidden" name="_next" value="https://seusite.com/obrigado" /> */}
+      <input
+        type="hidden"
+        name="_next"
+        value="https://lasforlife.com.br/solicitar-orcamento?enviado=true"
+      />
 
       <input
         title="product"
