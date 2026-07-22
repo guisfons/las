@@ -32,7 +32,7 @@ export default function Carroussel({
         'Após anos tentando engravidar, com o suporte do gel de barreira de adesão Oxiplex/IU, ela transformou a esperança em realidade.',
       logo_one: '/oniplex.png',
       logo_two: '/logo.svg',
-      url: '/produtos/oxiplexiu',
+      url: '/produtos/oxiplex-iu',
     },
     {
       img: '/products/babyAndGrandfather.png',
