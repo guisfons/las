@@ -24,44 +24,44 @@ export default function AboutExpansion({ product }: { product: Product }) {
     },
     {
       number: '02',
+      title: 'Unidades de Atendimento',
+      content: <UnidadesProduct />,
+      is_active: product.slug === 'spinemed',
+    },
+    {
+      number: '03',
       title: 'Dados Técnicos',
       content: <TechnicalDataProduct product={product}></TechnicalDataProduct>,
       is_active: (product.detail?.technical_data || []).length > 0,
     },
     // {
-    //   number: '03',
+    //   number: '04',
     //   title: 'Preços e Comercial',
     //   content: <p> - </p>,
     // },
     {
-      number: '03',
+      number: '05',
       title: 'Conteúdo',
       content: <ContentsProduct product={product} />,
       is_active: true,
     },
     {
-      number: '04',
+      number: '06',
       title: 'Depoimentos',
       content: <ProductTestimonials product={product}></ProductTestimonials>, // ← Substitui VideoProduct
       is_active: product.detail?.testimonial?.doctor?.name !== '',
     },
     {
-      number: '05',
+      number: '07',
       title: 'Imagens e Mídias',
       content: <MediasProduct product={product}></MediasProduct>,
       is_active: true,
     },
     {
-      number: '06',
+      number: '08',
       title: 'Referências',
       content: <SourceProduct product={product}></SourceProduct>,
       is_active: true,
-    },
-    {
-      number: '07',
-      title: 'Unidades',
-      content: <UnidadesProduct />,
-      is_active: product.slug === 'spinemed',
     },
   ];
 
