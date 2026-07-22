@@ -8,6 +8,7 @@ import MediasProduct from './expansion/medias-product';
 import ContentsProduct from './expansion/contents-product';
 import ProductTestimonials from './expansion/product-testimonials';
 import SourceProduct from './expansion/source-product';
+import UnidadesProduct from './expansion/unidades-product';
 
 export default function AboutExpansion({ product }: { product: Product }) {
   const expansion = [
@@ -55,6 +56,12 @@ export default function AboutExpansion({ product }: { product: Product }) {
       title: 'Referências',
       content: <SourceProduct product={product}></SourceProduct>,
       is_active: true,
+    },
+    {
+      number: '07',
+      title: 'Unidades',
+      content: <UnidadesProduct />,
+      is_active: product.slug === 'spinemed',
     },
   ];
 
