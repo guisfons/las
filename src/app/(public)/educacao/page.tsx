@@ -7,7 +7,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('educacao');
   return generateSeoMetadata(pageData?.seo, {
     title: 'Educação | LAS For Life',
-    description: 'Promovemos educação médica continuada e trilhas de conhecimento para transformar o mercado da saúde.',
+    description:
+      'Promovemos educação médica continuada e trilhas de conhecimento para transformar o mercado da saúde.',
   });
 }
 

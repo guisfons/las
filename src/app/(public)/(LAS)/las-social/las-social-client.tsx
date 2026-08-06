@@ -29,7 +29,10 @@ export default function LasSocialClient({ pageData }: LasSocialClientProps) {
           ]
         }
         reverse={true}
-        link={acfData?.howWeDoItToday?.link || 'https://https://www.lasforlife.com.br//las-social/'}
+        link={
+          acfData?.howWeDoItToday?.link ||
+          'https://https://www.lasforlife.com.br//las-social/'
+        }
       />
 
       <BannerLas
