@@ -40,7 +40,7 @@ export default function ForHealth({
       background: 'bg-[#00B5C8]',
       image: 'bg-articulatedEcosystem',
       text: 'Unimos diferentes agentes do setor para pensar, cocriar e construir um sistema de saúde mais eficiente, acessível e integrado.',
-      link: '/articulate-the-ecosystem',
+      link: '/articular-o-ecossistema',
     },
     {
       label: 'Promover Educação',
