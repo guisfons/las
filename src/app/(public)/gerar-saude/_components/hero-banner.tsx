@@ -36,7 +36,10 @@ export default function HeroBanner({
   const displayDescription = acfData?.description || description;
   const displayLabel = acfData?.label || label;
   const displayLink = acfData?.link || link || '/solicitar-orcamento';
-  const displayImageLine = acfData?.imageLine?.node?.sourceUrl || acfData?.imageLine?.sourceUrl || imageLine;
+  const displayImageLine =
+    acfData?.imageLine?.node?.sourceUrl ||
+    acfData?.imageLine?.sourceUrl ||
+    imageLine;
 
   return (
     <section
