@@ -32,7 +32,7 @@ export default function LasSportsClient({ pageData }: LasSportsClientProps) {
         reverse={true}
         link={
           acfData?.howWeDoItToday?.link ||
-          'https://https://www.lasforlife.com.br//las-sports/'
+          'https://www.lasforlife.com.br/las-sports/'
         }
       />
 

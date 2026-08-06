@@ -25,7 +25,7 @@ export default function HeroBanner({
   classNameBotton?: string;
   link?: string;
   acfData?: {
-    imageLine?: { node?: { sourceUrl?: string } };
+    imageLine?: { node?: { sourceUrl?: string }; sourceUrl?: string };
     title?: string;
     description?: string;
     label?: string;
