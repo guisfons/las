@@ -183,6 +183,11 @@ const PAGE_FIELDS = `
     }
   }
 
+  pageTreating {
+    heroBanner {
+      imageLine {
+        sourceUrl
+      }
       title
       description
       label
@@ -198,6 +203,11 @@ const PAGE_FIELDS = `
     }
   }
 
+  pageGenerate {
+    heroBanner {
+      imageLine {
+        sourceUrl
+      }
       title
       description
       label
@@ -249,6 +259,17 @@ const PAGE_FIELDS = `
     }
   }
 
+  pageGeneric {
+    headerTitle
+    headerDescription
+    formAction
+  }
+
+  pageLasSports {
+    howWeDoItToday {
+      banner {
+        sourceUrl
+      }
       logo {
         sourceUrl
       }
@@ -280,7 +301,30 @@ const PAGE_FIELDS = `
     }
   }
 
+  pageLasSocial {
+    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
+    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+  }
 
+  pageLasClubs {
+    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
+    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+  }
+
+  pageLasTalks {
+    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
+    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+  }
+
+  pageLasXperience {
+    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
+    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+  }
+
+  pageLasXperts {
+    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
+    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+  }
 `;
 
 export async function getAllPages(): Promise<WPPageNode[]> {
