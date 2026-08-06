@@ -12,6 +12,7 @@ export default function HeroBanner({
   classNameDescription,
   classNameBanner,
   classNameBotton,
+  link,
   acfData,
 }: {
   imageLine: string;
@@ -22,17 +23,20 @@ export default function HeroBanner({
   classNameDescription?: string;
   classNameBanner?: string;
   classNameBotton?: string;
+  link?: string;
   acfData?: {
     imageLine?: { node?: { sourceUrl?: string } };
     title?: string;
     description?: string;
     label?: string;
+    link?: string;
   };
 }) {
   const displayTitle = acfData?.title || title;
   const displayDescription = acfData?.description || description;
   const displayLabel = acfData?.label || label;
-  const displayImageLine = acfData?.imageLine?.node?.sourceUrl || imageLine;
+  const displayLink = acfData?.link || link || '/solicitar-orcamento';
+  const displayImageLine = acfData?.imageLine?.node?.sourceUrl || acfData?.imageLine?.sourceUrl || imageLine;
 
   return (
     <section
@@ -69,7 +73,7 @@ export default function HeroBanner({
         </p>
 
         <Link
-          href={'/education#Initiatives'}
+          href={displayLink}
           className={cn(
             'min-w-max z-20 flex items-center justify-center gap-1 text-base font-exo2 text-center font-medium rounded-full px-7 py-2',
             classNameBotton,
