@@ -32,7 +32,7 @@ export default function EducationBanner() {
         </p>
 
         <Link
-          href={'/education#Initiatives'}
+          href={'/educacao#Initiatives'}
           className="min-w-max z-20 flex items-center justify-center gap-1 bg-white text-base font-exo2 text-center font-medium rounded-full px-7 py-2 text-[#000000]"
         >
           Faça Parte <Icon name="arrow_right"></Icon>

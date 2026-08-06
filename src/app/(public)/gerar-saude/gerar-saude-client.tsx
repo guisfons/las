@@ -64,7 +64,7 @@ export default function GerarSaudeClient({ pageData }: GerarSaudeClientProps) {
         description={[
           'Acreditamos que cuidar da saúde começa por quem está com a gente todos os dias. Por isso, nossos colaboradores podem iniciar o expediente uma hora mais tarde para se dedicarem à prática de exercícios. Uma rotina com mais energia, equilíbrio e bem-estar é o primeiro passo para gerar saúde de verdade.',
         ]}
-        link="https://las.com.br/sobre-nos/#nossa-cultura"
+        link="https://https://www.lasforlife.com.br//sobre-nos/#nossa-cultura"
         imageBanner="/images/generate-health/banner-walking.png"
         acfData={acfData?.bannerLas}
       />

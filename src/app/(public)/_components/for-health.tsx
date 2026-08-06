@@ -47,7 +47,7 @@ export default function ForHealth({
       background: 'bg-[#0072ac]',
       image: 'bg-promoteEducation',
       text: 'Acreditamos no poder do conhecimento. Criamos espaços de troca entre médicos, distribuidores e fabricantes - e também levamos informação para os pacientes.',
-      link: '/education',
+      link: '/educacao',
     },
   ];
 
