@@ -14,32 +14,24 @@ const PAGE_FIELDS = `
     opengraphTitle
     opengraphDescription
     opengraphImage {
-      node {
-        sourceUrl
-      }
+      sourceUrl
     }
     twitterTitle
     twitterDescription
     twitterImage {
-      node {
-        sourceUrl
-      }
+      sourceUrl
     }
   }
 
   pageHome {
     aboutUs {
       logo {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       titlePlus
       description
       image {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       bottomTitle
       bottomDescription
@@ -58,21 +50,15 @@ const PAGE_FIELDS = `
       description
       items {
         img {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
         title
         description
         logoOne {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
         logoTwo {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
         url
       }
@@ -83,9 +69,7 @@ const PAGE_FIELDS = `
       gallery {
         alf
         url {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
       }
     }
@@ -96,21 +80,15 @@ const PAGE_FIELDS = `
         number
         symbol
         icon {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
         backgroundImage {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
       }
       estatistics {
         icon {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
         bg
         title
@@ -118,18 +96,14 @@ const PAGE_FIELDS = `
         symbol
       }
       wavesImage {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
     }
     contact {
       title
       subtitle
       image {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       formAction
     }
@@ -151,9 +125,7 @@ const PAGE_FIELDS = `
       title
       description
       backgroundImage {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
     }
     whatIs {
@@ -174,9 +146,7 @@ const PAGE_FIELDS = `
   pageArticulate {
     heroBanner {
       imageLine {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       title
       description
@@ -184,9 +154,7 @@ const PAGE_FIELDS = `
     }
     howWeDoItToday {
       banner {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       title
       description {
@@ -201,9 +169,7 @@ const PAGE_FIELDS = `
       events {
         title
         picture {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
       }
     }
@@ -217,22 +183,13 @@ const PAGE_FIELDS = `
     }
   }
 
-  pageTreating {
-    heroBanner {
-      imageLine {
-        node {
-          sourceUrl
-        }
-      }
       title
       description
       label
     }
     howWeDoItToday {
       banner {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       title
       description {
@@ -241,22 +198,13 @@ const PAGE_FIELDS = `
     }
   }
 
-  pageGenerate {
-    heroBanner {
-      imageLine {
-        node {
-          sourceUrl
-        }
-      }
       title
       description
       label
     }
     howWeDoItToday {
       banner {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       title
       description {
@@ -268,14 +216,10 @@ const PAGE_FIELDS = `
       description
       grid {
         logo {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
         picture {
-          node {
-            sourceUrl
-          }
+          sourceUrl
         }
         description
         link
@@ -287,9 +231,7 @@ const PAGE_FIELDS = `
         text
       }
       imageBanner {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       link
     }
@@ -302,30 +244,13 @@ const PAGE_FIELDS = `
       name
       anvisa
       fileUrl {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
     }
   }
 
-  pageGeneric {
-    headerTitle
-    headerDescription
-    formAction
-  }
-
-  pageLasSports {
-    howWeDoItToday {
-      banner {
-        node {
-          sourceUrl
-        }
-      }
       logo {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       description {
         text
@@ -338,9 +263,7 @@ const PAGE_FIELDS = `
         text
       }
       imageBanner {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       link
       labelLink
@@ -351,38 +274,13 @@ const PAGE_FIELDS = `
         text
       }
       image {
-        node {
-          sourceUrl
-        }
+        sourceUrl
       }
       link
     }
   }
 
-  pageLasSocial {
-    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
-    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
-  }
 
-  pageLasClubs {
-    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
-    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
-  }
-
-  pageLasTalks {
-    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
-    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
-  }
-
-  pageLasXperience {
-    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
-    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
-  }
-
-  pageLasXperts {
-    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
-    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
-  }
 `;
 
 export async function getAllPages(): Promise<WPPageNode[]> {
