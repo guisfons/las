@@ -37,7 +37,15 @@ export async function fetchWPGraphQL<T = unknown>(
       },
     });
 
-    const json = await res.json();
+    const text = await res.text();
+
+    // Replace the WordPress domain with the Next.js domain so images are served through the proxy
+    const rewrittenText = text.replace(
+      /https:\/\/mediumblue-swallow-341910\.hostingersite\.com/g,
+      'https://www.lasforlife.com.br',
+    );
+
+    const json = JSON.parse(rewrittenText);
 
     if (json.errors) {
       console.error('GraphQL Errors:', json.errors);
