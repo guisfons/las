@@ -20,7 +20,11 @@ export default function AboutExpansion({ product }: { product: Product }) {
           product={product}
         ></GeneralInformationProduct>
       ),
-      is_active: true,
+      is_active: !!(
+        product?.detail?.general_information &&
+        product.detail.general_information.replace(/<[^>]*>?/gm, '').trim()
+          .length > 0
+      ),
     },
     {
       number: '02',
@@ -43,25 +47,28 @@ export default function AboutExpansion({ product }: { product: Product }) {
       number: '05',
       title: 'Conteúdo',
       content: <ContentsProduct product={product} />,
-      is_active: true,
+      is_active: (product?.detail?.links || []).length > 0,
     },
     {
       number: '06',
       title: 'Depoimentos',
       content: <ProductTestimonials product={product}></ProductTestimonials>, // ← Substitui VideoProduct
-      is_active: product.detail?.testimonial?.doctor?.name !== '',
+      is_active: !!product.detail?.testimonial?.doctor?.name,
     },
     {
       number: '07',
       title: 'Imagens e Mídias',
       content: <MediasProduct product={product}></MediasProduct>,
-      is_active: true,
+      is_active: (product?.detail?.pictures || []).filter(Boolean).length > 0,
     },
     {
       number: '08',
       title: 'Referências',
       content: <SourceProduct product={product}></SourceProduct>,
-      is_active: true,
+      is_active: !!(
+        product?.detail?.sources &&
+        product.detail.sources.replace(/<[^>]*>?/gm, '').trim().length > 0
+      ),
     },
   ];
 

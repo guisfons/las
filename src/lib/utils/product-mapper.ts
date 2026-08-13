@@ -9,7 +9,10 @@ export function mapWPProductToProduct(wpProduct: WPProductNode): Product {
     name: wpProduct.title,
     slug: wpProduct.slug, // Adding slug as it is used in the frontend
     specialities:
-      wpProduct.productSpecialities?.nodes?.map((n) => n.name) || [],
+      wpProduct.productSpecialities?.nodes
+        ?.flatMap((n) => n.name.split(','))
+        .map((s) => s.trim())
+        .filter(Boolean) || [],
     brands: wpProduct.productBrands?.nodes?.map((n) => n.name) || [],
     logo_brand: acf?.logoBrand?.node?.sourceUrl,
     logo_brand_second: acf?.logoBrandSecond?.node?.sourceUrl,
@@ -32,7 +35,10 @@ export function mapWPProductToProduct(wpProduct: WPProductNode): Product {
             row.col4 || '',
           ].filter((col) => col !== ''),
         ) || [],
-      pictures: acf?.pictures?.nodes?.map((img) => img.sourceUrl) || [],
+      pictures:
+        acf?.pictures?.nodes
+          ?.map((img) => img?.sourceUrl)
+          .filter((url): url is string => !!url) || [],
       links:
         acf?.links?.map((link) => {
           const rawType = Array.isArray(link.type) ? link.type[0] : link.type;
@@ -73,6 +79,7 @@ export function mapWPProductToProduct(wpProduct: WPProductNode): Product {
             },
           }
         : undefined,
+      sources: acf?.sources || '',
     },
   };
 }

@@ -3138,16 +3138,16 @@ const RAW_PRODUCTS: Product[] = [
           photo: '',
         },
       },
-      sources: [
-        '1. Altman RD, Åkermark C, Beaulieu AD, Schnitzer T. Efficacy and safety of a single intra-articular injection of non-animal stabilized hyaluronic acid (NASHA) in patients with osteoarthritis of the knee',
-        '2.  Bioventus LLC. Claim for amount of studies investigating DUROLANE. Data on file, RPT-001367.',
-        '3.  Bioventus LLC. Supporting quantity of global patients treated with a single DUROLANE injection. Data on file, RPT-001056 ',
-        '4. Concoff A, Rosen J, Fu F, et al. A comparison of treatment effects for nonsurgical therapies and the minimum clinically important difference in knee osteoarthritis: a systematic review. JBJS Rev. 2019;7(8):e5. doi:10.2106/JBJS.RVW.18.00150',
-        '5.   Lindqvist U, Tolmachev V, Kairemo K, Aström G, Jonsson E, Lundqvist H. Elimination of stabilised hyaluronan from the knee joint in healthy men. Clin Pharmacokinet. 2002;41(8):603-13. doi:10.2165/00003088-200241080-00004',
-        '6. Edsman K, Melin H, Näsström J. A study of the ability of Durolane to withstand degradation by free radicals while maintaining its viscoelastic properties. Poster presented at: 55th Annual Meeting of the Orthopaedic Research Society; February 22-25, 2009; Las Vegas, NV. Poster 1149. ',
-        '7. Leighton R, Åkermark C, Therrien R, et al. NASHA hyaluronic acid vs methylprednisolone for knee osteoarthritis: a prospective, multi-center, randomized, non-inferiority trial. Osteoarthritis Cartilage. 2014;22(1):17-25. doi:10.1016/j.joca.2013.10.009 ',
-        '8. Q-Med Scandinavia, Inc. Q-Med NASHA™ the monograph. 2008.',
-      ],
+      sources: `
+        <p>1. Altman RD, Åkermark C, Beaulieu AD, Schnitzer T. Efficacy and safety of a single intra-articular injection of non-animal stabilized hyaluronic acid (NASHA) in patients with osteoarthritis of the knee</p>
+        <p>2.  Bioventus LLC. Claim for amount of studies investigating DUROLANE. Data on file, RPT-001367.</p>
+        <p>3.  Bioventus LLC. Supporting quantity of global patients treated with a single DUROLANE injection. Data on file, RPT-001056 </p>
+        <p>4. Concoff A, Rosen J, Fu F, et al. A comparison of treatment effects for nonsurgical therapies and the minimum clinically important difference in knee osteoarthritis: a systematic review. JBJS Rev. 2019;7(8):e5. doi:10.2106/JBJS.RVW.18.00150</p>
+        <p>5.   Lindqvist U, Tolmachev V, Kairemo K, Aström G, Jonsson E, Lundqvist H. Elimination of stabilised hyaluronan from the knee joint in healthy men. Clin Pharmacokinet. 2002;41(8):603-13. doi:10.2165/00003088-200241080-00004</p>
+        <p>6. Edsman K, Melin H, Näsström J. A study of the ability of Durolane to withstand degradation by free radicals while maintaining its viscoelastic properties. Poster presented at: 55th Annual Meeting of the Orthopaedic Research Society; February 22-25, 2009; Las Vegas, NV. Poster 1149. </p>
+        <p>7. Leighton R, Åkermark C, Therrien R, et al. NASHA hyaluronic acid vs methylprednisolone for knee osteoarthritis: a prospective, multi-center, randomized, non-inferiority trial. Osteoarthritis Cartilage. 2014;22(1):17-25. doi:10.1016/j.joca.2013.10.009 </p>
+        <p>8. Q-Med Scandinavia, Inc. Q-Med NASHA™ the monograph. 2008.</p>
+      `,
     },
   },
 ];

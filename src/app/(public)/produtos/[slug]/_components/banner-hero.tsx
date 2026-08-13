@@ -71,11 +71,14 @@ export default function BannerHero({ product }: { product: Product }) {
           </Link>
 
           <div className="max-w-72 flex gap-2 flex-wrap">
-            {/* {product?.specialities.map((tag, index) => ( */}
-            <p className="w-max text-black font-exo2  text-sm px-2 text bg-green">
-              {product?.specialities}
-            </p>
-            {/* ))} */}
+            {product?.specialities?.map((tag, index) => (
+              <p
+                key={index}
+                className="w-max text-black font-exo2  text-sm px-2 text bg-green"
+              >
+                {tag}
+              </p>
+            ))}
           </div>
         </div>
 

@@ -46,7 +46,7 @@ export interface Product {
         photo?: string;
       };
     };
-    sources?: string[];
+    sources?: string;
   };
 }
 

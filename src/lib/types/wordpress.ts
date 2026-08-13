@@ -44,6 +44,7 @@ export type WPProductAcf = {
     doctorSpecialty?: string;
     doctorPhoto?: WPImage;
   };
+  sources?: string;
 };
 
 export type WPProductNode = {
