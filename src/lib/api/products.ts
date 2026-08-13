@@ -92,6 +92,7 @@ const PRODUCT_FIELDS = `
         }
       }
     }
+    sources
   }
 `;
 
