@@ -239,6 +239,11 @@ export default function ContentsProduct({ product }: ContentsProductProps) {
       }));
   };
 
+  const catalogData = getProductData('CATALOG');
+  const caseReportsData = getProductData('CASE_REPORTS');
+  const articlesData = getProductData('ARTICLES');
+  const directionsData = getProductData('DIRECTIONS_FOR_USE');
+
   return (
     <>
       <p className="max-w-3xl font-exo2 text-xs lg:text-lg text-label">
@@ -248,80 +253,86 @@ export default function ContentsProduct({ product }: ContentsProductProps) {
       </p>
 
       <div className="w-full grid grid-cols-2 grid-rows-2 lg:grid-rows-1 lg:grid-cols-3 gap-2 lg:gap-4 my-6">
-        <div
-          className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() =>
-            openPopup('CATALOG', 'Catálogo', getProductData('CATALOG'), 'lists')
-          }
-        >
-          <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
-            <Icon name="lists" className="size-4 lg:size-5 mt-2 "></Icon>
-            Catálogo
-          </p>
-          <p className="text-xs lg:text-xl text-center text-label font-exo2">
-            Dados e especificações para conhecer melhor nossas soluções
-          </p>
-        </div>
+        {catalogData.length > 0 && (
+          <div
+            className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() =>
+              openPopup('CATALOG', 'Catálogo', catalogData, 'lists')
+            }
+          >
+            <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
+              <Icon name="lists" className="size-4 lg:size-5 mt-2 "></Icon>
+              Catálogo
+            </p>
+            <p className="text-xs lg:text-xl text-center text-label font-exo2">
+              Dados e especificações para conhecer melhor nossas soluções
+            </p>
+          </div>
+        )}
 
-        <div
-          className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() =>
-            openPopup(
-              'CASE_REPORTS',
-              'Relatos de Caso',
-              getProductData('CASE_REPORTS'),
-              'circle_check',
-            )
-          }
-        >
-          <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
-            <Icon name="circle_check" className="size-4 lg:size-5 mt-2 "></Icon>
-            <span className="w-[91px] sm:w-max">Relatos de Caso</span>
-          </p>
-          <p className="text-xs lg:text-xl text-center text-label font-exo2">
-            Casos clínicos que demonstram resultados
-          </p>
-        </div>
+        {caseReportsData.length > 0 && (
+          <div
+            className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() =>
+              openPopup(
+                'CASE_REPORTS',
+                'Relatos de Caso',
+                caseReportsData,
+                'circle_check',
+              )
+            }
+          >
+            <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
+              <Icon
+                name="circle_check"
+                className="size-4 lg:size-5 mt-2 "
+              ></Icon>
+              <span className="w-[91px] sm:w-max">Relatos de Caso</span>
+            </p>
+            <p className="text-xs lg:text-xl text-center text-label font-exo2">
+              Casos clínicos que demonstram resultados
+            </p>
+          </div>
+        )}
 
-        <div
-          className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() =>
-            openPopup(
-              'ARTICLES',
-              'Artigos',
-              getProductData('ARTICLES'),
-              'file_lines',
-            )
-          }
-        >
-          <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
-            <Icon name="file_lines" className="size-3 lg:size-4 mt-2"></Icon>
-            Artigos
-          </p>
-          <p className="text-xs lg:text-xl text-center text-label font-exo2">
-            Conteúdo científico para sua atualização
-          </p>
-        </div>
+        {articlesData.length > 0 && (
+          <div
+            className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() =>
+              openPopup('ARTICLES', 'Artigos', articlesData, 'file_lines')
+            }
+          >
+            <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
+              <Icon name="file_lines" className="size-3 lg:size-4 mt-2"></Icon>
+              Artigos
+            </p>
+            <p className="text-xs lg:text-xl text-center text-label font-exo2">
+              Conteúdo científico para sua atualização
+            </p>
+          </div>
+        )}
 
-        <div
-          className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() =>
-            openPopup(
-              'DIRECTIONS_FOR_USE',
-              'Instruções de Uso',
-              getProductData('DIRECTIONS_FOR_USE'),
-              'book_open',
-            )
-          }
-        >
-          <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
-            <Icon name="book_open" className="size-3 lg:size-4 mt-2"></Icon>
-            Instruções de Uso
-          </p>
-          <p className="text-xs lg:text-xl text-center text-label font-exo2">
-            Informações detalhadas para o uso correto dos produtos
-          </p>
-        </div>
+        {directionsData.length > 0 && (
+          <div
+            className="h-full border border-gray-[#d4d2e3] p-2 lg:p-8 rounded-2xl flex justify-start items-center flex-col gap-6 cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() =>
+              openPopup(
+                'DIRECTIONS_FOR_USE',
+                'Instruções de Uso',
+                directionsData,
+                'book_open',
+              )
+            }
+          >
+            <p className="text-green font-exo2 text-lg lg:text-3xl font-bold flex items-start gap-3 text-center">
+              <Icon name="book_open" className="size-3 lg:size-4 mt-2"></Icon>
+              Instruções de Uso
+            </p>
+            <p className="text-xs lg:text-xl text-center text-label font-exo2">
+              Informações detalhadas para o uso correto dos produtos
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Popup */}
