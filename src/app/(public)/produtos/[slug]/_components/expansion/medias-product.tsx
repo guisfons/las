@@ -43,18 +43,42 @@ export default function MediasProduct({ product }: { product: Product }) {
           modules={[Autoplay, Pagination, Navigation]}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
         >
-          {product?.detail?.pictures?.map((item, index) => (
-            <SwiperSlide key={index} className="size-full pb-10">
-              <Image
-                width={800}
-                height={800}
-                key={index}
-                src={item}
-                alt={`Imagem ${index + 1}`}
-                className="w-full h-auto border border-[#D4D2E3] mb-4 object-cover aspect-square rounded-lg"
-              />
-            </SwiperSlide>
-          ))}
+          {product?.detail?.pictures?.map((item, index) => {
+            const isString = typeof item === 'string';
+            const sourceUrl = isString ? item : item.sourceUrl;
+            const altText = isString
+              ? `Imagem ${index + 1}`
+              : item.altText || `Imagem ${index + 1}`;
+            const caption = !isString ? item.caption : undefined;
+            const description = !isString ? item.description : undefined;
+
+            return (
+              <SwiperSlide key={index} className="size-full pb-10">
+                <div className="flex flex-col h-full">
+                  <Image
+                    width={800}
+                    height={800}
+                    src={sourceUrl}
+                    alt={altText}
+                    className="w-full h-auto border border-[#D4D2E3] mb-2 object-cover aspect-square rounded-lg"
+                  />
+                  {(caption || description) && (
+                    <div className="mt-2 text-sm text-label font-exo2 flex flex-col gap-1">
+                      {caption && (
+                        <p
+                          className="font-bold"
+                          dangerouslySetInnerHTML={{ __html: caption }}
+                        />
+                      )}
+                      {description && (
+                        <p dangerouslySetInnerHTML={{ __html: description }} />
+                      )}
+                    </div>
+                  )}
+                </div>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
 

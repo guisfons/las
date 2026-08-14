@@ -25,7 +25,14 @@ export type WPProductAcf = {
     col4?: string;
   }[];
   // Gallery fields return nodes (plural)
-  pictures?: { nodes: { sourceUrl: string; altText?: string }[] };
+  pictures?: {
+    nodes: {
+      sourceUrl: string;
+      altText?: string;
+      caption?: string;
+      description?: string;
+    }[];
+  };
   links?: {
     title?: string;
     fileUrl?: string; // the actual uploaded file or external url

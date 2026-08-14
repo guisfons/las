@@ -17,7 +17,15 @@ export interface Product {
     about: string[];
     general_information: string;
     technical_data: string[][];
-    pictures: string[];
+    pictures: (
+      | {
+          sourceUrl: string;
+          caption?: string;
+          description?: string;
+          altText?: string;
+        }
+      | string
+    )[];
     links: {
       title: string;
       url: string;

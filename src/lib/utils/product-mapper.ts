@@ -37,8 +37,13 @@ export function mapWPProductToProduct(wpProduct: WPProductNode): Product {
         ) || [],
       pictures:
         acf?.pictures?.nodes
-          ?.map((img) => img?.sourceUrl)
-          .filter((url): url is string => !!url) || [],
+          ?.filter((img) => !!img?.sourceUrl)
+          .map((img) => ({
+            sourceUrl: img.sourceUrl,
+            caption: img.caption,
+            description: img.description,
+            altText: img.altText,
+          })) || [],
       links:
         acf?.links?.map((link) => {
           const rawType = Array.isArray(link.type) ? link.type[0] : link.type;

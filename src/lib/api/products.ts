@@ -57,6 +57,8 @@ const PRODUCT_FIELDS = `
       nodes {
         sourceUrl
         altText
+        caption
+        description
       }
     }
     links {
