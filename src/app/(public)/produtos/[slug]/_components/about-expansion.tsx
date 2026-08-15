@@ -41,7 +41,12 @@ export default function AboutExpansion({ product }: { product: Product }) {
     {
       number: '03b',
       title: 'Dados Técnicos 2',
-      content: <TechnicalDataProduct product={product} dataKey="technical_data2"></TechnicalDataProduct>,
+      content: (
+        <TechnicalDataProduct
+          product={product}
+          dataKey="technical_data2"
+        ></TechnicalDataProduct>
+      ),
       is_active: (product.detail?.technical_data2 || []).length > 0,
     },
     // {
