@@ -25,14 +25,10 @@ const PAGE_FIELDS = `
 
   pageHome {
     aboutUs {
-      logo {
-        sourceUrl
-      }
+      logo { node { sourceUrl } }
       titlePlus
       description
-      image {
-        sourceUrl
-      }
+      image { node { sourceUrl } }
       bottomTitle
       bottomDescription
     }
@@ -49,17 +45,11 @@ const PAGE_FIELDS = `
       title
       description
       items {
-        img {
-          sourceUrl
-        }
+        img { node { sourceUrl } }
         title
         description
-        logoOne {
-          sourceUrl
-        }
-        logoTwo {
-          sourceUrl
-        }
+        logoOne { node { sourceUrl } }
+        logoTwo { node { sourceUrl } }
         url
       }
       showMoreButton
@@ -68,9 +58,7 @@ const PAGE_FIELDS = `
       title
       gallery {
         alf
-        url {
-          sourceUrl
-        }
+        url { node { sourceUrl } }
       }
     }
     impact {
@@ -79,32 +67,22 @@ const PAGE_FIELDS = `
         title
         number
         symbol
-        icon {
-          sourceUrl
-        }
-        backgroundImage {
-          sourceUrl
-        }
+        icon { node { sourceUrl } }
+        backgroundImage { node { sourceUrl } }
       }
       estatistics {
-        icon {
-          sourceUrl
-        }
+        icon { node { sourceUrl } }
         bg
         title
         number
         symbol
       }
-      wavesImage {
-        sourceUrl
-      }
+      wavesImage { node { sourceUrl } }
     }
     contact {
       title
       subtitle
-      image {
-        sourceUrl
-      }
+      image { node { sourceUrl } }
       formAction
     }
   }
@@ -124,9 +102,7 @@ const PAGE_FIELDS = `
     hero {
       title
       description
-      backgroundImage {
-        sourceUrl
-      }
+      backgroundImage { node { sourceUrl } }
     }
     whatIs {
       title
@@ -145,17 +121,13 @@ const PAGE_FIELDS = `
 
   pageArticulate {
     heroBanner {
-      imageLine {
-        sourceUrl
-      }
+      imageLine { node { sourceUrl } }
       title
       description
       label
     }
     howWeDoItToday {
-      banner {
-        sourceUrl
-      }
+      banner { node { sourceUrl } }
       title
       description {
         text
@@ -168,9 +140,7 @@ const PAGE_FIELDS = `
       buttonLink
       events {
         title
-        picture {
-          sourceUrl
-        }
+        picture { node { sourceUrl } }
       }
     }
     gridPictures {
@@ -182,97 +152,25 @@ const PAGE_FIELDS = `
       }
     }
   }
-
-  pageTreating {
-    heroBanner {
-      imageLine {
-        sourceUrl
-      }
-      title
-      description
-      label
-    }
-    howWeDoItToday {
-      banner {
-        sourceUrl
-      }
-      title
-      description {
-        text
-      }
-    }
-  }
-
-  pageGenerate {
-    heroBanner {
-      imageLine {
-        sourceUrl
-      }
-      title
-      description
-      label
-    }
-    howWeDoItToday {
-      banner {
-        sourceUrl
-      }
-      title
-      description {
-        text
-      }
-    }
-    cardLas {
-      title
-      description
-      grid {
-        logo {
-          sourceUrl
-        }
-        picture {
-          sourceUrl
-        }
-        description
-        link
-      }
-    }
-    bannerLas {
-      title
-      description {
-        text
-      }
-      imageBanner {
-        sourceUrl
-      }
-      link
-    }
-  }
-
   pageInstructions {
     titleHeader
     productsList {
       brand
       name
       anvisa
-      fileUrl {
-        sourceUrl
-      }
+      fileUrl { node { sourceUrl } }
     }
   }
 
   pageGeneric {
     headerTitle
     headerDescription
-    formAction
   }
 
   pageLasSports {
     howWeDoItToday {
-      banner {
-        sourceUrl
-      }
-      logo {
-        sourceUrl
-      }
+      banner { node { sourceUrl } }
+      logo { node { sourceUrl } }
       description {
         text
       }
@@ -283,9 +181,7 @@ const PAGE_FIELDS = `
       description {
         text
       }
-      imageBanner {
-        sourceUrl
-      }
+      imageBanner { node { sourceUrl } }
       link
       labelLink
     }
@@ -294,36 +190,34 @@ const PAGE_FIELDS = `
       description {
         text
       }
-      image {
-        sourceUrl
-      }
+      image { node { sourceUrl } }
       link
     }
   }
 
   pageLasSocial {
-    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
-    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
+    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
   }
 
   pageLasClubs {
-    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
-    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
+    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
   }
 
   pageLasTalks {
-    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
-    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
+    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
   }
 
   pageLasXperience {
-    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
-    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
+    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
   }
 
   pageLasXperts {
-    howWeDoItToday { banner { sourceUrl } logo { sourceUrl } description { text } link }
-    bannerLas { title description { text } imageBanner { sourceUrl } link labelLink }
+    howWeDoItToday { banner { node { sourceUrl } } logo { node { sourceUrl } } description { text } link }
+    bannerLas { title description { text } imageBanner { node { sourceUrl } } link labelLink }
   }
 `;
 
