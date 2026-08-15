@@ -38,6 +38,12 @@ export default function AboutExpansion({ product }: { product: Product }) {
       content: <TechnicalDataProduct product={product}></TechnicalDataProduct>,
       is_active: (product.detail?.technical_data || []).length > 0,
     },
+    {
+      number: '03b',
+      title: 'Dados Técnicos 2',
+      content: <TechnicalDataProduct product={product} dataKey="technical_data2"></TechnicalDataProduct>,
+      is_active: (product.detail?.technical_data2 || []).length > 0,
+    },
     // {
     //   number: '04',
     //   title: 'Preços e Comercial',

@@ -17,6 +17,7 @@ export interface Product {
     about: string[];
     general_information: string;
     technical_data: string[][];
+    technical_data2: string[][];
     pictures: (
       | {
           sourceUrl: string;

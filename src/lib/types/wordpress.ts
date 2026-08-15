@@ -24,6 +24,12 @@ export type WPProductAcf = {
     col3?: string;
     col4?: string;
   }[];
+  technicalData2?: {
+    col1?: string;
+    col2?: string;
+    col3?: string;
+    col4?: string;
+  }[];
   // Gallery fields return nodes (plural)
   pictures?: {
     nodes: {

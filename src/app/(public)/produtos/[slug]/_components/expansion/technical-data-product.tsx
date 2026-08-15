@@ -3,13 +3,17 @@ import { Product } from '../../../_components/card-product';
 
 export default function TechnicalDataProduct({
   product,
+  dataKey = 'technical_data',
 }: {
   product: Product;
+  dataKey?: 'technical_data' | 'technical_data2';
 }) {
+  const data = product.detail?.[dataKey] || [];
+
   return (
     <div className="max-w-3xl w-full">
       <div className="flex flex-col">
-        {product.detail?.technical_data.map((el, idx) => {
+        {data.map((el, idx) => {
           return (
             <div
               key={idx}
