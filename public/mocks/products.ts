@@ -25,6 +25,7 @@ const RAW_PRODUCTS: Product[] = [
       general_information:
         'Para cirurgias de: Artroplastia de Joelho, Quadril, Ombro e Cirurgias de Revisão, cirurgias cardíacas, Trauma ACL (Ligamento Cruzado Anterior), Cirurgias de Mão, Pé e Pulso. As lâminas estão disponíveis para todos os engates dos motores: Aesculap, AO Synthes, De Soutter, Linvatec, Hall, MicroAire, Otyker, Stryker.',
       technical_data: [],
+      technical_data2: [],
       pictures: ['/images/products/lamina_acf.png'],
       links: [
         {
@@ -86,6 +87,7 @@ const RAW_PRODUCTS: Product[] = [
       general_information:
         'Artroplastia (Joelho, quadril, ombro, Punho, mão tornozelo e pé), Cirurgia de amputação, Cirurgia de trauma',
       technical_data: [],
+      technical_data2: [],
       pictures: ['/images/products/motor_acf.png'],
       links: [
         {
@@ -321,6 +323,7 @@ const RAW_PRODUCTS: Product[] = [
           '2,30 mm (interno)',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/produto_cellcolt1.png'],
       links: [
         {
@@ -446,6 +449,7 @@ const RAW_PRODUCTS: Product[] = [
         ['Código', 'Tamanho', 'N° de Registro ANVISA'],
         ['LASE1310', '13Gx100mm', '80517199011'],
       ],
+      technical_data2: [],
       pictures: ['/images/products/CellHarvest.webp'],
       links: [
         {
@@ -541,6 +545,7 @@ const RAW_PRODUCTS: Product[] = [
           'Local com umidade relativa < 80%, ventilado, sem gases corrosivos',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/produto_banner_Easycore_Hip_3.png'],
       links: [
         {
@@ -668,6 +673,7 @@ const RAW_PRODUCTS: Product[] = [
           'Lesão por má utilização ou manuseio inadequado',
         ],
       ],
+      technical_data2: [],
       pictures: [
         '/images/products/produto_banner_easyfill_knee_01.png',
         '/images/products/produto_banner_easyfill_knee_01.png',
@@ -805,6 +811,7 @@ const RAW_PRODUCTS: Product[] = [
           '10°C a 35°C / Umidade 15% a 65% / Local seco e protegido da luz',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/EasyFill-Small-Joints.png'],
       links: [
         {
@@ -907,6 +914,7 @@ const RAW_PRODUCTS: Product[] = [
           'Descartar seringas e resíduos conforme política institucional de resíduos biológicos',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/produto_banner_Dynavisc_2.png'],
       links: [
         {
@@ -1110,6 +1118,7 @@ const RAW_PRODUCTS: Product[] = [
         ],
         ['Volume do Produto', 'Quantidade', '3 mL'],
       ],
+      technical_data2: [],
       pictures: [
         '/images/products/produto_banner_Interpose_Gel_AntiAdesao_Cirurgia_Coluna_Embalagem1.png',
       ],
@@ -1248,6 +1257,7 @@ const RAW_PRODUCTS: Product[] = [
         ],
         ['Validade', 'Tempo de Validade', '3 anos (vide embalagem)'],
       ],
+      technical_data2: [],
       pictures: [
         '/images/products/produto_banner_Oxiplex_AP_Gel_Barreira_AntiAdesao_Cirurgia_Geral_Embalagem.png',
       ],
@@ -1388,6 +1398,7 @@ const RAW_PRODUCTS: Product[] = [
         ],
         ['Validade', 'Tempo de Validade', '3 anos (vide embalagem)'],
       ],
+      technical_data2: [],
       pictures: [
         '/images/products/produto_banner_Oxiplex_IU_Gel_AntiAdesao_Cirurgia_Intrauterina_Embalagem.png',
       ],
@@ -1559,6 +1570,7 @@ const RAW_PRODUCTS: Product[] = [
           'postes 88,8x71x210 mm e 88,8x71x95 mm',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/produto_gripper.png'],
       links: [
         {
@@ -1669,6 +1681,7 @@ const RAW_PRODUCTS: Product[] = [
           'Como resíduo hospitalar conforme RDC 222/18',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/esysuit-1.png'],
       links: [
         {
@@ -1791,6 +1804,7 @@ const RAW_PRODUCTS: Product[] = [
           'Conforme RDC 222/2018 para resíduos contaminantes e instruções do fabricante',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/produto_banner_Neurosign.png'],
       links: [
         {
@@ -1880,6 +1894,7 @@ const RAW_PRODUCTS: Product[] = [
       general_information:
         'Adequado para uso em monitores de nervos multicanais, Ideal para cirurgias de tireoide e paratireoide.',
       technical_data: [],
+      technical_data2: [],
       pictures: ['/images/products/tesoura.png'],
       links: [
         // {
@@ -1993,6 +2008,7 @@ const RAW_PRODUCTS: Product[] = [
           'Vide embalagem; não utilizar após o vencimento',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/perosal.png'],
       links: [
         {
@@ -2170,6 +2186,7 @@ const RAW_PRODUCTS: Product[] = [
           'Instalação do bocal na peça de mão, conexão dos tubos de irrigação e resíduos, ativação por acionador com controle de baixa ou alta potência. Pode ser usado com ou sem sucção (vácuo).',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/produto_banner_OSARTIS_Pulsaclean.png'],
       links: [
         {
@@ -2281,6 +2298,7 @@ const RAW_PRODUCTS: Product[] = [
           'Fratura no local doador, danos teciduais e nervosos, reação alérgica, infecção, perda de sangue, dor, desconforto',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/quickdraw.png'],
       links: [
         {
@@ -2474,6 +2492,7 @@ const RAW_PRODUCTS: Product[] = [
           'Comprimentos de agulha de 7 mm a 210 mm, diâmetros de 1,2 mm (18G) a 1,8 mm (15G), com opções de exposição de 5 a 40 mm (ver Tabela do IFU)',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/fta_curaway.png'],
       links: [
         {
@@ -2600,6 +2619,7 @@ const RAW_PRODUCTS: Product[] = [
           'Não aplicável segundo IFU, mas o fabricante alerta para riscos cirúrgicos gerais',
         ],
       ],
+      technical_data2: [],
       pictures: [
         '/images/products/produto_banner_Missionsurgical_Safeview.png',
       ],
@@ -2723,6 +2743,7 @@ const RAW_PRODUCTS: Product[] = [
           'Dor transitória, desconforto local, principalmente na região acima de S1 se a tensão for excessiva; geralmente resolvido com ajuste dos parâmetros',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/produto_banner_SpineMED.png'],
       links: [
         {
@@ -3003,6 +3024,7 @@ const RAW_PRODUCTS: Product[] = [
           'Embalagem primária: envelope Tyvek estéril individual; embalagem secundária: caixa cartonada com 10 unidades',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/FOTO-80-700-06-04_h_100.png'],
       links: [
         // {
@@ -3050,6 +3072,7 @@ const RAW_PRODUCTS: Product[] = [
         ['Modelos Comerciais', 'Código', '01-0137 / 01-0236'],
         ['Registro ANVISA', 'Número', '80517190045 / 80517190046'],
       ],
+      technical_data2: [],
       pictures: [
         '/images/products/bonos_r_nf.png',
         '/images/products/Bonos.png',
@@ -3113,6 +3136,7 @@ const RAW_PRODUCTS: Product[] = [
           '80117580552',
         ],
       ],
+      technical_data2: [],
       pictures: ['/images/products/bioventus_build_2a.webp'],
       links: [
         {
