@@ -35,7 +35,15 @@ export function mapWPProductToProduct(wpProduct: WPProductNode): Product {
             row.col4 || '',
           ].filter((col) => col !== ''),
         ) || [],
-      technical_data2: [],
+      technical_data2:
+        acf?.technicalData2?.map((row) =>
+          [
+            row.col1 || '',
+            row.col2 || '',
+            row.col3 || '',
+            row.col4 || '',
+          ].filter((col) => col !== ''),
+        ) || [],
       pictures:
         acf?.pictures?.nodes
           ?.filter((img) => !!img?.sourceUrl)
