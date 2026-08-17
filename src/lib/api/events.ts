@@ -10,9 +10,13 @@ const EVENTO_FIELDS = `
     img {
       node {
         sourceUrl
+        altText
       }
     }
     imageType
+    eventType
+    eventFormat
+    fullDate
     dateNumber
     month
     year
@@ -20,7 +24,34 @@ const EVENTO_FIELDS = `
     speaker
     moderator
     local
+    mapEmbedUrl
+    howToGet
+    partnerHotels
     subscribe
+    subscribeType
+    boothNumber
+    boothMapUrl
+    boothHours
+    boothHighlights
+    gallery {
+      nodes {
+        sourceUrl
+        altText
+      }
+    }
+    impactNumber
+    recapLink
+    sponsors {
+      name
+      logo {
+        node {
+          sourceUrl
+          altText
+        }
+      }
+    }
+    calendarTitle
+    whatsappShareText
   }
   eventoCategorias {
     nodes {
