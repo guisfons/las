@@ -15,20 +15,109 @@ interface EventosClientProps {
   eventos: WPEventoNode[];
 }
 
+function parseMonthIndex(monthStr: string | undefined): number {
+  if (!monthStr) return -1;
+  const normalized = monthStr.toLowerCase().trim();
+  const num = parseInt(normalized, 10);
+  if (!isNaN(num) && num >= 1 && num <= 12) return num - 1;
+
+  const map: Record<string, number> = {
+    janeiro: 0,
+    jan: 0,
+    fevereiro: 1,
+    fev: 1,
+    março: 2,
+    marco: 2,
+    mar: 2,
+    abril: 3,
+    abr: 3,
+    maio: 4,
+    mai: 4,
+    junho: 5,
+    jun: 5,
+    julho: 6,
+    jul: 6,
+    agosto: 7,
+    ago: 7,
+    setembro: 8,
+    set: 8,
+    outubro: 9,
+    out: 9,
+    novembro: 10,
+    nov: 10,
+    dezembro: 11,
+    dez: 11,
+  };
+  return map[normalized] ?? -1;
+}
+
+export function getEventDate(e: WPEventoNode): Date | null {
+  const acf = e.eventoacf;
+
+  if (acf?.fullDate) {
+    const parsed = new Date(acf.fullDate.replace(' ', 'T'));
+    if (!isNaN(parsed.getTime())) return parsed;
+  }
+
+  if (acf?.year && acf?.month) {
+    const yr = Number(acf.year);
+    const mIdx = parseMonthIndex(acf.month);
+    if (!isNaN(yr) && mIdx !== -1) {
+      const day = acf.dateNumber
+        ? parseInt(acf.dateNumber.split(/[-/]/)[0], 10) || 1
+        : 1;
+      const d = new Date(yr, mIdx, day);
+      if (!isNaN(d.getTime())) return d;
+    }
+  }
+
+  if (e.date) {
+    const parsed = new Date(e.date);
+    if (!isNaN(parsed.getTime())) return parsed;
+  }
+
+  return null;
+}
+
 export default function EventosClient({ eventos }: EventosClientProps) {
   const [filter, setFilter] = useState('Todos');
 
-  // ─── Próximo evento (primeiro evento futuro, ou o mais próximo) ──
+  // ─── Seleção do Evento em Destaque ─────────────────────────────────────────
+  // 1. Se houver evento com `isFeatured === true`, ele é priorizado.
+  // 2. Se NÃO houver nenhum em destaque, escolhe o próximo a partir de HOJE.
   const proximoEvento = useMemo<WPEventoNode | null>(() => {
-    const now = new Date();
-    const futuros = eventos.filter((e) => {
-      if (e.eventoacf?.fullDate) {
-        return new Date(e.eventoacf.fullDate) > now;
-      }
-      const yr = Number(e.eventoacf?.year);
-      return yr >= now.getFullYear();
-    });
-    return futuros.length > 0 ? futuros[0] : null;
+    if (!eventos || eventos.length === 0) return null;
+
+    // 1. Verifica se existe evento marcado explicitamente como destaque
+    const featured = eventos.filter((e) => Boolean(e.eventoacf?.isFeatured));
+    if (featured.length > 0) {
+      const sortedFeatured = [...featured].sort((a, b) => {
+        const da = getEventDate(a)?.getTime() ?? 0;
+        const db = getEventDate(b)?.getTime() ?? 0;
+        return da - db;
+      });
+      return sortedFeatured[0];
+    }
+
+    // 2. Se não houver nenhum em destaque, filtra o próximo a partir de HOJE
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const comData = eventos.map((e) => ({
+      evento: e,
+      date: getEventDate(e),
+    }));
+
+    const futuros = comData
+      .filter((item) => item.date && item.date >= today)
+      .sort((a, b) => a.date!.getTime() - b.date!.getTime());
+
+    if (futuros.length > 0) {
+      return futuros[0].evento;
+    }
+
+    // Fallback: se todos forem passados, exibe o mais recente ou o primeiro
+    return eventos[0];
   }, [eventos]);
 
   // ─── Especialidades disponíveis (da API WP — dinâmico) ──────────

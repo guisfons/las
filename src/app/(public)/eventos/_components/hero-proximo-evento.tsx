@@ -153,14 +153,14 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
       {/* Overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/20" />
 
-      {/* Accent gradient — cor de destaque diferente do azul padrão */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/20 via-transparent to-transparent" />
+      {/* Accent gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#31A1FF]/20 via-transparent to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-14 pt-32 flex flex-col gap-6">
         {/* Tags */}
         <div className="flex flex-wrap items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 bg-[#FF6B35] text-white font-exo2 font-semibold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full">
+          <span className="inline-flex items-center gap-1.5 bg-[#31A1FF] text-white font-exo2 font-semibold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full">
             {formatLabel}
           </span>
           {specialidades.map((sp) => (
@@ -187,20 +187,20 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
         <div className="flex flex-wrap items-center gap-5 text-white/80">
           {acf?.local && (
             <span className="flex items-center gap-2 font-exo2 text-base">
-              <MapPin className="size-4 text-[#FF6B35] shrink-0" />
+              <MapPin className="size-4 text-[#31A1FF] shrink-0" />
               {acf.local}
             </span>
           )}
           {acf?.dateNumber && acf?.month && (
             <span className="flex items-center gap-2 font-exo2 text-base">
-              <Calendar className="size-4 text-[#FF6B35] shrink-0" />
+              <Calendar className="size-4 text-[#31A1FF] shrink-0" />
               {acf.dateNumber} de {acf.month}
               {acf.year ? ` de ${acf.year}` : ''}
             </span>
           )}
           {acf?.hours && (
             <span className="flex items-center gap-2 font-exo2 text-base">
-              <Clock className="size-4 text-[#FF6B35] shrink-0" />
+              <Clock className="size-4 text-[#31A1FF] shrink-0" />
               {acf.hours}
             </span>
           )}
@@ -242,7 +242,7 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
                 'inline-flex items-center gap-2 font-exo2 font-bold text-base rounded-full px-8 py-3 transition-all duration-200',
                 isFeira
                   ? 'bg-[#7EE000] text-black hover:bg-[#6bcc00]'
-                  : 'bg-[#FF6B35] text-white hover:bg-[#e5602e]',
+                  : 'bg-[#31A1FF] text-white hover:bg-[#258de6]',
               )}
             >
               {ctaLabel}

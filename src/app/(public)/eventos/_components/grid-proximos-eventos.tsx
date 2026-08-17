@@ -23,19 +23,19 @@ const SPECIALTY_COLORS: Record<
     border: 'border-[#31A1FF]/40',
   },
   ginecologia: {
-    bg: 'bg-[#FF6B35]/20',
-    text: 'text-[#FF6B35]',
-    border: 'border-[#FF6B35]/40',
-  },
-  coluna: {
     bg: 'bg-[#7EE000]/20',
     text: 'text-[#7EE000]',
     border: 'border-[#7EE000]/40',
   },
+  coluna: {
+    bg: 'bg-[#31A1FF]/20',
+    text: 'text-[#31A1FF]',
+    border: 'border-[#31A1FF]/40',
+  },
   'cabeça e pescoço': {
-    bg: 'bg-purple-500/20',
-    text: 'text-purple-600',
-    border: 'border-purple-500/40',
+    bg: 'bg-[#1a2a5e]/10',
+    text: 'text-[#1a2a5e]',
+    border: 'border-[#1a2a5e]/30',
   },
 };
 
@@ -138,7 +138,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
           <span
             className={cn(
               'font-exo2 text-xs font-semibold px-3 py-1 rounded-full',
-              isFeira ? 'bg-[#7EE000] text-black' : 'bg-[#FF6B35] text-white',
+              isFeira ? 'bg-[#7EE000] text-black' : 'bg-[#31A1FF] text-white',
             )}
           >
             {formatLabel}
@@ -273,7 +273,7 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
             <span
               className={cn(
                 'font-exo2 text-xs font-semibold px-3 py-1 rounded-full',
-                isFeira ? 'bg-[#7EE000] text-black' : 'bg-[#FF6B35] text-white',
+                isFeira ? 'bg-[#7EE000] text-black' : 'bg-[#31A1FF] text-white',
               )}
             >
               {formatLabel}
@@ -327,7 +327,7 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
                   'inline-flex items-center gap-2 font-exo2 font-bold text-sm rounded-full px-6 py-3 transition-all duration-200 shrink-0',
                   isFeira
                     ? 'bg-[#7EE000] text-black hover:bg-[#6bcc00]'
-                    : 'bg-[#FF6B35] text-white hover:bg-[#e5602e]',
+                    : 'bg-[#31A1FF] text-white hover:bg-[#258de6]',
                 )}
               >
                 {ctaLabel} <ExternalLink className="size-4" />

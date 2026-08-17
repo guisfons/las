@@ -6,7 +6,8 @@ export type WPEventoSponsor = {
 };
 
 export type WPEventoAcf = {
-  // ─── Imagem & Formato ───────────────────────────────────────────
+  // ─── Destaque & Imagem & Formato ───────────────────────────────
+  isFeatured?: boolean;
   img?: WPImage;
   imageType?: 'quadrada' | 'banner' | 'icon';
   eventType?: 'autoral' | 'feira';

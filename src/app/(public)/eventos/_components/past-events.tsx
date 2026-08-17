@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
+import { getEventDate } from '../eventos-client';
 
 interface EventosAnterioresProps {
   eventos: WPEventoNode[];
@@ -21,9 +22,9 @@ interface EventosAnterioresProps {
 
 const SPECIALTY_COLORS: Record<string, { bg: string; text: string }> = {
   ortopedia: { bg: 'bg-[#31A1FF]/10', text: 'text-[#31A1FF]' },
-  ginecologia: { bg: 'bg-[#FF6B35]/10', text: 'text-[#FF6B35]' },
-  coluna: { bg: 'bg-[#7EE000]/10', text: 'text-[#5aac00]' },
-  'cabeça e pescoço': { bg: 'bg-purple-500/10', text: 'text-purple-600' },
+  ginecologia: { bg: 'bg-[#7EE000]/10', text: 'text-[#5aac00]' },
+  coluna: { bg: 'bg-[#31A1FF]/10', text: 'text-[#31A1FF]' },
+  'cabeça e pescoço': { bg: 'bg-[#1a2a5e]/10', text: 'text-[#1a2a5e]' },
 };
 
 function getColor(name: string) {
@@ -293,16 +294,14 @@ function CardEventoPassado({ evento }: { evento: WPEventoNode }) {
 }
 
 export default function EventosAnteriores({ eventos }: EventosAnterioresProps) {
-  const currentYear = new Date().getFullYear();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  // Eventos passados: ano anterior ou ano atual já passado por data
+  // Eventos passados: data anterior a hoje
   const eventosPast = eventos.filter((e) => {
-    const yr = Number(e.eventoacf?.year);
-    if (yr < currentYear) return true;
-    if (yr === currentYear && e.eventoacf?.fullDate) {
-      return new Date(e.eventoacf.fullDate) < new Date();
-    }
-    return false;
+    const d = getEventDate(e);
+    if (!d) return false;
+    return d < today;
   });
 
   const [showAll, setShowAll] = useState(false);

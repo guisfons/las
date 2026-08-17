@@ -60,19 +60,19 @@ const SPECIALTY_COLORS: Record<
     badgeText: 'text-[#31A1FF]',
   },
   ginecologia: {
-    dot: 'bg-[#FF6B35]',
-    badge: 'bg-[#FF6B35]/10 border-[#FF6B35]/30',
-    badgeText: 'text-[#FF6B35]',
-  },
-  coluna: {
     dot: 'bg-[#7EE000]',
     badge: 'bg-[#7EE000]/10 border-[#7EE000]/30',
     badgeText: 'text-[#7EE000]',
   },
+  coluna: {
+    dot: 'bg-[#31A1FF]',
+    badge: 'bg-[#31A1FF]/10 border-[#31A1FF]/30',
+    badgeText: 'text-[#31A1FF]',
+  },
   'cabeça e pescoço': {
-    dot: 'bg-purple-500',
-    badge: 'bg-purple-500/10 border-purple-500/30',
-    badgeText: 'text-purple-600',
+    dot: 'bg-[#1a2a5e]',
+    badge: 'bg-[#1a2a5e]/10 border-[#1a2a5e]/30',
+    badgeText: 'text-[#1a2a5e]',
   },
 };
 
@@ -342,7 +342,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
                                   'font-exo2 text-xs font-semibold px-2 py-0.5 rounded-full',
                                   isFeira
                                     ? 'bg-[#7EE000]/10 text-[#5aac00]'
-                                    : 'bg-[#FF6B35]/10 text-[#FF6B35]',
+                                    : 'bg-[#31A1FF]/10 text-[#31A1FF]',
                                 )}
                               >
                                 {formatLabel}
