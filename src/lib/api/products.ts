@@ -53,12 +53,7 @@ const PRODUCT_FIELDS = `
       col3
       col4
     }
-    technicalData2 {
-      col1
-      col2
-      col3
-      col4
-    }
+
     pictures {
       nodes {
         sourceUrl

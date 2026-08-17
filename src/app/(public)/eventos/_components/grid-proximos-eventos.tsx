@@ -122,14 +122,16 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
         {/* Data flutuante */}
-        <div className="absolute top-4 left-4 flex flex-col">
-          <span className="font-exo2 text-white font-bold text-4xl lg:text-5xl leading-none">
-            {acf?.dateNumber}
-          </span>
-          <span className="font-exo2 text-white/80 text-sm uppercase tracking-widest">
-            {acf?.month}
-          </span>
-        </div>
+        {acf?.dateNumber && (
+          <div className="absolute top-4 left-4 flex flex-col">
+            <span className="font-exo2 text-white font-bold text-4xl lg:text-5xl leading-none">
+              {acf?.dateNumber}
+            </span>
+            <span className="font-exo2 text-white/80 text-sm uppercase tracking-widest">
+              {acf?.month}
+            </span>
+          </div>
+        )}
 
         {/* Tag de formato */}
         <div className="absolute top-4 right-4">
@@ -191,29 +193,31 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
         {/* CTA */}
         <div className="flex items-center gap-2 mt-1">
           {acf?.subscribe ? (
-            <Link
-              href={acf.subscribe}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                'inline-flex items-center gap-1.5 font-exo2 font-semibold text-sm rounded-full px-5 py-2 transition-all duration-200',
-                isFeira
-                  ? 'bg-[#7EE000]/10 text-[#5aac00] border border-[#7EE000]/30 hover:bg-[#7EE000]/20'
-                  : 'bg-[#31A1FF]/10 text-[#31A1FF] border border-[#31A1FF]/30 hover:bg-[#31A1FF]/20',
-              )}
-            >
-              {ctaLabel} <ExternalLink className="size-3" />
-            </Link>
+            <>
+              <Link
+                href={acf.subscribe}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  'inline-flex items-center gap-1.5 font-exo2 font-semibold text-sm rounded-full px-5 py-2 transition-all duration-200',
+                  isFeira
+                    ? 'bg-[#7EE000]/10 text-[#5aac00] border border-[#7EE000]/30 hover:bg-[#7EE000]/20'
+                    : 'bg-[#31A1FF]/10 text-[#31A1FF] border border-[#31A1FF]/30 hover:bg-[#31A1FF]/20',
+                )}
+              >
+                {ctaLabel} <ExternalLink className="size-3" />
+              </Link>
+              <Link
+                href={`https://wa.me/?text=${whatsappText}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
+                aria-label="Compartilhar no WhatsApp"
+              >
+                <Share2 className="size-3.5" />
+              </Link>
+            </>
           ) : null}
-          <Link
-            href={`https://wa.me/?text=${whatsappText}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
-            aria-label="Compartilhar no WhatsApp"
-          >
-            <Share2 className="size-3.5" />
-          </Link>
           {acf?.fullDate && (
             <Link
               href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(evento.title)}&dates=${new Date(acf.fullDate).toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${new Date(new Date(acf.fullDate).getTime() + 2 * 3600000).toISOString().replace(/[-:]/g, '').split('.')[0]}Z&location=${encodeURIComponent(acf?.local || '')}`}
@@ -294,14 +298,16 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="flex flex-col gap-1">
-              <div className="flex items-baseline gap-3">
-                <span className="font-exo2 text-white font-bold text-5xl">
-                  {acf?.dateNumber}
-                </span>
-                <span className="font-exo2 text-white/70 text-lg uppercase">
-                  {acf?.month}
-                </span>
-              </div>
+              {acf?.dateNumber && (
+                <div className="flex items-baseline gap-3">
+                  <span className="font-exo2 text-white font-bold text-5xl">
+                    {acf?.dateNumber}
+                  </span>
+                  <span className="font-exo2 text-white/70 text-lg uppercase">
+                    {acf?.month}
+                  </span>
+                </div>
+              )}
               <h3 className="font-exo2 font-bold text-2xl md:text-3xl text-white">
                 {evento.title}
               </h3>
@@ -400,9 +406,11 @@ function CardIcon({ evento }: { evento: WPEventoNode }) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <span className="font-exo2 text-gray-500 text-sm">
-          {acf?.dateNumber} de {acf?.month}
-        </span>
+        {acf?.dateNumber && (
+          <span className="font-exo2 text-gray-500 text-sm">
+            {acf?.dateNumber} de {acf?.month}
+          </span>
+        )}
         <h3 className="font-exo2 font-bold text-lg">{evento.title}</h3>
         {acf?.local && (
           <p className="font-exo2 text-sm text-gray-500 flex items-center justify-center gap-1">

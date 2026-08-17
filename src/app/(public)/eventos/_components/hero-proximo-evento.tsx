@@ -233,7 +233,7 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
         {/* CTAs */}
         <div className="flex flex-wrap items-center gap-3 mt-2">
           {/* CTA principal */}
-          {acf?.subscribe ? (
+          {acf?.subscribe && (
             <Link
               href={acf.subscribe}
               target="_blank"
@@ -247,18 +247,6 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
             >
               {ctaLabel}
               <ExternalLink className="size-4" />
-            </Link>
-          ) : (
-            <Link
-              href={`/solicitar-orcamento`}
-              className={cn(
-                'inline-flex items-center gap-2 font-exo2 font-bold text-base rounded-full px-8 py-3 transition-all duration-200',
-                isFeira
-                  ? 'bg-[#7EE000] text-black hover:bg-[#6bcc00]'
-                  : 'bg-[#FF6B35] text-white hover:bg-[#e5602e]',
-              )}
-            >
-              {ctaLabel}
             </Link>
           )}
 
@@ -303,15 +291,17 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
           )}
 
           {/* Compartilhar WhatsApp */}
-          <Link
-            href={`https://wa.me/?text=${whatsappText}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-exo2 font-medium text-sm rounded-full px-5 py-3 bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] hover:bg-[#25D366]/30 transition-all"
-          >
-            <Share2 className="size-4" />
-            WhatsApp
-          </Link>
+          {acf?.subscribe && (
+            <Link
+              href={`https://wa.me/?text=${whatsappText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-exo2 font-medium text-sm rounded-full px-5 py-3 bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] hover:bg-[#25D366]/30 transition-all"
+            >
+              <Share2 className="size-4" />
+              WhatsApp
+            </Link>
+          )}
         </div>
       </div>
     </section>
