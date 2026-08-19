@@ -5,6 +5,9 @@ export interface WPMenuItem {
   parentId?: string | null;
   label: string;
   path: string;
+  url?: string;
+  target?: string;
+  cssClasses?: string[];
 }
 
 export interface WPSocialLinks {
@@ -27,6 +30,9 @@ export async function getPrimaryMenu(): Promise<WPMenuItem[]> {
           parentId
           label
           path
+          url
+          target
+          cssClasses
         }
       }
     }
@@ -36,7 +42,31 @@ export async function getPrimaryMenu(): Promise<WPMenuItem[]> {
     const data = await fetchWPGraphQL<{ menuItems: { nodes: WPMenuItem[] } }>(
       query,
     );
-    const nodes = data?.menuItems?.nodes || [];
+    let nodes = data?.menuItems?.nodes || [];
+
+    // Fallback: If no menu is assigned to PRIMARY location, fetch menuItems without location filter
+    if (!nodes.length) {
+      const fallbackQuery = `
+        query GetFallbackMenu {
+          menuItems(first: 100) {
+            nodes {
+              id
+              parentId
+              label
+              path
+              url
+              target
+              cssClasses
+            }
+          }
+        }
+      `;
+      const fallbackData = await fetchWPGraphQL<{
+        menuItems: { nodes: WPMenuItem[] };
+      }>(fallbackQuery);
+      nodes = fallbackData?.menuItems?.nodes || [];
+    }
+
     return buildMenuTree(nodes);
   } catch (error) {
     console.error('Failed to fetch menu from WP:', error);
@@ -46,9 +76,38 @@ export async function getPrimaryMenu(): Promise<WPMenuItem[]> {
 
 export function buildMenuTree(nodes: WPMenuItem[]) {
   const map = new Map();
-  nodes.forEach((node) =>
-    map.set(node.id, { title: node.label, url: node.path, items: [] }),
-  );
+  nodes.forEach((node) => {
+    let rawUrl = node.path || node.url || '/';
+
+    // Remove site domain if full URL is stored
+    if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
+      try {
+        const parsed = new URL(rawUrl);
+        rawUrl = parsed.pathname + parsed.search + parsed.hash;
+      } catch {
+        // Keep as is if invalid URL
+      }
+    }
+
+    let sectionId: string | undefined = undefined;
+    let url = rawUrl;
+
+    if (url.includes('#')) {
+      const parts = url.split('#');
+      url = parts[0] || '/';
+      sectionId = parts[1];
+    }
+
+    map.set(node.id, {
+      title: node.label,
+      url: url,
+      sectionId: sectionId,
+      target: node.target || undefined,
+      cssClasses: node.cssClasses || [],
+      items: [],
+    });
+  });
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const roots: any[] = [];
 
@@ -59,7 +118,10 @@ export function buildMenuTree(nodes: WPMenuItem[]) {
         parent.items.push(map.get(node.id));
       }
     } else {
-      roots.push(map.get(node.id));
+      const rootItem = map.get(node.id);
+      if (rootItem) {
+        roots.push(rootItem);
+      }
     }
   });
 

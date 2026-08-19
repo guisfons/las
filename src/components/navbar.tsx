@@ -39,6 +39,7 @@ interface MenuItem {
   with_border?: boolean;
   class?: string;
   sectionId?: string;
+  target?: string;
 }
 
 interface Navbar1Props {
@@ -121,9 +122,12 @@ const Navbar = ({
   const handleMobileNavClick = (item: MenuItem, e: React.MouseEvent) => {
     e.preventDefault();
 
+    const fullHref = `${item.url || '/'}${item.sectionId ? `#${item.sectionId}` : ''}`;
+
     if (item.sectionId) {
       setActiveSection(item.sectionId);
-      const targetPage = item.url !== '/' ? item.url : undefined;
+      const targetPage =
+        item.url !== '/' && item.url !== '' ? item.url : undefined;
       scrollToSection(item.sectionId, targetPage);
 
       // Fechar o menu mobile (opcional)
@@ -132,7 +136,7 @@ const Navbar = ({
       ) as HTMLButtonElement;
       closeButton?.click();
     } else {
-      window.location.href = item.url;
+      window.location.href = fullHref;
     }
   };
 
@@ -246,7 +250,7 @@ const Navbar = ({
 };
 
 const renderMenuItem = (item: MenuItem, activeSection: string) => {
-  if (item.items) {
+  if (item.items && item.items.length > 0) {
     return (
       <NavigationMenuItem key={item.title} className="text-muted-foreground">
         <NavigationMenuTrigger className="font-exo2 text-base font-normal text-[#090909] hover:!bg-transparent focus:!bg-transparent hover:!text-[#090909]">
@@ -267,14 +271,16 @@ const renderMenuItem = (item: MenuItem, activeSection: string) => {
     );
   }
 
-  const isActive = item.sectionId === activeSection;
+  const isActive = item.sectionId ? item.sectionId === activeSection : false;
+  const href = `${item.url || '/'}${item.sectionId ? `#${item.sectionId}` : ''}`;
 
   return (
     <Link
       rel="preload"
       scroll={true}
       key={item.title}
-      href={`${item.url}${item.sectionId ? `#${item.sectionId}` : ''}`}
+      href={href}
+      target={item.target}
       className={cn(
         'font-exo2 text-base font-normal group h-max w-max border-b-2 text-[#090909] border-solid transition-colors hover:bg-transparent focus:bg-transparent hover:text-[#090909] focus:text-[#090909] focus:outline-none disabled:pointer-events-none disabled:opacity-50 items-center justify-center bg-transparent !mx-4 inline-flex cursor-pointer',
         {
@@ -294,7 +300,7 @@ const renderMobileMenuItem = (
   handleMobileNavClick: (item: MenuItem, e: React.MouseEvent) => void,
   activeSection: string,
 ) => {
-  if (item.items) {
+  if (item.items && item.items.length > 0) {
     return (
       <AccordionItem
         key={idx}
@@ -304,7 +310,7 @@ const renderMobileMenuItem = (
         <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline text-[#090909]">
           {item.title}
         </AccordionTrigger>
-        <AccordionContent className="mt-2">
+        <AccordionContent className="mt-2 flex flex-col gap-2">
           {item.items.map((subItem) => (
             <SubMenuLink key={subItem.title} item={subItem} />
           ))}
@@ -313,7 +319,7 @@ const renderMobileMenuItem = (
     );
   }
 
-  const isActive = item.sectionId === activeSection;
+  const isActive = item.sectionId ? item.sectionId === activeSection : false;
 
   return (
     <a
@@ -332,61 +338,59 @@ const renderMobileMenuItem = (
 };
 
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
-  if (item.title && item.icon) {
+  const href = `${item.url || '/'}${item.sectionId ? `#${item.sectionId}` : ''}`;
+
+  if (item.title) {
     return (
-      <a
+      <Link
         className={cn(
           `group lg:max-w-[350px] lg:border-none border-b-[1px] border-[#7D7D7D4D] border-solid 
           flex flex-row w-full gap-4 p-3 leading-none no-underline transition-colors 
           outline-none select-none hover:text-accent-foreground
         `,
-          { 'row-span-2': !item.title && !item.icon },
           {
-            'lg:border-b-[1px]  lg:border-[#7D7D7D4D] lg:border-solid py-8 lg:py-0 !pb-8':
+            'lg:border-b-[1px] lg:border-[#7D7D7D4D] lg:border-solid py-8 lg:py-0 !pb-8':
               item.with_border,
           },
           item?.class,
         )}
-        href={item.url}
+        href={href}
+        target={item.target}
       >
-        {item.title && item.icon && (
-          <>
-            <div className="text-[#090909]">{item.icon}</div>
-            <div className="flex flex-col gap-1">
-              <span
-                className="text-xl font-sourceSans3 transition-all
-                text-[#090909] group-hover:text-transparent bg-clip-text 
-                bg-gradient-to-br from-[#ffffff] from-20% via-[#FF7F00] via-50% to-[#508FF4] to-100% "
-              >
-                {item.title}
-              </span>
-              {item.description && (
-                <p className="text-lg leading-snug text-muted-foreground font-sourceSans3 text-[#7D7D7D]">
-                  {item.description}
-                </p>
-              )}
-            </div>
-          </>
-        )}
-      </a>
+        {item.icon && <div className="text-[#090909]">{item.icon}</div>}
+        <div className="flex flex-col gap-1">
+          <span
+            className="text-xl font-sourceSans3 transition-all
+            text-[#090909] group-hover:text-transparent bg-clip-text 
+            bg-gradient-to-br from-[#ffffff] from-20% via-[#FF7F00] via-50% to-[#508FF4] to-100% "
+          >
+            {item.title}
+          </span>
+          {item.description && (
+            <p className="text-lg leading-snug text-muted-foreground font-sourceSans3 text-[#7D7D7D]">
+              {item.description}
+            </p>
+          )}
+        </div>
+      </Link>
     );
   } else {
     return (
-      <a
+      <Link
         className={cn(
-          'lg:max-w-[350px] hidden lg:flex lg:border-none border-b-[1px]  border-[#7D7D7D4D] border-solid flex-row w-full gap-4 p-3 leading-none no-underline transition-colors outline-none select-none  hover:text-accent-foreground',
-          { 'row-span-2': !item.title && !item.icon },
+          'lg:max-w-[350px] hidden lg:flex lg:border-none border-b-[1px] border-[#7D7D7D4D] border-solid flex-row w-full gap-4 p-3 leading-none no-underline transition-colors outline-none select-none hover:text-accent-foreground',
           {
-            'lg:border-b-[1px]  lg:border-[#7D7D7D4D]  lg:border-solid py-8 lg:py-0 !pb-8':
+            'lg:border-b-[1px] lg:border-[#7D7D7D4D] lg:border-solid py-8 lg:py-0 !pb-8':
               item.with_border,
           },
         )}
-        href={item.url}
+        href={href}
+        target={item.target}
       >
-        {!item.title && !item.icon && item.description && (
+        {item.description && (
           <figure className="min-w-[476px]"> {item.description} </figure>
         )}
-      </a>
+      </Link>
     );
   }
 };
