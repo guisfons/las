@@ -98,7 +98,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
   return (
     <motion.figure
       key={evento.id}
-      className="flex flex-col gap-4 group"
+      className="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 flex flex-col gap-4 group"
       variants={cardVariants}
       initial="hidden"
       animate="visible"
@@ -363,7 +363,7 @@ function CardIcon({ evento }: { evento: WPEventoNode }) {
   return (
     <motion.figure
       key={evento.id}
-      className="flex flex-col items-center gap-4 text-center group"
+      className="col-span-1 flex flex-col items-center gap-4 text-center group"
       variants={cardVariants}
       initial="hidden"
       animate="visible"
@@ -473,7 +473,7 @@ export default function GridProximosEventos({
   return (
     <div
       id="grid_events"
-      className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 md:gap-8"
     >
       <AnimatePresence mode="popLayout">
         {filteredEventos.map((evento) => {

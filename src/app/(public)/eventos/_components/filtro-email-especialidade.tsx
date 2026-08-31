@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Send, CheckCircle } from 'lucide-react';
+import { Bell, Send, CheckCircle, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface FiltroEmailEspecialidadeProps {
@@ -15,24 +15,12 @@ export default function FiltroEmailEspecialidade({
   filter,
   onFilterChange,
 }: FiltroEmailEspecialidadeProps) {
-  const [alertEspecialidade, setAlertEspecialidade] = useState<string>(
-    filter !== 'Todos' ? filter : '',
-  );
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Sincroniza a especialidade do alerta quando o filtro da página muda
-  const activeCategory = filter !== 'Todos' ? filter : alertEspecialidade;
-
+  const activeCategory = filter !== 'Todos' ? filter : '';
   const allOptions = ['Todos', ...especialidades];
-
-  const handleSelectCategory = (sp: string) => {
-    onFilterChange(sp);
-    if (sp !== 'Todos') {
-      setAlertEspecialidade(sp);
-    }
-  };
 
   async function handleAlertSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -59,30 +47,36 @@ export default function FiltroEmailEspecialidade({
 
   return (
     <div className="w-full flex flex-col gap-8">
-      {/* ─── Filtro de especialidades ─────────────────────────────── */}
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-2">
-          <h2 className="font-exo2 font-bold text-2xl md:text-4xl text-[#1a2a5e]">
-            Próximos Eventos
-          </h2>
+      {/* ─── 1. Filtro principal de especialidades (único na página) ─────────────────────────────── */}
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+          <div>
+            <h2 className="font-exo2 font-bold text-3xl md:text-4xl text-[#1a2a5e]">
+              Próximos Eventos
+            </h2>
+            <p className="font-exo2 text-gray-500 text-sm md:text-base mt-1">
+              Filtre os eventos da LAS For Life por especialidade médica
+            </p>
+          </div>
           {filter !== 'Todos' && (
-            <span className="font-exo2 text-xs text-gray-500">
-              Categoria selecionada:{' '}
-              <strong className="text-[#31A1FF]">{filter}</strong>
+            <span className="font-exo2 text-xs md:text-sm text-gray-600 bg-gray-100 px-3.5 py-1.5 rounded-full border border-gray-200 w-fit">
+              Exibindo:{' '}
+              <strong className="text-[#31A1FF] font-semibold">{filter}</strong>
             </span>
           )}
         </div>
 
+        {/* Botões de filtro por categoria */}
         <div className="flex flex-wrap gap-2 md:gap-3">
           {allOptions.map((sp) => (
             <button
               key={sp}
-              onClick={() => handleSelectCategory(sp)}
+              onClick={() => onFilterChange(sp)}
               className={cn(
-                'font-exo2 text-sm md:text-base px-4 md:px-6 py-2 rounded-full border transition-all duration-200 cursor-pointer',
+                'font-exo2 text-sm md:text-base px-5 py-2.5 rounded-full border transition-all duration-200 cursor-pointer font-medium',
                 filter === sp
-                  ? 'bg-[#31A1FF] text-white border-[#31A1FF] shadow-sm shadow-[#31A1FF]/30 font-semibold'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-[#31A1FF]/40 hover:text-[#31A1FF]',
+                  ? 'bg-[#31A1FF] text-white border-[#31A1FF] shadow-md shadow-[#31A1FF]/25 font-semibold scale-[1.02]'
+                  : 'bg-white text-gray-700 border-gray-200 hover:border-[#31A1FF]/50 hover:text-[#31A1FF] hover:bg-[#31A1FF]/5',
               )}
             >
               {sp}
@@ -91,62 +85,54 @@ export default function FiltroEmailEspecialidade({
         </div>
       </div>
 
-      {/* ─── Captura de e-mail por especialidade (Fique de olho) ──── */}
-      <div className="bg-gradient-to-r from-[#f0f7ff] via-[#f7fafc] to-[#f0fff4] rounded-3xl border border-[#31A1FF]/15 p-6 md:p-8 shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center gap-6">
-          {/* Texto */}
-          <div className="flex flex-col gap-3 md:flex-1">
-            <div className="flex items-center gap-2">
-              <div className="size-9 rounded-xl bg-[#31A1FF]/15 flex items-center justify-center shrink-0">
-                <Bell className="size-4 text-[#31A1FF]" />
-              </div>
-              <span className="font-exo2 font-bold text-lg text-[#1a2a5e]">
-                Fique de olho
+      {/* ─── 2. Section de alerta por e-mail (Refeita para leitura clara e elegante) ──── */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1a2a5e] via-[#111e47] to-[#0a1433] p-6 sm:p-8 md:p-10 text-white shadow-xl border border-[#31A1FF]/20">
+        {/* Efeitos de iluminação de fundo */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#31A1FF]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-[#7EE000]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          {/* Lado Esquerdo: Texto explicativo de alto contraste */}
+          <div className="flex flex-col gap-4 max-w-xl">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 w-fit">
+              <Bell className="size-4 text-[#31A1FF]" />
+              <span className="font-exo2 text-xs md:text-sm font-semibold tracking-wide text-white uppercase">
+                Alerta de novos eventos
               </span>
             </div>
-            <p className="font-exo2 text-gray-600 text-sm md:text-base leading-relaxed">
-              Quero ser avisado sobre os próximos eventos de:{' '}
-              {activeCategory ? (
-                <strong className="text-[#31A1FF] font-bold">
-                  {activeCategory}
-                </strong>
-              ) : (
-                'minha especialidade'
-              )}
+
+            <h3 className="font-exo2 font-bold text-2xl sm:text-3xl md:text-4xl text-white leading-tight">
+              Quer ser avisado sobre os próximos eventos?
+            </h3>
+
+            <p className="font-exo2 text-white/80 text-sm md:text-base leading-relaxed">
+              Receba notificações em primeira mão assim que novas turmas, simpósios ou congressos da sua área forem publicados.
             </p>
 
-            {/* Botões de especialidade para alerta */}
-            <div className="flex flex-wrap gap-2 mt-1">
-              {especialidades.map((sp) => (
-                <button
-                  key={sp}
-                  type="button"
-                  onClick={() => handleSelectCategory(sp)}
-                  className={cn(
-                    'font-exo2 text-xs px-3.5 py-1.5 rounded-full border transition-all cursor-pointer',
-                    activeCategory === sp
-                      ? 'bg-[#31A1FF] text-white border-[#31A1FF] font-semibold'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-[#31A1FF]/40',
-                  )}
-                >
-                  {sp}
-                </button>
-              ))}
+            {/* Indicação da especialidade sem duplicar os botões de filtro */}
+            <div className="flex items-center gap-2 text-xs md:text-sm text-white/90 pt-1">
+              <Sparkles className="size-4 text-[#7EE000] shrink-0" />
+              <span>
+                Notificações direcionadas para:{' '}
+                <strong className="text-[#31A1FF] font-bold underline underline-offset-4 decoration-[#31A1FF]/40">
+                  {activeCategory ? activeCategory : 'Todas as especialidades'}
+                </strong>
+              </span>
             </div>
           </div>
 
-          {/* Formulário */}
-          <div className="md:w-80 lg:w-96 shrink-0">
+          {/* Lado Direito: Form limpo com alto contraste */}
+          <div className="w-full lg:w-[420px] shrink-0">
             {submitted ? (
-              <div className="flex flex-col items-center gap-2 py-4 px-4 bg-white/80 rounded-2xl border border-[#7EE000]/30 text-center">
-                <CheckCircle className="size-8 text-[#7EE000]" />
-                <p className="font-exo2 font-bold text-gray-800">
-                  Inscrição realizada!
-                </p>
-                <p className="font-exo2 text-gray-500 text-xs">
-                  Avisaremos quando houver novos eventos de{' '}
+              <div className="flex flex-col items-center gap-3 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-[#7EE000]/40 text-center">
+                <CheckCircle className="size-10 text-[#7EE000]" />
+                <h4 className="font-exo2 font-bold text-xl text-white">
+                  Alerta ativado com sucesso!
+                </h4>
+                <p className="font-exo2 text-white/80 text-sm">
+                  Enviaremos um aviso para o seu e-mail assim que houver novidades sobre{' '}
                   <strong className="text-[#31A1FF]">
-                    {activeCategory || 'sua área'}
+                    {activeCategory || 'todas as especialidades'}
                   </strong>
                   .
                 </p>
@@ -156,7 +142,7 @@ export default function FiltroEmailEspecialidade({
                 onSubmit={handleAlertSubmit}
                 action="https://formsubmit.co/m.sousa@lasforlife.com.br"
                 method="POST"
-                className="flex flex-col gap-3 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm"
+                className="flex flex-col gap-3 bg-white/10 backdrop-blur-md p-5 sm:p-6 rounded-2xl border border-white/15 shadow-2xl"
               >
                 <input
                   type="hidden"
@@ -168,42 +154,42 @@ export default function FiltroEmailEspecialidade({
                 <input
                   type="hidden"
                   name="especialidade"
-                  value={activeCategory}
+                  value={activeCategory || 'Todas'}
                 />
 
-                <div className="flex flex-col gap-1">
-                  <label className="font-exo2 text-xs text-gray-500">
-                    Alerta ativado para:{' '}
-                    <strong className="text-[#31A1FF]">
-                      {activeCategory || 'Todas as especialidades'}
-                    </strong>
-                  </label>
-                </div>
+                <label htmlFor="alert-email" className="font-exo2 text-xs font-semibold text-white/90 uppercase tracking-wider">
+                  Seu e-mail profissional
+                </label>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
+                    id="alert-email"
                     type="email"
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Seu melhor e-mail"
+                    placeholder="digite@seuemail.com.br"
                     required
-                    className="w-full font-exo2 text-sm px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:border-[#31A1FF] focus:ring-2 focus:ring-[#31A1FF]/15 transition-all"
+                    className="flex-1 font-exo2 text-sm px-4 py-3 rounded-xl border border-white/20 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#31A1FF] transition-all shadow-inner"
                   />
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full inline-flex items-center justify-center gap-2 font-exo2 font-semibold text-sm rounded-xl px-5 py-2.5 bg-[#31A1FF] text-white hover:bg-[#2090ee] active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 font-exo2 font-bold text-sm rounded-xl px-6 py-3 bg-[#31A1FF] text-white hover:bg-[#2090ee] active:scale-[0.98] transition-all shadow-lg shadow-[#31A1FF]/30 disabled:opacity-50 cursor-pointer shrink-0"
                   >
                     {loading ? (
-                      <span className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (
                       <>
-                        <Send className="size-3.5" /> Quero ser avisado
+                        <Send className="size-4" /> Quero ser avisado
                       </>
                     )}
                   </button>
                 </div>
+
+                <p className="font-exo2 text-[11px] text-white/60 text-center sm:text-left mt-1">
+                  Respeitamos sua privacidade. Sem spam.
+                </p>
               </form>
             )}
           </div>
