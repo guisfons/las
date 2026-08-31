@@ -6,8 +6,6 @@ const EVENTO_FIELDS = `
   slug
   title
   date
-  content
-  excerpt
   eventoacf {
     img {
       node {
@@ -82,6 +80,7 @@ export async function getAllEventos(): Promise<WPEventoNode[]> {
     return [];
   }
 }
+
 export async function getEventoBySlug(
   slug: string,
 ): Promise<WPEventoNode | null> {
@@ -89,6 +88,8 @@ export async function getEventoBySlug(
     query GetEventoBySlug($id: ID!) {
       evento(id: $id, idType: SLUG) {
         ${EVENTO_FIELDS}
+        content
+        excerpt
       }
     }
   `;
