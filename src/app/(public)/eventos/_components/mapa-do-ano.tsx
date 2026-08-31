@@ -139,13 +139,16 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
     return Array.from(yrs).sort();
   }, [eventos]);
 
-  // ─── Especialidades disponíveis no ano selecionado ──────────────
   const availableSpecialties = useMemo(() => {
     const sps = new Set<string>();
     eventos
       .filter((e) => Number(e.eventoacf?.year) === selectedYear)
       .forEach((e) =>
-        e.eventoCategorias?.nodes?.forEach((n) => sps.add(n.name)),
+        e.eventoCategorias?.nodes?.forEach((n) => {
+          if (n.name && n.name.trim().toLowerCase() !== 'todos') {
+            sps.add(n.name);
+          }
+        }),
       );
     return ['Todos', ...Array.from(sps)];
   }, [eventos, selectedYear]);

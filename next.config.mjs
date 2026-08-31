@@ -11,7 +11,8 @@ const nextConfig = {
     return [
       {
         source: '/wp-content/:path*',
-        destination: 'https://mediumblue-swallow-341910.hostingersite.com/wp-content/:path*',
+        destination:
+          'https://mediumblue-swallow-341910.hostingersite.com/wp-content/:path*',
       },
     ];
   },

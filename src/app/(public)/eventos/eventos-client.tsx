@@ -84,11 +84,14 @@ export default function EventosClient({
   eventos,
   initialCategory,
 }: EventosClientProps) {
-  // ─── Especialidades disponíveis (da API WP — dinâmico) ──────────
   const especialidades = useMemo(() => {
     const sp = new Set<string>();
     eventos.forEach((e) =>
-      e.eventoCategorias?.nodes?.forEach((n) => sp.add(n.name)),
+      e.eventoCategorias?.nodes?.forEach((n) => {
+        if (n.name && n.name.trim().toLowerCase() !== 'todos') {
+          sp.add(n.name);
+        }
+      }),
     );
     return Array.from(sp).sort((a, b) => a.localeCompare(b, 'pt-BR'));
   }, [eventos]);

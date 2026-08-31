@@ -20,7 +20,10 @@ export default function FiltroEmailEspecialidade({
   const [loading, setLoading] = useState(false);
 
   const activeCategory = filter !== 'Todos' ? filter : '';
-  const allOptions = ['Todos', ...especialidades];
+  const cleanEspecialidades = (especialidades || []).filter(
+    (sp) => sp && sp.trim().toLowerCase() !== 'todos',
+  );
+  const allOptions = ['Todos', ...cleanEspecialidades];
 
   async function handleAlertSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -166,7 +169,7 @@ export default function FiltroEmailEspecialidade({
                   Seu e-mail profissional
                 </label>
 
-                <div className="flex flex-col sm:flex-row gap-2">
+                <div className="flex flex-col gap-3 w-full">
                   <input
                     id="alert-email"
                     type="email"
@@ -175,12 +178,12 @@ export default function FiltroEmailEspecialidade({
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="digite@seuemail.com.br"
                     required
-                    className="flex-1 font-exo2 text-sm px-4 py-3 rounded-xl border border-white/20 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#31A1FF] transition-all shadow-inner"
+                    className="w-full font-exo2 text-sm px-4 py-3 rounded-xl border border-white/20 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#31A1FF] transition-all shadow-inner"
                   />
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex items-center justify-center gap-2 font-exo2 font-bold text-sm rounded-xl px-6 py-3 bg-[#31A1FF] text-white hover:bg-[#2090ee] active:scale-[0.98] transition-all shadow-lg shadow-[#31A1FF]/30 disabled:opacity-50 cursor-pointer shrink-0"
+                    className="w-full inline-flex items-center justify-center gap-2 font-exo2 font-bold text-sm rounded-xl px-6 py-3 bg-[#31A1FF] text-white hover:bg-[#2090ee] active:scale-[0.98] transition-all shadow-lg shadow-[#31A1FF]/30 disabled:opacity-50 cursor-pointer"
                   >
                     {loading ? (
                       <span className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
