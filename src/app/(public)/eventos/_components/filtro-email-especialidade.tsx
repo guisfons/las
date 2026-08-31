@@ -36,7 +36,6 @@ export default function FiltroEmailEspecialidade({
 
   async function handleAlertSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const targetEspecialidade = activeCategory || 'Geral';
     if (!email) return;
 
     setLoading(true);
