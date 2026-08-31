@@ -141,7 +141,8 @@ function getEventStyle(evento: WPEventoNode) {
 function CardQuadrado({ evento }: { evento: WPEventoNode }) {
   const acf = evento.eventoacf;
   const specialidades = evento.eventoCategorias?.nodes || [];
-  const ctaLabel = SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] || 'Saiba Mais';
+  const ctaLabel =
+    SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] || 'Saiba Mais';
   const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
   const style = getEventStyle(evento);
 
@@ -168,13 +169,15 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
             alt={evento.title}
             fill
             className={cn(
-              "object-cover transition-transform duration-500 group-hover:scale-105",
-              style.isPast && "grayscale opacity-80 group-hover:grayscale-0"
+              'object-cover transition-transform duration-500 group-hover:scale-105',
+              style.isPast && 'grayscale opacity-80 group-hover:grayscale-0',
             )}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className={cn("absolute inset-0 bg-gradient-to-br", style.gradient)} />
+          <div
+            className={cn('absolute inset-0 bg-gradient-to-br', style.gradient)}
+          />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
@@ -190,7 +193,12 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
         )}
 
         <div className="absolute top-4 right-4">
-          <span className={cn('font-exo2 text-[10px] lg:text-xs font-semibold px-3 py-1 rounded-full shadow-lg', style.tag)}>
+          <span
+            className={cn(
+              'font-exo2 text-[10px] lg:text-xs font-semibold px-3 py-1 rounded-full shadow-lg',
+              style.tag,
+            )}
+          >
             {formatLabel}
           </span>
         </div>
@@ -205,7 +213,9 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
                 key={sp.slug}
                 className={cn(
                   'font-exo2 text-[10px] px-2 py-0.5 rounded-full border font-medium',
-                  color.bg, color.text, color.border,
+                  color.bg,
+                  color.text,
+                  color.border,
                 )}
               >
                 {sp.name}
@@ -215,20 +225,27 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
         </div>
 
         <Link href={`/eventos/${evento.slug}`}>
-          <h3 className={cn("font-exo2 font-bold text-lg leading-snug transition-colors", style.isPast ? "text-gray-600 hover:text-gray-900" : "hover:text-[#31A1FF]")}>
+          <h3
+            className={cn(
+              'font-exo2 font-bold text-lg leading-snug transition-colors',
+              style.isPast
+                ? 'text-gray-600 hover:text-gray-900'
+                : 'hover:text-[#31A1FF]',
+            )}
+          >
             {evento.title}
           </h3>
         </Link>
 
         {acf?.local && (
           <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
-            <MapPin className={cn("size-3.5 shrink-0", style.text)} />
+            <MapPin className={cn('size-3.5 shrink-0', style.text)} />
             {acf.local}
           </p>
         )}
         {acf?.hours && (
           <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
-            <Clock className={cn("size-3.5 shrink-0", style.text)} />
+            <Clock className={cn('size-3.5 shrink-0', style.text)} />
             {acf.hours}
           </p>
         )}
@@ -245,7 +262,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
                   `bg-${style.text.replace('text-', '')}/10`,
                   style.text,
                   style.border,
-                  `hover:bg-${style.text.replace('text-', '')}/20`
+                  `hover:bg-${style.text.replace('text-', '')}/20`,
                 )}
               >
                 {ctaLabel} <ExternalLink className="size-3" />
@@ -261,10 +278,10 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
             </>
           ) : (
             <Link
-                href={`/eventos/${evento.slug}`}
-                className="inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
-              >
-                Ver Detalhes
+              href={`/eventos/${evento.slug}`}
+              className="inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+            >
+              Ver Detalhes
             </Link>
           )}
           {acf?.fullDate && !style.isPast && (
@@ -306,17 +323,27 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
             src={acf.img.node.sourceUrl}
             alt={evento.title}
             fill
-            className={cn("object-cover transition-transform duration-500 group-hover:scale-105", style.isPast && "grayscale")}
+            className={cn(
+              'object-cover transition-transform duration-500 group-hover:scale-105',
+              style.isPast && 'grayscale',
+            )}
             sizes="100vw"
           />
         ) : (
-          <div className={cn("absolute inset-0 bg-gradient-to-br", style.gradient)} />
+          <div
+            className={cn('absolute inset-0 bg-gradient-to-br', style.gradient)}
+          />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
 
         <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-10">
           <div className="flex flex-wrap gap-2">
-            <span className={cn('font-exo2 text-xs font-semibold px-3 py-1 rounded-full shadow-md', style.tag)}>
+            <span
+              className={cn(
+                'font-exo2 text-xs font-semibold px-3 py-1 rounded-full shadow-md',
+                style.tag,
+              )}
+            >
               {formatLabel}
             </span>
             {specialidades.map((sp) => {
@@ -326,7 +353,9 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
                   key={sp.slug}
                   className={cn(
                     'font-exo2 text-xs px-2.5 py-1 rounded-full border',
-                    color.bg, color.text, color.border,
+                    color.bg,
+                    color.text,
+                    color.border,
                   )}
                 >
                   {sp.name}
@@ -364,7 +393,10 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
                 rel="noopener noreferrer"
                 className={cn(
                   'inline-flex items-center gap-2 font-exo2 font-bold text-sm rounded-full px-6 py-3 transition-all duration-200 shrink-0 border border-transparent hover:border-white/20',
-                  style.bg, style.bg === 'bg-[#7EE000]' ? 'text-black hover:bg-[#6bcc00]' : 'text-white hover:brightness-110'
+                  style.bg,
+                  style.bg === 'bg-[#7EE000]'
+                    ? 'text-black hover:bg-[#6bcc00]'
+                    : 'text-white hover:brightness-110',
                 )}
               >
                 {ctaLabel} <ExternalLink className="size-4" />
@@ -391,7 +423,7 @@ export default function GridProximosEventos({
     const matchEspecialidade =
       !filter ||
       (e.eventoCategorias?.nodes || []).some((n) => n.name === filter);
-    
+
     if (!matchEspecialidade) return false;
 
     // Segmento filter
@@ -403,7 +435,7 @@ export default function GridProximosEventos({
     if (segment === 'Passados') return isPast;
     if (segment === 'Patrocinado') return isFuture && type === 'feira';
     if (segment === 'Educacional') return isFuture && type === 'educacional';
-    
+
     // Autoral matches 'autoral' or fallback for future events without specific type
     return isFuture && (!type || type === 'autoral');
   });
@@ -416,14 +448,17 @@ export default function GridProximosEventos({
   });
 
   // Group by month
-  const grouped = filteredEventos.reduce((acc, evento) => {
-    const m = evento.eventoacf?.month || 'Sem Mês';
-    const y = evento.eventoacf?.year || '';
-    const key = `${m} ${y}`.trim();
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(evento);
-    return acc;
-  }, {} as Record<string, WPEventoNode[]>);
+  const grouped = filteredEventos.reduce(
+    (acc, evento) => {
+      const m = evento.eventoacf?.month || 'Sem Mês';
+      const y = evento.eventoacf?.year || '';
+      const key = `${m} ${y}`.trim();
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(evento);
+      return acc;
+    },
+    {} as Record<string, WPEventoNode[]>,
+  );
 
   if (filteredEventos.length === 0) {
     return (
@@ -462,4 +497,3 @@ export default function GridProximosEventos({
     </div>
   );
 }
-
