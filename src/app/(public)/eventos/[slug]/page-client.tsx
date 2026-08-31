@@ -20,10 +20,12 @@ import {
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
 import Footer from '@/components/footer';
+import CardProduct, { Product } from '../../produtos/_components/card-product';
 
 interface Props {
   evento: WPEventoNode;
   outrosEventos: WPEventoNode[];
+  produtos?: Product[];
 }
 
 const EVENT_FORMAT_LABELS: Record<string, string> = {
@@ -179,7 +181,11 @@ function MiniCard({ evento }: { evento: WPEventoNode }) {
   );
 }
 
-export default function EventoPageClient({ evento, outrosEventos }: Props) {
+export default function EventoPageClient({
+  evento,
+  outrosEventos,
+  produtos = [],
+}: Props) {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const acf = evento.eventoacf;
   const countdown = useCountdown(acf?.fullDate);
@@ -225,6 +231,19 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
       return hasSameSpecialty;
     })
     .sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'))
+    .slice(0, 4);
+
+  const relatedProducts = [...produtos]
+    .filter((p) => {
+      const hasSameSpecialty = p.specialities.some((ps) =>
+        specialidades.some((es) => es.name.toLowerCase() === ps.toLowerCase()),
+      );
+      const hasSameName = p.name
+        .toLowerCase()
+        .includes(evento.title.toLowerCase());
+      return hasSameSpecialty || hasSameName;
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
     .slice(0, 4);
 
   return (
@@ -767,6 +786,30 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
               className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[#31A1FF] border border-[#31A1FF]/30 rounded-full px-6 py-2.5 hover:bg-[#31A1FF]/5 transition-all"
             >
               Ver todos os eventos
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* ── PRODUTOS RELACIONADOS ───────────────────────────────────── */}
+      {relatedProducts.length > 0 && (
+        <section className="w-full max-w-7xl mx-auto px-6 pb-20">
+          <h2 className="font-exo2 font-bold text-2xl md:text-3xl mb-6">
+            Produtos Relacionados
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {relatedProducts.map((p) => (
+              <div key={p.id}>
+                <CardProduct product={p} />
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center sm:text-left">
+            <Link
+              href="/produtos"
+              className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[#31A1FF] border border-[#31A1FF]/30 rounded-full px-6 py-2.5 hover:bg-[#31A1FF]/5 transition-all"
+            >
+              Ver todos os produtos
             </Link>
           </div>
         </section>

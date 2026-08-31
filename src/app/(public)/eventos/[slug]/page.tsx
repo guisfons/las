@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getEventoBySlug, getAllEventos } from '@/lib/api/events';
+import { getAllProducts } from '@/lib/api/products';
+import { mapWPProductToProduct } from '@/lib/utils/product-mapper';
 import EventoPageClient from './page-client';
 
 interface Props {
@@ -35,14 +37,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function EventoPage({ params }: Props) {
-  const [evento, todos] = await Promise.all([
+  const [evento, todos, wpProducts] = await Promise.all([
     getEventoBySlug(params.slug),
     getAllEventos(),
+    getAllProducts(),
   ]);
 
   if (!evento) notFound();
 
   const outrosEventos = todos.filter((e) => e.slug !== params.slug).slice(0, 3);
+  const products = wpProducts.map(mapWPProductToProduct);
 
-  return <EventoPageClient evento={evento} outrosEventos={outrosEventos} />;
+  return (
+    <EventoPageClient
+      evento={evento}
+      outrosEventos={outrosEventos}
+      produtos={products}
+    />
+  );
 }
