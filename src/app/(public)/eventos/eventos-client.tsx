@@ -182,7 +182,11 @@ export default function EventosClient({
           onFilterChange={handleFilterChange}
           onSegmentChange={handleSegmentChange}
         />
-        <GridProximosEventos eventos={eventos} filter={filter} segment={segment} />
+        <GridProximosEventos
+          eventos={eventos}
+          filter={filter}
+          segment={segment}
+        />
       </section>
 
       {/* 3. Onde nos encontrar (só aparece se houver feiras futuras) */}
