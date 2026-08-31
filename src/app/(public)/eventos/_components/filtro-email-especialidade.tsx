@@ -106,7 +106,8 @@ export default function FiltroEmailEspecialidade({
             </h3>
 
             <p className="font-exo2 text-white/80 text-sm md:text-base leading-relaxed">
-              Receba notificações em primeira mão assim que novas turmas, simpósios ou congressos da sua área forem publicados.
+              Receba notificações em primeira mão assim que novas turmas,
+              simpósios ou congressos da sua área forem publicados.
             </p>
 
             {/* Indicação da especialidade sem duplicar os botões de filtro */}
@@ -130,7 +131,8 @@ export default function FiltroEmailEspecialidade({
                   Alerta ativado com sucesso!
                 </h4>
                 <p className="font-exo2 text-white/80 text-sm">
-                  Enviaremos um aviso para o seu e-mail assim que houver novidades sobre{' '}
+                  Enviaremos um aviso para o seu e-mail assim que houver
+                  novidades sobre{' '}
                   <strong className="text-[#31A1FF]">
                     {activeCategory || 'todas as especialidades'}
                   </strong>
@@ -157,7 +159,10 @@ export default function FiltroEmailEspecialidade({
                   value={activeCategory || 'Todas'}
                 />
 
-                <label htmlFor="alert-email" className="font-exo2 text-xs font-semibold text-white/90 uppercase tracking-wider">
+                <label
+                  htmlFor="alert-email"
+                  className="font-exo2 text-xs font-semibold text-white/90 uppercase tracking-wider"
+                >
                   Seu e-mail profissional
                 </label>
 
