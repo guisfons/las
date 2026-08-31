@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, Tag, ArrowRight, Search } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Search } from 'lucide-react';
 import { WPBlogPost } from '@/lib/api/blog';
 import { cn } from '@/lib/utils';
 import Footer from '@/components/footer';
@@ -29,17 +29,12 @@ function getPostImage(post: WPBlogPost): string | undefined {
 }
 
 function getAuthorName(post: WPBlogPost): string {
-  return (
-    post.blogacf?.authorName ||
-    post.author?.node?.name ||
-    'LAS For Life'
-  );
+  return post.blogacf?.authorName || post.author?.node?.name || 'LAS For Life';
 }
 
 // ─── Card Hero (destaque) ────────────────────────────────────────────────────
 function CardHero({ post }: { post: WPBlogPost }) {
   const img = getPostImage(post);
-  const author = getAuthorName(post);
   const categories = post.categories?.nodes || [];
   const excerpt = post.excerpt?.replace(/<[^>]*>/g, '').slice(0, 200) || '';
 
@@ -114,7 +109,10 @@ function CardPost({ post }: { post: WPBlogPost }) {
       transition={{ duration: 0.35, ease: 'easeOut' }}
       className="group flex flex-col bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-lg hover:border-[#31A1FF]/20 transition-all duration-300"
     >
-      <Link href={`/blog/${post.slug}`} className="block relative aspect-[324/222] overflow-hidden bg-gray-100">
+      <Link
+        href={`/blog/${post.slug}`}
+        className="block relative aspect-[324/222] overflow-hidden bg-gray-100"
+      >
         {img ? (
           <Image
             src={img}
@@ -125,7 +123,9 @@ function CardPost({ post }: { post: WPBlogPost }) {
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-[#31A1FF]/20 to-[#1a2a5e]/30 flex items-center justify-center">
-            <span className="font-exo2 font-bold text-2xl text-white/40">LAS</span>
+            <span className="font-exo2 font-bold text-2xl text-white/40">
+              LAS
+            </span>
           </div>
         )}
         {categories.length > 0 && (
@@ -144,7 +144,8 @@ function CardPost({ post }: { post: WPBlogPost }) {
           </span>
           {post.blogacf?.readingTime && (
             <span className="flex items-center gap-1">
-              <Clock className="size-3" /> {post.blogacf.readingTime} min de leitura
+              <Clock className="size-3" /> {post.blogacf.readingTime} min de
+              leitura
             </span>
           )}
         </div>
@@ -220,7 +221,8 @@ export default function BlogClient({ posts }: Props) {
               Conhecimento que transforma a saúde
             </h1>
             <p className="font-exo2 text-gray-500 text-lg max-w-xl">
-              Artigos, novidades e conteúdos educativos para profissionais da saúde.
+              Artigos, novidades e conteúdos educativos para profissionais da
+              saúde.
             </p>
           </div>
 

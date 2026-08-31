@@ -75,7 +75,8 @@ function RelatedCard({ post }: { post: WPBlogPost }) {
 export default function BlogPostClient({ post, relatedPosts }: Props) {
   const acf = post.blogacf;
   const img = getPostImage(post);
-  const authorName = acf?.authorName || post.author?.node?.name || 'LAS For Life';
+  const authorName =
+    acf?.authorName || post.author?.node?.name || 'LAS For Life';
   const authorPhoto =
     acf?.authorPhoto?.node?.sourceUrl || post.author?.node?.avatar?.url;
   const categories = post.categories?.nodes || [];
@@ -228,7 +229,9 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
             <div>
               <p className="font-exo2 font-bold text-gray-900">{authorName}</p>
               {acf?.authorRole && (
-                <p className="font-exo2 text-sm text-gray-500">{acf.authorRole}</p>
+                <p className="font-exo2 text-sm text-gray-500">
+                  {acf.authorRole}
+                </p>
               )}
             </div>
           </div>
