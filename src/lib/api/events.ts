@@ -6,6 +6,8 @@ const EVENTO_FIELDS = `
   slug
   title
   date
+  content
+  excerpt
   eventoacf {
     img {
       node {
@@ -78,5 +80,26 @@ export async function getAllEventos(): Promise<WPEventoNode[]> {
   } catch (error) {
     console.error('Failed to fetch eventos from WP:', error);
     return [];
+  }
+}
+export async function getEventoBySlug(
+  slug: string,
+): Promise<WPEventoNode | null> {
+  const query = `
+    query GetEventoBySlug($id: ID!) {
+      evento(id: $id, idType: SLUG) {
+        ${EVENTO_FIELDS}
+      }
+    }
+  `;
+
+  try {
+    const data = await fetchWPGraphQL<{ evento: WPEventoNode }>(query, {
+      id: slug,
+    });
+    return data?.evento || null;
+  } catch (error) {
+    console.error(`Failed to fetch evento ${slug} from WP.`, error);
+    return null;
   }
 }

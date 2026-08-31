@@ -232,6 +232,14 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
 
         {/* CTAs */}
         <div className="flex flex-wrap items-center gap-3 mt-2">
+          {/* Ver detalhes do evento */}
+          <Link
+            href={`/eventos/${evento.slug}`}
+            className="inline-flex items-center gap-2 font-exo2 font-bold text-base rounded-full px-8 py-3 bg-white text-[#1a2a5e] hover:bg-white/90 transition-all duration-200"
+          >
+            Ver detalhes
+          </Link>
+
           {/* CTA principal */}
           {acf?.subscribe && (
             <Link

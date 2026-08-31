@@ -105,8 +105,8 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
       exit="exit"
       layout
     >
-      {/* Imagem quadrada */}
-      <div className="relative aspect-square rounded-3xl overflow-hidden bg-gray-100">
+      {/* Imagem 324/222 */}
+      <Link href={`/eventos/${evento.slug}`} className="block relative aspect-[324/222] rounded-3xl overflow-hidden bg-gray-100">
         {acf?.img?.node?.sourceUrl ? (
           <Image
             src={acf.img.node.sourceUrl}
@@ -144,7 +144,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
             {formatLabel}
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Info */}
       <div className="flex flex-col gap-2 px-1">
@@ -168,9 +168,11 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
           })}
         </div>
 
-        <h3 className="font-exo2 font-bold text-xl leading-snug">
-          {evento.title}
-        </h3>
+        <Link href={`/eventos/${evento.slug}`}>
+          <h3 className="font-exo2 font-bold text-xl leading-snug hover:text-[#31A1FF] transition-colors">
+            {evento.title}
+          </h3>
+        </Link>
 
         {acf?.local && (
           <p className="flex items-center gap-1.5 font-exo2 text-sm text-gray-500">

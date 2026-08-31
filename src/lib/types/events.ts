@@ -76,6 +76,8 @@ export type WPEventoNode = {
   slug: string;
   title: string;
   date: string;
+  content?: string;
+  excerpt?: string;
   eventoacf?: WPEventoAcf;
   eventoCategorias?: {
     nodes: {
