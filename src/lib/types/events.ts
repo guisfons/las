@@ -10,7 +10,7 @@ export type WPEventoAcf = {
   isFeatured?: boolean;
   img?: WPImage;
   imageType?: 'quadrada' | 'banner' | 'icon';
-  eventType?: 'autoral' | 'feira';
+  eventType?: 'autoral' | 'educacional' | 'feira';
   eventFormat?:
     | 'jantar_cientifico'
     | 'curso'
@@ -33,6 +33,10 @@ export type WPEventoAcf = {
 
   // ─── Localização ────────────────────────────────────────────────
   local?: string;
+  addressStreet?: string;
+  addressNumber?: string;
+  addressCity?: string;
+  addressState?: string;
   mapEmbedUrl?: string;
   howToGet?: string;
   partnerHotels?: string;
@@ -48,6 +52,7 @@ export type WPEventoAcf = {
     | 'vagas_limitadas';
 
   // ─── Feira ──────────────────────────────────────────────────────
+  boothPavilion?: string;
   boothNumber?: string;
   boothMapUrl?: string;
   boothHours?: string;

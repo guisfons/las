@@ -6,10 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Clock, ExternalLink, Share2, Calendar } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
+import { getEventDate } from '../eventos-client';
 
 interface GridProximosEventosProps {
   eventos: WPEventoNode[];
-  filter: string;
+  filter: string | null;
+  segment: string;
 }
 
 // ─── Cores por especialidade ────────────────────────────────────────────────
@@ -69,89 +71,132 @@ const SUBSCRIBE_TYPE_LABELS: Record<string, string> = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.93, y: 24 },
+  hidden: { opacity: 0, scale: 0.95, y: 20 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { duration: 0.4, ease: 'easeOut' },
+    transition: { duration: 0.3, ease: 'easeOut' },
   },
   exit: {
     opacity: 0,
-    scale: 0.93,
+    scale: 0.95,
     y: -16,
-    transition: { duration: 0.25, ease: 'easeIn' },
+    transition: { duration: 0.2, ease: 'easeIn' },
   },
 };
+
+function getEventStyle(evento: WPEventoNode) {
+  const acf = evento.eventoacf;
+  const date = getEventDate(evento);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const isPast = date ? date < today : false;
+
+  if (isPast) {
+    return {
+      bg: 'bg-gray-500',
+      tag: 'bg-gray-500 text-white',
+      border: 'border-gray-300',
+      text: 'text-gray-600',
+      gradient: 'from-gray-500/30 to-gray-800',
+      isPast: true,
+    };
+  }
+
+  if (acf?.eventType === 'feira') {
+    return {
+      bg: 'bg-[#7EE000]',
+      tag: 'bg-[#7EE000] text-black',
+      border: 'border-[#7EE000]/30',
+      text: 'text-[#5aac00]',
+      gradient: 'from-[#7EE000]/30 to-[#1a2a5e]',
+      isPast: false,
+    };
+  }
+
+  if (acf?.eventType === 'educacional') {
+    return {
+      bg: 'bg-[#1a2a5e]',
+      tag: 'bg-[#1a2a5e] text-white',
+      border: 'border-[#1a2a5e]/30',
+      text: 'text-[#1a2a5e]',
+      gradient: 'from-[#1a2a5e]/50 to-[#0a1433]',
+      isPast: false,
+    };
+  }
+
+  // Default: Autoral
+  return {
+    bg: 'bg-[#31A1FF]',
+    tag: 'bg-[#31A1FF] text-white',
+    border: 'border-[#31A1FF]/30',
+    text: 'text-[#31A1FF]',
+    gradient: 'from-[#31A1FF]/30 to-[#1a2a5e]',
+    isPast: false,
+  };
+}
 
 // ─── Card Quadrado ──────────────────────────────────────────────────────────
 function CardQuadrado({ evento }: { evento: WPEventoNode }) {
   const acf = evento.eventoacf;
   const specialidades = evento.eventoCategorias?.nodes || [];
-  const isFeira = acf?.eventType === 'feira';
-  const ctaLabel = SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'];
+  const ctaLabel = SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] || 'Saiba Mais';
   const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
+  const style = getEventStyle(evento);
+
   const whatsappText = encodeURIComponent(
     `🩺 ${evento.title} — ${acf?.dateNumber} de ${acf?.month}\n📍 ${acf?.local || ''}\n\nSaiba mais: ${typeof window !== 'undefined' ? window.location.href : ''}`,
   );
 
   return (
     <motion.figure
-      key={evento.id}
-      className="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 flex flex-col gap-4 group"
+      className="col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2 flex flex-col gap-4 group"
       variants={cardVariants}
       initial="hidden"
       animate="visible"
       exit="exit"
       layout
     >
-      {/* Imagem 324/222 */}
       <Link
         href={`/eventos/${evento.slug}`}
-        className="block relative aspect-[324/222] rounded-3xl overflow-hidden bg-gray-100"
+        className="block relative aspect-video rounded-3xl overflow-hidden bg-gray-100"
       >
         {acf?.img?.node?.sourceUrl ? (
           <Image
             src={acf.img.node.sourceUrl}
             alt={evento.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className={cn(
+              "object-cover transition-transform duration-500 group-hover:scale-105",
+              style.isPast && "grayscale opacity-80 group-hover:grayscale-0"
+            )}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#31A1FF]/30 to-[#1a2a5e]" />
+          <div className={cn("absolute inset-0 bg-gradient-to-br", style.gradient)} />
         )}
-        {/* Overlay gradiente */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-        {/* Data flutuante */}
         {acf?.dateNumber && (
           <div className="absolute top-4 left-4 flex flex-col">
-            <span className="font-exo2 text-white font-bold text-4xl lg:text-5xl leading-none">
+            <span className="font-exo2 text-white font-bold text-3xl lg:text-4xl leading-none shadow-sm">
               {acf?.dateNumber}
             </span>
-            <span className="font-exo2 text-white/80 text-sm uppercase tracking-widest">
+            <span className="font-exo2 text-white/90 text-[10px] lg:text-xs uppercase tracking-widest font-semibold drop-shadow-md">
               {acf?.month}
             </span>
           </div>
         )}
 
-        {/* Tag de formato */}
         <div className="absolute top-4 right-4">
-          <span
-            className={cn(
-              'font-exo2 text-xs font-semibold px-3 py-1 rounded-full',
-              isFeira ? 'bg-[#7EE000] text-black' : 'bg-[#31A1FF] text-white',
-            )}
-          >
+          <span className={cn('font-exo2 text-[10px] lg:text-xs font-semibold px-3 py-1 rounded-full shadow-lg', style.tag)}>
             {formatLabel}
           </span>
         </div>
       </Link>
 
-      {/* Info */}
       <div className="flex flex-col gap-2 px-1">
-        {/* Tags especialidade */}
         <div className="flex flex-wrap gap-1.5">
           {specialidades.map((sp) => {
             const color = getSpecialtyColor(sp.name);
@@ -159,10 +204,8 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
               <span
                 key={sp.slug}
                 className={cn(
-                  'font-exo2 text-xs px-2.5 py-0.5 rounded-full border',
-                  color.bg,
-                  color.text,
-                  color.border,
+                  'font-exo2 text-[10px] px-2 py-0.5 rounded-full border font-medium',
+                  color.bg, color.text, color.border,
                 )}
               >
                 {sp.name}
@@ -172,42 +215,37 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
         </div>
 
         <Link href={`/eventos/${evento.slug}`}>
-          <h3 className="font-exo2 font-bold text-xl leading-snug hover:text-[#31A1FF] transition-colors">
+          <h3 className={cn("font-exo2 font-bold text-lg leading-snug transition-colors", style.isPast ? "text-gray-600 hover:text-gray-900" : "hover:text-[#31A1FF]")}>
             {evento.title}
           </h3>
         </Link>
 
         {acf?.local && (
-          <p className="flex items-center gap-1.5 font-exo2 text-sm text-gray-500">
-            <MapPin className="size-3.5 text-[#31A1FF] shrink-0" />
+          <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
+            <MapPin className={cn("size-3.5 shrink-0", style.text)} />
             {acf.local}
           </p>
         )}
         {acf?.hours && (
-          <p className="flex items-center gap-1.5 font-exo2 text-sm text-gray-500">
-            <Clock className="size-3.5 text-[#31A1FF] shrink-0" />
+          <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
+            <Clock className={cn("size-3.5 shrink-0", style.text)} />
             {acf.hours}
           </p>
         )}
-        {acf?.speaker && (
-          <p className="font-exo2 text-sm text-gray-600">
-            <span className="font-semibold">Palestrante:</span> {acf.speaker}
-          </p>
-        )}
 
-        {/* CTA */}
-        <div className="flex items-center gap-2 mt-1">
-          {acf?.subscribe ? (
+        <div className="flex items-center gap-2 mt-2">
+          {acf?.subscribe && !style.isPast ? (
             <>
               <Link
                 href={acf.subscribe}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  'inline-flex items-center gap-1.5 font-exo2 font-semibold text-sm rounded-full px-5 py-2 transition-all duration-200',
-                  isFeira
-                    ? 'bg-[#7EE000]/10 text-[#5aac00] border border-[#7EE000]/30 hover:bg-[#7EE000]/20'
-                    : 'bg-[#31A1FF]/10 text-[#31A1FF] border border-[#31A1FF]/30 hover:bg-[#31A1FF]/20',
+                  'inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 border',
+                  `bg-${style.text.replace('text-', '')}/10`,
+                  style.text,
+                  style.border,
+                  `hover:bg-${style.text.replace('text-', '')}/20`
                 )}
               >
                 {ctaLabel} <ExternalLink className="size-3" />
@@ -217,19 +255,24 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-full bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
-                aria-label="Compartilhar no WhatsApp"
               >
                 <Share2 className="size-3.5" />
               </Link>
             </>
-          ) : null}
-          {acf?.fullDate && (
+          ) : (
+            <Link
+                href={`/eventos/${evento.slug}`}
+                className="inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+              >
+                Ver Detalhes
+            </Link>
+          )}
+          {acf?.fullDate && !style.isPast && (
             <Link
               href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(evento.title)}&dates=${new Date(acf.fullDate).toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${new Date(new Date(acf.fullDate).getTime() + 2 * 3600000).toISOString().replace(/[-:]/g, '').split('.')[0]}Z&location=${encodeURIComponent(acf?.local || '')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
-              aria-label="Adicionar ao Google Calendar"
             >
               <Calendar className="size-3.5" />
             </Link>
@@ -244,13 +287,12 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
 function CardBanner({ evento }: { evento: WPEventoNode }) {
   const acf = evento.eventoacf;
   const specialidades = evento.eventoCategorias?.nodes || [];
-  const isFeira = acf?.eventType === 'feira';
   const ctaLabel = SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'];
   const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
+  const style = getEventStyle(evento);
 
   return (
     <motion.figure
-      key={evento.id}
       className="col-span-full group"
       variants={cardVariants}
       initial="hidden"
@@ -264,23 +306,17 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
             src={acf.img.node.sourceUrl}
             alt={evento.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className={cn("object-cover transition-transform duration-500 group-hover:scale-105", style.isPast && "grayscale")}
             sizes="100vw"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a2a5e] to-[#0d1b3e]" />
+          <div className={cn("absolute inset-0 bg-gradient-to-br", style.gradient)} />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
 
-        {/* Content */}
         <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-10">
           <div className="flex flex-wrap gap-2">
-            <span
-              className={cn(
-                'font-exo2 text-xs font-semibold px-3 py-1 rounded-full',
-                isFeira ? 'bg-[#7EE000] text-black' : 'bg-[#31A1FF] text-white',
-              )}
-            >
+            <span className={cn('font-exo2 text-xs font-semibold px-3 py-1 rounded-full shadow-md', style.tag)}>
               {formatLabel}
             </span>
             {specialidades.map((sp) => {
@@ -290,9 +326,7 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
                   key={sp.slug}
                   className={cn(
                     'font-exo2 text-xs px-2.5 py-1 rounded-full border',
-                    color.bg,
-                    color.text,
-                    color.border,
+                    color.bg, color.text, color.border,
                   )}
                 >
                   {sp.name}
@@ -305,34 +339,32 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
             <div className="flex flex-col gap-1">
               {acf?.dateNumber && (
                 <div className="flex items-baseline gap-3">
-                  <span className="font-exo2 text-white font-bold text-5xl">
+                  <span className="font-exo2 text-white font-bold text-4xl md:text-5xl">
                     {acf?.dateNumber}
                   </span>
-                  <span className="font-exo2 text-white/70 text-lg uppercase">
+                  <span className="font-exo2 text-white/80 text-sm md:text-lg uppercase">
                     {acf?.month}
                   </span>
                 </div>
               )}
-              <h3 className="font-exo2 font-bold text-2xl md:text-3xl text-white">
+              <h3 className="font-exo2 font-bold text-2xl md:text-3xl text-white drop-shadow-md">
                 {evento.title}
               </h3>
               {acf?.local && (
-                <p className="flex items-center gap-1.5 font-exo2 text-white/70 text-sm">
+                <p className="flex items-center gap-1.5 font-exo2 text-white/80 text-sm drop-shadow-sm">
                   <MapPin className="size-3.5" /> {acf.local}
                 </p>
               )}
             </div>
 
-            {acf?.subscribe && (
+            {acf?.subscribe && !style.isPast && (
               <Link
                 href={acf.subscribe}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  'inline-flex items-center gap-2 font-exo2 font-bold text-sm rounded-full px-6 py-3 transition-all duration-200 shrink-0',
-                  isFeira
-                    ? 'bg-[#7EE000] text-black hover:bg-[#6bcc00]'
-                    : 'bg-[#31A1FF] text-white hover:bg-[#258de6]',
+                  'inline-flex items-center gap-2 font-exo2 font-bold text-sm rounded-full px-6 py-3 transition-all duration-200 shrink-0 border border-transparent hover:border-white/20',
+                  style.bg, style.bg === 'bg-[#7EE000]' ? 'text-black hover:bg-[#6bcc00]' : 'text-white hover:brightness-110'
                 )}
               >
                 {ctaLabel} <ExternalLink className="size-4" />
@@ -345,146 +377,89 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
   );
 }
 
-// ─── Card Ícone (Redondo) ───────────────────────────────────────────────────
-function CardIcon({ evento }: { evento: WPEventoNode }) {
-  const acf = evento.eventoacf;
-  const specialidades = evento.eventoCategorias?.nodes || [];
-  const isFeira = acf?.eventType === 'feira';
-  const ctaLabel = SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'];
-  const firstSpecialty = specialidades[0];
-  const color = firstSpecialty
-    ? getSpecialtyColor(firstSpecialty.name)
-    : {
-        bg: 'bg-[#31A1FF]/10',
-        text: 'text-[#31A1FF]',
-        border: 'border-[#31A1FF]/20',
-      };
-
-  return (
-    <motion.figure
-      key={evento.id}
-      className="col-span-1 flex flex-col items-center gap-4 text-center group"
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      layout
-    >
-      {/* Círculo com imagem */}
-      <div
-        className={cn(
-          'relative size-40 md:size-48 rounded-full overflow-hidden border-4 shrink-0 transition-transform duration-300 group-hover:scale-105',
-          isFeira ? 'border-[#7EE000]/40' : 'border-[#31A1FF]/30',
-        )}
-      >
-        {acf?.img?.node?.sourceUrl ? (
-          <Image
-            src={acf.img.node.sourceUrl}
-            alt={evento.title}
-            fill
-            className="object-cover"
-            sizes="200px"
-          />
-        ) : (
-          <div className={cn('absolute inset-0', color.bg)} />
-        )}
-      </div>
-
-      {/* Tags especialidade */}
-      <div className="flex flex-wrap justify-center gap-1.5">
-        {specialidades.map((sp) => {
-          const c = getSpecialtyColor(sp.name);
-          return (
-            <span
-              key={sp.slug}
-              className={cn(
-                'font-exo2 text-xs px-2.5 py-0.5 rounded-full border',
-                c.bg,
-                c.text,
-                c.border,
-              )}
-            >
-              {sp.name}
-            </span>
-          );
-        })}
-      </div>
-
-      <div className="flex flex-col gap-1">
-        {acf?.dateNumber && (
-          <span className="font-exo2 text-gray-500 text-sm">
-            {acf?.dateNumber} de {acf?.month}
-          </span>
-        )}
-        <h3 className="font-exo2 font-bold text-lg">{evento.title}</h3>
-        {acf?.local && (
-          <p className="font-exo2 text-sm text-gray-500 flex items-center justify-center gap-1">
-            <MapPin className="size-3" /> {acf.local}
-          </p>
-        )}
-      </div>
-
-      {acf?.subscribe && (
-        <Link
-          href={acf.subscribe}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            'inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-5 py-2 transition-all duration-200',
-            isFeira
-              ? 'bg-[#7EE000]/10 text-[#5aac00] border border-[#7EE000]/30 hover:bg-[#7EE000]/20'
-              : 'bg-[#31A1FF]/10 text-[#31A1FF] border border-[#31A1FF]/30 hover:bg-[#31A1FF]/20',
-          )}
-        >
-          {ctaLabel}
-        </Link>
-      )}
-    </motion.figure>
-  );
-}
-
 // ─── Componente principal ───────────────────────────────────────────────────
 export default function GridProximosEventos({
   eventos,
   filter,
+  segment,
 }: GridProximosEventosProps) {
-  const currentYear = new Date().getFullYear();
-  const nextYear = currentYear + 1;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const filteredEventos = eventos.filter((e) => {
-    const yr = Number(e.eventoacf?.year);
-    const isUpcoming = yr === currentYear || yr === nextYear;
-    const matchFilter =
-      filter === 'Todos' ||
+    // Especialidade filter
+    const matchEspecialidade =
+      !filter ||
       (e.eventoCategorias?.nodes || []).some((n) => n.name === filter);
-    return isUpcoming && matchFilter;
+    
+    if (!matchEspecialidade) return false;
+
+    // Segmento filter
+    const date = getEventDate(e);
+    const isPast = date ? date < today : false;
+    const isFuture = date ? date >= today : true;
+    const type = e.eventoacf?.eventType;
+
+    if (segment === 'Passados') return isPast;
+    if (segment === 'Patrocinado') return isFuture && type === 'feira';
+    if (segment === 'Educacional') return isFuture && type === 'educacional';
+    
+    // Autoral matches 'autoral' or fallback for future events without specific type
+    return isFuture && (!type || type === 'autoral');
   });
+
+  // Sort chronological
+  filteredEventos.sort((a, b) => {
+    const da = getEventDate(a)?.getTime() || 0;
+    const db = getEventDate(b)?.getTime() || 0;
+    return segment === 'Passados' ? db - da : da - db; // Passados: newest first. Future: soonest first.
+  });
+
+  // Group by month
+  const grouped = filteredEventos.reduce((acc, evento) => {
+    const m = evento.eventoacf?.month || 'Sem Mês';
+    const y = evento.eventoacf?.year || '';
+    const key = `${m} ${y}`.trim();
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(evento);
+    return acc;
+  }, {} as Record<string, WPEventoNode[]>);
 
   if (filteredEventos.length === 0) {
     return (
       <div className="w-full max-w-7xl px-6 mx-auto py-12 text-center">
         <p className="font-exo2 text-gray-400 text-lg">
-          Nenhum próximo evento encontrado para esse filtro.
+          Nenhum evento encontrado para os filtros selecionados.
         </p>
       </div>
     );
   }
 
   return (
-    <div
-      id="grid_events"
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 md:gap-8"
-    >
-      <AnimatePresence mode="popLayout">
-        {filteredEventos.map((evento) => {
-          const imageType = evento.eventoacf?.imageType || 'quadrada';
-          if (imageType === 'banner')
-            return <CardBanner key={evento.id} evento={evento} />;
-          if (imageType === 'icon')
-            return <CardIcon key={evento.id} evento={evento} />;
-          return <CardQuadrado key={evento.id} evento={evento} />;
-        })}
-      </AnimatePresence>
+    <div id="grid_events" className="flex flex-col gap-16 w-full">
+      {Object.entries(grouped).map(([monthYear, evs]) => (
+        <div key={monthYear} className="flex flex-col gap-6 w-full">
+          {monthYear !== 'Sem Mês' && (
+            <div className="flex items-center gap-4">
+              <h3 className="font-exo2 font-bold text-2xl text-[#1a2a5e] uppercase tracking-wide">
+                {monthYear}
+              </h3>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 md:gap-8 w-full">
+            <AnimatePresence mode="popLayout">
+              {evs.map((evento) => {
+                const imageType = evento.eventoacf?.imageType || 'quadrada';
+                if (imageType === 'banner')
+                  return <CardBanner key={evento.id} evento={evento} />;
+                return <CardQuadrado key={evento.id} evento={evento} />;
+              })}
+            </AnimatePresence>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
+

@@ -14,6 +14,7 @@ import EventosAnteriores from './_components/past-events';
 interface EventosClientProps {
   eventos: WPEventoNode[];
   initialCategory?: string;
+  initialSegment?: string;
 }
 
 function parseMonthIndex(monthStr: string | undefined): number {
@@ -105,14 +106,17 @@ export default function EventosClient({
     return match || 'Todos';
   }, [initialCategory, especialidades]);
 
-  const [filter, setFilter] = useState(initialFilter);
+  const [filter, setFilter] = useState<string | null>(
+    initialCategory ? initialFilter : null,
+  );
+  const [segment, setSegment] = useState<string>('Autoral'); // Default to Autoral or something else?
 
   // Atualiza o estado e a URL quando o filtro muda
-  const handleFilterChange = (newFilter: string) => {
+  const handleFilterChange = (newFilter: string | null) => {
     setFilter(newFilter);
     if (typeof window !== 'undefined') {
       const url = new URL(window.location.href);
-      if (newFilter === 'Todos') {
+      if (!newFilter) {
         url.searchParams.delete('categoria');
         url.searchParams.delete('especialidade');
       } else {
@@ -120,6 +124,10 @@ export default function EventosClient({
       }
       window.history.pushState(null, '', url.pathname + url.search);
     }
+  };
+
+  const handleSegmentChange = (newSegment: string) => {
+    setSegment(newSegment);
   };
 
   // ─── Seleção do Evento em Destaque ─────────────────────────────────────────
@@ -170,9 +178,11 @@ export default function EventosClient({
         <FiltroEmailEspecialidade
           especialidades={especialidades}
           filter={filter}
+          segment={segment}
           onFilterChange={handleFilterChange}
+          onSegmentChange={handleSegmentChange}
         />
-        <GridProximosEventos eventos={eventos} filter={filter} />
+        <GridProximosEventos eventos={eventos} filter={filter} segment={segment} />
       </section>
 
       {/* 3. Onde nos encontrar (só aparece se houver feiras futuras) */}

@@ -217,6 +217,16 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
   const recapIsInstagram = acf?.recapLink?.includes('instagram');
   const recapIsLinkedin = acf?.recapLink?.includes('linkedin');
 
+  const relatedEvents = [...outrosEventos]
+    .filter((e) => {
+      const hasSameSpecialty = e.eventoCategorias?.nodes?.some((c) =>
+        specialidades.some((s) => s.slug === c.slug),
+      );
+      return hasSameSpecialty;
+    })
+    .sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'))
+    .slice(0, 4);
+
   return (
     <>
       {/* ── HERO ─────────────────────────────────────────────── */}
@@ -621,7 +631,7 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
                   </div>
                 </div>
               )}
-              {acf?.local && (
+              {acf?.local && !acf?.addressStreet && (
                 <div className="flex items-start gap-3">
                   <MapPin className="size-4 text-[#31A1FF] shrink-0 mt-0.5" />
                   <div>
@@ -630,6 +640,29 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
                     </p>
                     <p className="font-exo2 font-semibold text-gray-800">
                       {acf.local}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {acf?.addressStreet && (
+                <div className="flex items-start gap-3">
+                  <MapPin className="size-4 text-[#31A1FF] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider">
+                      Onde nos encontrar
+                    </p>
+                    <p className="font-exo2 font-semibold text-gray-800 flex flex-col gap-0.5">
+                      <span>{acf.addressStreet}{acf.addressNumber ? `, ${acf.addressNumber}` : ''}</span>
+                      {(acf.addressCity || acf.addressState) && (
+                        <span className="text-gray-600 text-xs">
+                          {[acf.addressCity, acf.addressState].filter(Boolean).join(' - ')}
+                        </span>
+                      )}
+                      {acf.boothPavilion && (
+                        <span className="text-gray-500 text-xs mt-1">
+                          Pavilhão: {acf.boothPavilion}
+                        </span>
+                      )}
                     </p>
                   </div>
                 </div>
@@ -712,14 +745,14 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
         </aside>
       </main>
 
-      {/* ── OUTROS EVENTOS ───────────────────────────────────── */}
-      {outrosEventos.length > 0 && (
+      {/* ── OUTROS EVENTOS RELACIONADOS ───────────────────────────────────── */}
+      {relatedEvents.length > 0 && (
         <section className="w-full max-w-7xl mx-auto px-6 pb-20">
           <h2 className="font-exo2 font-bold text-2xl md:text-3xl mb-6">
-            Outros Eventos
+            Eventos Relacionados
           </h2>
           <div className="flex flex-col gap-3">
-            {outrosEventos.map((e) => (
+            {relatedEvents.map((e) => (
               <MiniCard key={e.id} evento={e} />
             ))}
           </div>

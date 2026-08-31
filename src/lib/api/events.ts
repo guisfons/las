@@ -24,11 +24,16 @@ const EVENTO_FIELDS = `
     speaker
     moderator
     local
+    addressStreet
+    addressNumber
+    addressCity
+    addressState
     mapEmbedUrl
     howToGet
     partnerHotels
     subscribe
     subscribeType
+    boothPavilion
     boothNumber
     boothMapUrl
     boothHours
