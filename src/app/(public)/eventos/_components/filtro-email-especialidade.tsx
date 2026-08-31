@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Send, CheckCircle, Sparkles } from 'lucide-react';
+import { Bell, Send, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface FiltroEmailEspecialidadeProps {
@@ -150,7 +150,11 @@ export default function FiltroEmailEspecialidade({
               method="POST"
               className="flex flex-col gap-3 mt-2"
             >
-              <input type="hidden" name="_subject" value={`Alerta de Eventos — ${selectedAlertType}`} />
+              <input
+                type="hidden"
+                name="_subject"
+                value={`Alerta de Eventos — ${selectedAlertType}`}
+              />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
 
@@ -164,9 +168,15 @@ export default function FiltroEmailEspecialidade({
                   onChange={(e) => setSelectedAlertType(e.target.value)}
                   className="w-full font-exo2 text-sm px-3 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#31A1FF]"
                 >
-                  <option value="Autoral" className="text-gray-900">Autoral</option>
-                  <option value="Educacional" className="text-gray-900">Educacional</option>
-                  <option value="Patrocinado" className="text-gray-900">Patrocinado</option>
+                  <option value="Autoral" className="text-gray-900">
+                    Autoral
+                  </option>
+                  <option value="Educacional" className="text-gray-900">
+                    Educacional
+                  </option>
+                  <option value="Patrocinado" className="text-gray-900">
+                    Patrocinado
+                  </option>
                 </select>
               </div>
 

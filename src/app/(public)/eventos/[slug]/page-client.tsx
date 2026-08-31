@@ -652,10 +652,15 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
                       Onde nos encontrar
                     </p>
                     <p className="font-exo2 font-semibold text-gray-800 flex flex-col gap-0.5">
-                      <span>{acf.addressStreet}{acf.addressNumber ? `, ${acf.addressNumber}` : ''}</span>
+                      <span>
+                        {acf.addressStreet}
+                        {acf.addressNumber ? `, ${acf.addressNumber}` : ''}
+                      </span>
                       {(acf.addressCity || acf.addressState) && (
                         <span className="text-gray-600 text-xs">
-                          {[acf.addressCity, acf.addressState].filter(Boolean).join(' - ')}
+                          {[acf.addressCity, acf.addressState]
+                            .filter(Boolean)
+                            .join(' - ')}
                         </span>
                       )}
                       {acf.boothPavilion && (
