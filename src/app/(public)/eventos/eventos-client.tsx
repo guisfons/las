@@ -13,6 +13,7 @@ import EventosAnteriores from './_components/past-events';
 
 interface EventosClientProps {
   eventos: WPEventoNode[];
+  initialCategory?: string;
 }
 
 function parseMonthIndex(monthStr: string | undefined): number {
@@ -79,8 +80,44 @@ export function getEventDate(e: WPEventoNode): Date | null {
   return null;
 }
 
-export default function EventosClient({ eventos }: EventosClientProps) {
-  const [filter, setFilter] = useState('Todos');
+export default function EventosClient({
+  eventos,
+  initialCategory,
+}: EventosClientProps) {
+  // ─── Especialidades disponíveis (da API WP — dinâmico) ──────────
+  const especialidades = useMemo(() => {
+    const sp = new Set<string>();
+    eventos.forEach((e) =>
+      e.eventoCategorias?.nodes?.forEach((n) => sp.add(n.name)),
+    );
+    return Array.from(sp).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  }, [eventos]);
+
+  // Inicializa o filtro com a categoria passada via URL (se válida)
+  const initialFilter = useMemo(() => {
+    if (!initialCategory) return 'Todos';
+    const match = especialidades.find(
+      (sp) => sp.toLowerCase() === initialCategory.toLowerCase(),
+    );
+    return match || 'Todos';
+  }, [initialCategory, especialidades]);
+
+  const [filter, setFilter] = useState(initialFilter);
+
+  // Atualiza o estado e a URL quando o filtro muda
+  const handleFilterChange = (newFilter: string) => {
+    setFilter(newFilter);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      if (newFilter === 'Todos') {
+        url.searchParams.delete('categoria');
+        url.searchParams.delete('especialidade');
+      } else {
+        url.searchParams.set('categoria', newFilter);
+      }
+      window.history.pushState(null, '', url.pathname + url.search);
+    }
+  };
 
   // ─── Seleção do Evento em Destaque ─────────────────────────────────────────
   // 1. Se houver evento com `isFeatured === true`, ele é priorizado.
@@ -120,15 +157,6 @@ export default function EventosClient({ eventos }: EventosClientProps) {
     return eventos[0];
   }, [eventos]);
 
-  // ─── Especialidades disponíveis (da API WP — dinâmico) ──────────
-  const especialidades = useMemo(() => {
-    const sp = new Set<string>();
-    eventos.forEach((e) =>
-      e.eventoCategorias?.nodes?.forEach((n) => sp.add(n.name)),
-    );
-    return Array.from(sp).sort((a, b) => a.localeCompare(b, 'pt-BR'));
-  }, [eventos]);
-
   return (
     <>
       {/* 1. Banner hero do próximo evento com countdown */}
@@ -139,7 +167,7 @@ export default function EventosClient({ eventos }: EventosClientProps) {
         <FiltroEmailEspecialidade
           especialidades={especialidades}
           filter={filter}
-          onFilterChange={setFilter}
+          onFilterChange={handleFilterChange}
         />
         <GridProximosEventos eventos={eventos} filter={filter} />
       </section>

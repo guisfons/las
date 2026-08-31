@@ -12,7 +12,13 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function EventosPage() {
+export default async function EventosPage({
+  searchParams,
+}: {
+  searchParams?: { categoria?: string; especialidade?: string };
+}) {
   const eventos = await getAllEventos();
-  return <EventosClient eventos={eventos} />;
+  const initialCategory =
+    searchParams?.categoria || searchParams?.especialidade;
+  return <EventosClient eventos={eventos} initialCategory={initialCategory} />;
 }
