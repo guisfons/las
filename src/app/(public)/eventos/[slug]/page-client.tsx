@@ -301,11 +301,17 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
               </span>
               <div className="flex items-center gap-3 md:gap-4 flex-wrap">
                 <CountdownUnit value={countdown.days} label="dias" />
-                <span className="font-exo2 text-2xl text-white/40 font-bold mb-5">:</span>
+                <span className="font-exo2 text-2xl text-white/40 font-bold mb-5">
+                  :
+                </span>
                 <CountdownUnit value={countdown.hours} label="horas" />
-                <span className="font-exo2 text-2xl text-white/40 font-bold mb-5">:</span>
+                <span className="font-exo2 text-2xl text-white/40 font-bold mb-5">
+                  :
+                </span>
                 <CountdownUnit value={countdown.minutes} label="min" />
-                <span className="font-exo2 text-2xl text-white/40 font-bold mb-5">:</span>
+                <span className="font-exo2 text-2xl text-white/40 font-bold mb-5">
+                  :
+                </span>
                 <CountdownUnit value={countdown.seconds} label="seg" />
               </div>
             </div>
@@ -376,7 +382,6 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
       <main className="w-full max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row gap-12">
         {/* Coluna principal */}
         <div className="flex-1 min-w-0 flex flex-col gap-12">
-
           {/* Sobre o evento */}
           {(evento.content || evento.excerpt) && (
             <motion.section
@@ -442,58 +447,61 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
           )}
 
           {/* Informações de Feira / Estande */}
-          {isFeira && (acf?.boothNumber || acf?.boothHighlights || acf?.boothHours) && (
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="bg-gradient-to-br from-[#7EE000]/5 to-[#31A1FF]/5 border border-[#7EE000]/20 rounded-3xl p-6 md:p-8"
-            >
-              <h2 className="font-exo2 font-bold text-2xl md:text-3xl mb-5">
-                Nosso Estande
-              </h2>
-              <div className="flex flex-col gap-4">
-                {acf?.boothNumber && (
-                  <div>
-                    <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
-                      Localização
-                    </p>
-                    <p className="font-exo2 font-bold text-2xl text-[#1a2a5e]">
-                      {acf.boothNumber}
-                    </p>
-                  </div>
-                )}
-                {acf?.boothHours && (
-                  <div>
-                    <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
-                      Horário de Funcionamento
-                    </p>
-                    <p className="font-exo2 text-gray-700">{acf.boothHours}</p>
-                  </div>
-                )}
-                {acf?.boothHighlights && (
-                  <div>
-                    <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
-                      O que terá no estande
-                    </p>
-                    <p className="font-exo2 text-gray-700 whitespace-pre-line">
-                      {acf.boothHighlights}
-                    </p>
-                  </div>
-                )}
-                {acf?.boothMapUrl && (
-                  <Link
-                    href={acf.boothMapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[#31A1FF] hover:underline"
-                  >
-                    <Navigation className="size-4" /> Ver mapa do pavilhão
-                  </Link>
-                )}
-              </div>
-            </motion.section>
-          )}
+          {isFeira &&
+            (acf?.boothNumber || acf?.boothHighlights || acf?.boothHours) && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="bg-gradient-to-br from-[#7EE000]/5 to-[#31A1FF]/5 border border-[#7EE000]/20 rounded-3xl p-6 md:p-8"
+              >
+                <h2 className="font-exo2 font-bold text-2xl md:text-3xl mb-5">
+                  Nosso Estande
+                </h2>
+                <div className="flex flex-col gap-4">
+                  {acf?.boothNumber && (
+                    <div>
+                      <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
+                        Localização
+                      </p>
+                      <p className="font-exo2 font-bold text-2xl text-[#1a2a5e]">
+                        {acf.boothNumber}
+                      </p>
+                    </div>
+                  )}
+                  {acf?.boothHours && (
+                    <div>
+                      <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
+                        Horário de Funcionamento
+                      </p>
+                      <p className="font-exo2 text-gray-700">
+                        {acf.boothHours}
+                      </p>
+                    </div>
+                  )}
+                  {acf?.boothHighlights && (
+                    <div>
+                      <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
+                        O que terá no estande
+                      </p>
+                      <p className="font-exo2 text-gray-700 whitespace-pre-line">
+                        {acf.boothHighlights}
+                      </p>
+                    </div>
+                  )}
+                  {acf?.boothMapUrl && (
+                    <Link
+                      href={acf.boothMapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[#31A1FF] hover:underline"
+                    >
+                      <Navigation className="size-4" /> Ver mapa do pavilhão
+                    </Link>
+                  )}
+                </div>
+              </motion.section>
+            )}
 
           {/* Galeria */}
           {hasPhotos && (
@@ -579,7 +587,6 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
 
         {/* ── SIDEBAR ─────────────────────────────────────────── */}
         <aside className="w-full lg:w-80 shrink-0 flex flex-col gap-6">
-
           {/* Card resumo */}
           <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-6 flex flex-col gap-4 sticky top-24">
             <h3 className="font-exo2 font-bold text-lg text-[#1a2a5e]">
@@ -693,7 +700,9 @@ export default function EventoPageClient({ evento, outrosEventos }: Props) {
             <div className="flex flex-col gap-2 p-5 bg-gray-50 rounded-2xl border border-gray-100">
               <div className="flex items-center gap-2">
                 <Hotel className="size-4 text-[#31A1FF]" />
-                <h3 className="font-exo2 font-bold text-sm">Hotéis Parceiros</h3>
+                <h3 className="font-exo2 font-bold text-sm">
+                  Hotéis Parceiros
+                </h3>
               </div>
               <p className="font-exo2 text-sm text-gray-600 whitespace-pre-line leading-relaxed">
                 {acf.partnerHotels}

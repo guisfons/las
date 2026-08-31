@@ -42,9 +42,7 @@ export default async function EventoPage({ params }: Props) {
 
   if (!evento) notFound();
 
-  const outrosEventos = todos
-    .filter((e) => e.slug !== params.slug)
-    .slice(0, 3);
+  const outrosEventos = todos.filter((e) => e.slug !== params.slug).slice(0, 3);
 
   return <EventoPageClient evento={evento} outrosEventos={outrosEventos} />;
 }

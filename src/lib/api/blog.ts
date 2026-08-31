@@ -125,7 +125,9 @@ const BLOG_POST_FIELDS = `
   }
 `;
 
-const BLOG_POST_FIELDS_WITH_CONTENT = BLOG_POST_FIELDS + `
+const BLOG_POST_FIELDS_WITH_CONTENT =
+  BLOG_POST_FIELDS +
+  `
   content
 `;
 

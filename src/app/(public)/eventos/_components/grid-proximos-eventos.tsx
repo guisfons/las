@@ -106,7 +106,10 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
       layout
     >
       {/* Imagem 324/222 */}
-      <Link href={`/eventos/${evento.slug}`} className="block relative aspect-[324/222] rounded-3xl overflow-hidden bg-gray-100">
+      <Link
+        href={`/eventos/${evento.slug}`}
+        className="block relative aspect-[324/222] rounded-3xl overflow-hidden bg-gray-100"
+      >
         {acf?.img?.node?.sourceUrl ? (
           <Image
             src={acf.img.node.sourceUrl}
