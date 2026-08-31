@@ -22,10 +22,20 @@ function formatDate(dateStr: string) {
 }
 
 function getPostImage(post: WPBlogPost): string | undefined {
-  return (
-    post.blogacf?.coverImage?.node?.sourceUrl ||
-    post.featuredImage?.node?.sourceUrl
-  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const blogCover = post.blogacf?.coverImage as any;
+  if (typeof blogCover === 'string' && blogCover) return blogCover;
+  if (blogCover?.node?.sourceUrl) return blogCover.node.sourceUrl;
+  if (blogCover?.node?.mediaItemUrl) return blogCover.node.mediaItemUrl;
+  if (blogCover?.sourceUrl) return blogCover.sourceUrl;
+  if (blogCover?.mediaItemUrl) return blogCover.mediaItemUrl;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const feat = post.featuredImage?.node as any;
+  if (feat?.sourceUrl) return feat.sourceUrl;
+  if (feat?.mediaItemUrl) return feat.mediaItemUrl;
+
+  return undefined;
 }
 
 function getAuthorName(post: WPBlogPost): string {
@@ -187,9 +197,14 @@ export default function BlogClient({ posts }: Props) {
     return Array.from(set).sort((a, b) => a.localeCompare(b, 'pt-BR'));
   }, [posts]);
 
-  // Artigo em destaque
+  // Artigo em destaque (prioriza isFeatured, ou primeiro post com imagem, ou posts[0])
   const featuredPost = useMemo(() => {
-    return posts.find((p) => p.blogacf?.isFeatured) || posts[0] || null;
+    return (
+      posts.find((p) => p.blogacf?.isFeatured) ||
+      posts.find((p) => Boolean(getPostImage(p))) ||
+      posts[0] ||
+      null
+    );
   }, [posts]);
 
   // Posts filtrados (excluindo o featured do grid principal)

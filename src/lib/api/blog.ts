@@ -79,6 +79,7 @@ const BLOG_POST_FIELDS = `
   featuredImage {
     node {
       sourceUrl
+      mediaItemUrl
       altText
     }
   }
@@ -86,6 +87,7 @@ const BLOG_POST_FIELDS = `
     coverImage {
       node {
         sourceUrl
+        mediaItemUrl
         altText
       }
     }
