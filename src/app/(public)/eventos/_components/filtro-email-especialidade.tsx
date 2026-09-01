@@ -9,6 +9,7 @@ interface FiltroEmailEspecialidadeProps {
   filter: string | null;
   segment: string;
   onFilterChange: (f: string | null) => void;
+  onSegmentChange: (s: string) => void;
   dynamicSegments: string[];
 }
 
