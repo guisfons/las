@@ -87,7 +87,6 @@ const cardVariants = {
 };
 
 function getEventStyle(evento: WPEventoNode) {
-  const acf = evento.eventoacf;
   const date = getEventDate(evento);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -459,9 +458,9 @@ export default function GridProximosEventos({
     // Se o evento não tiver nenhum segmento, e estivermos na aba padrão "Autoral" (ou primeiro segmento listado), podemos mostrar por fallback.
     // Mas idealmente, devemos exigir que a aba combine com o segmento dinâmico selecionado.
     const hasSegments = (e.eventoSegmentos?.nodes?.length || 0) > 0;
-    
+
     if (!hasSegments && segment.toLowerCase() === 'autoral') {
-       return isFuture;
+      return isFuture;
     }
 
     return isFuture && belongsToSegment;
