@@ -95,6 +95,18 @@ export default function FiltroEmailEspecialidade({
               Especialidade
             </h3>
             <div className="flex flex-wrap gap-2">
+              <button
+                key="todos"
+                onClick={() => onFilterChange(null)}
+                className={cn(
+                  'font-exo2 text-sm px-4 py-1.5 rounded-full border transition-all duration-200',
+                  !filter
+                    ? 'bg-[#31A1FF] text-white border-[#31A1FF] font-semibold'
+                    : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-[#31A1FF]/50 hover:text-[#31A1FF] hover:bg-blue-50/50',
+                )}
+              >
+                Todos
+              </button>
               {cleanEspecialidades.map((sp) => {
                 const isActive = filter === sp;
                 return (

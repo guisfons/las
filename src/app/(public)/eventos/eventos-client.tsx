@@ -4,12 +4,10 @@ import { useMemo, useState } from 'react';
 import Footer from '@/components/footer';
 import { WPEventoNode } from '@/lib/types/events';
 
-import HeroProximoEvento from './_components/hero-proximo-evento';
 import FiltroEmailEspecialidade from './_components/filtro-email-especialidade';
 import GridProximosEventos from './_components/grid-proximos-eventos';
 import MapaDoAno from './_components/mapa-do-ano';
 import OndeEncontrarFeira from './_components/onde-encontrar-feira';
-import EventosAnteriores from './_components/past-events';
 
 interface EventosClientProps {
   eventos: WPEventoNode[];
@@ -130,49 +128,8 @@ export default function EventosClient({
     setSegment(newSegment);
   };
 
-  // ─── Seleção do Evento em Destaque ─────────────────────────────────────────
-  // 1. Se houver evento com `isFeatured === true`, ele é priorizado.
-  // 2. Se NÃO houver nenhum em destaque, escolhe o próximo a partir de HOJE.
-  const proximoEvento = useMemo<WPEventoNode | null>(() => {
-    if (!eventos || eventos.length === 0) return null;
-
-    // 1. Verifica se existe evento marcado explicitamente como destaque
-    const featured = eventos.filter((e) => Boolean(e.eventoacf?.isFeatured));
-    if (featured.length > 0) {
-      const sortedFeatured = [...featured].sort((a, b) => {
-        const da = getEventDate(a)?.getTime() ?? 0;
-        const db = getEventDate(b)?.getTime() ?? 0;
-        return da - db;
-      });
-      return sortedFeatured[0];
-    }
-
-    // 2. Se não houver nenhum em destaque, filtra o próximo a partir de HOJE
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const comData = eventos.map((e) => ({
-      evento: e,
-      date: getEventDate(e),
-    }));
-
-    const futuros = comData
-      .filter((item) => item.date && item.date >= today)
-      .sort((a, b) => a.date!.getTime() - b.date!.getTime());
-
-    if (futuros.length > 0) {
-      return futuros[0].evento;
-    }
-
-    // Fallback: se todos forem passados, exibe o mais recente ou o primeiro
-    return eventos[0];
-  }, [eventos]);
-
   return (
     <>
-      {/* 1. Banner hero do próximo evento com countdown */}
-      <HeroProximoEvento evento={proximoEvento} />
-
       {/* 2. Filtro + captura de e-mail por especialidade + grid de próximos eventos */}
       <section className="w-full max-w-7xl px-6 mx-auto flex flex-col gap-10 pt-20 pb-12">
         <FiltroEmailEspecialidade
@@ -194,9 +151,6 @@ export default function EventosClient({
 
       {/* 4. Mapa do Ano — timeline visual */}
       <MapaDoAno eventos={eventos} />
-
-      {/* 5. Eventos anteriores como prova social */}
-      <EventosAnteriores eventos={eventos} />
 
       <Footer />
     </>
