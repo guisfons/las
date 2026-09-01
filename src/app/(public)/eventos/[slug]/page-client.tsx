@@ -189,7 +189,14 @@ export default function EventoPageClient({
   const [calendarOpen, setCalendarOpen] = useState(false);
   const acf = evento.eventoacf;
   const countdown = useCountdown(acf?.fullDate);
-  const isFeira = acf?.eventType === 'feira';
+  const isFeira =
+    evento.eventoSegmentos?.nodes?.some(
+      (n) =>
+        n.slug.includes('feira') ||
+        n.name.toLowerCase().includes('feira') ||
+        n.slug.includes('patrocinad') ||
+        n.name.toLowerCase().includes('patrocinad'),
+    ) || false;
   const isFuture = acf?.fullDate ? new Date(acf.fullDate) > new Date() : false;
   const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
   const ctaLabel =
