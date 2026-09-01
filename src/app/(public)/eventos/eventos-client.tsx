@@ -95,6 +95,17 @@ export default function EventosClient({
     return Array.from(sp).sort((a, b) => a.localeCompare(b, 'pt-BR'));
   }, [eventos]);
 
+  const segmentsList = useMemo(() => {
+    const sp = new Set<string>();
+    eventos.forEach((e) =>
+      e.eventoSegmentos?.nodes?.forEach((n) => {
+        if (n.name) sp.add(n.name);
+      }),
+    );
+    const arr = Array.from(sp).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    return arr.length > 0 ? arr : ['Autoral', 'Educacional', 'Patrocinado'];
+  }, [eventos]);
+
   // Inicializa o filtro com a categoria passada via URL (se válida)
   const initialFilter = useMemo(() => {
     if (!initialCategory) return 'Todos';
@@ -107,7 +118,7 @@ export default function EventosClient({
   const [filter, setFilter] = useState<string | null>(
     initialCategory ? initialFilter : null,
   );
-  const [segment, setSegment] = useState<string>('Autoral'); // Default to Autoral or something else?
+  const [segment, setSegment] = useState<string>(segmentsList[0] || 'Autoral');
 
   // Atualiza o estado e a URL quando o filtro muda
   const handleFilterChange = (newFilter: string | null) => {
@@ -134,6 +145,7 @@ export default function EventosClient({
       <section className="w-full max-w-7xl px-6 mx-auto flex flex-col gap-10 pt-20 pb-12">
         <FiltroEmailEspecialidade
           especialidades={especialidades}
+          dynamicSegments={segmentsList}
           filter={filter}
           segment={segment}
           onFilterChange={handleFilterChange}

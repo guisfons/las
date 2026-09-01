@@ -10,7 +10,6 @@ export type WPEventoAcf = {
   isFeatured?: boolean;
   img?: WPImage;
   imageType?: 'quadrada' | 'banner' | 'icon';
-  eventType?: 'autoral' | 'educacional' | 'feira';
   eventFormat?:
     | 'jantar_cientifico'
     | 'curso'
@@ -85,6 +84,12 @@ export type WPEventoNode = {
   excerpt?: string;
   eventoacf?: WPEventoAcf;
   eventoCategorias?: {
+    nodes: {
+      name: string;
+      slug: string;
+    }[];
+  };
+  eventoSegmentos?: {
     nodes: {
       name: string;
       slug: string;

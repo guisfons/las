@@ -104,7 +104,25 @@ function getEventStyle(evento: WPEventoNode) {
     };
   }
 
-  if (acf?.eventType === 'feira') {
+  const isFeira =
+    evento.eventoSegmentos?.nodes?.some(
+      (n) =>
+        n.slug.includes('feira') ||
+        n.name.toLowerCase().includes('feira') ||
+        n.slug.includes('patrocinad') ||
+        n.name.toLowerCase().includes('patrocinad'),
+    ) || false;
+
+  const isEducacional =
+    evento.eventoSegmentos?.nodes?.some(
+      (n) =>
+        n.slug.includes('educa') ||
+        n.name.toLowerCase().includes('educa') ||
+        n.slug.includes('curso') ||
+        n.name.toLowerCase().includes('curso'),
+    ) || false;
+
+  if (isFeira) {
     return {
       bg: 'bg-[#7EE000]',
       tag: 'bg-[#7EE000] text-black',
@@ -115,7 +133,7 @@ function getEventStyle(evento: WPEventoNode) {
     };
   }
 
-  if (acf?.eventType === 'educacional') {
+  if (isEducacional) {
     return {
       bg: 'bg-[#1a2a5e]',
       tag: 'bg-[#1a2a5e] text-white',
@@ -126,7 +144,7 @@ function getEventStyle(evento: WPEventoNode) {
     };
   }
 
-  // Default: Autoral
+  // Default (Autoral/Other)
   return {
     bg: 'bg-[#31A1FF]',
     tag: 'bg-[#31A1FF] text-white',
@@ -430,14 +448,23 @@ export default function GridProximosEventos({
     const date = getEventDate(e);
     const isPast = date ? date < today : false;
     const isFuture = date ? date >= today : true;
-    const type = e.eventoacf?.eventType;
 
     if (segment === 'Passados') return isPast;
-    if (segment === 'Patrocinado') return isFuture && type === 'feira';
-    if (segment === 'Educacional') return isFuture && type === 'educacional';
 
-    // Autoral matches 'autoral' or fallback for future events without specific type
-    return isFuture && (!type || type === 'autoral');
+    const belongsToSegment =
+      e.eventoSegmentos?.nodes?.some(
+        (n) => n.name.toLowerCase() === segment.toLowerCase(),
+      ) ?? false;
+
+    // Se o evento não tiver nenhum segmento, e estivermos na aba padrão "Autoral" (ou primeiro segmento listado), podemos mostrar por fallback.
+    // Mas idealmente, devemos exigir que a aba combine com o segmento dinâmico selecionado.
+    const hasSegments = (e.eventoSegmentos?.nodes?.length || 0) > 0;
+    
+    if (!hasSegments && segment.toLowerCase() === 'autoral') {
+       return isFuture;
+    }
+
+    return isFuture && belongsToSegment;
   });
 
   // Sort chronological

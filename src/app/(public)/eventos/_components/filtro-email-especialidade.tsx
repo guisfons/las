@@ -9,18 +9,18 @@ interface FiltroEmailEspecialidadeProps {
   filter: string | null;
   segment: string;
   onFilterChange: (f: string | null) => void;
-  onSegmentChange: (s: string) => void;
+  dynamicSegments: string[];
 }
-
-const SEGMENTS = ['Autoral', 'Educacional', 'Patrocinado', 'Passados'];
 
 export default function FiltroEmailEspecialidade({
   especialidades,
+  dynamicSegments,
   filter,
   segment,
   onFilterChange,
   onSegmentChange,
 }: FiltroEmailEspecialidadeProps) {
+  const tabs = [...dynamicSegments, 'Passados'];
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -72,7 +72,7 @@ export default function FiltroEmailEspecialidade({
               Segmento
             </h3>
             <div className="flex flex-wrap gap-2">
-              {SEGMENTS.map((s) => (
+              {tabs.map((s) => (
                 <button
                   key={s}
                   onClick={() => onSegmentChange(s)}

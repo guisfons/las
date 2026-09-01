@@ -14,7 +14,6 @@ const EVENTO_FIELDS = `
       }
     }
     imageType
-    eventType
     eventFormat
     fullDate
     dateNumber
@@ -59,6 +58,12 @@ const EVENTO_FIELDS = `
     whatsappShareText
   }
   eventoCategorias {
+    nodes {
+      name
+      slug
+    }
+  }
+  eventoSegmentos {
     nodes {
       name
       slug
