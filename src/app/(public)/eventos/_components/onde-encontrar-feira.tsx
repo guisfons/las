@@ -262,7 +262,14 @@ export default function OndeEncontrarFeira({
   const currentYear = new Date().getFullYear();
 
   const feiras = eventos.filter((e) => {
-    const isFeira = e.eventoacf?.eventType === 'feira';
+    const isFeira =
+      e.eventoSegmentos?.nodes?.some(
+        (n) =>
+          n.slug.includes('feira') ||
+          n.name.toLowerCase().includes('feira') ||
+          n.slug.includes('patrocinad') ||
+          n.name.toLowerCase().includes('patrocinad'),
+      ) || false;
     const yr = Number(e.eventoacf?.year);
     const isUpcoming = yr >= currentYear;
     return isFeira && isUpcoming;

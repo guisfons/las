@@ -115,7 +115,14 @@ export default function HeroProximoEvento({ evento }: HeroProximoEventoProps) {
   if (!evento) return null;
 
   const acf = evento.eventoacf;
-  const isFeira = acf?.eventType === 'feira';
+  const isFeira =
+    evento.eventoSegmentos?.nodes?.some(
+      (n) =>
+        n.slug.includes('feira') ||
+        n.name.toLowerCase().includes('feira') ||
+        n.slug.includes('patrocinad') ||
+        n.name.toLowerCase().includes('patrocinad'),
+    ) || false;
   const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
   const ctaLabel =
     SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] ||

@@ -312,7 +312,14 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
                       const acf = evento.eventoacf;
                       const specialidades =
                         evento.eventoCategorias?.nodes || [];
-                      const isFeira = acf?.eventType === 'feira';
+                      const isFeira =
+                        evento.eventoSegmentos?.nodes?.some(
+                          (n) =>
+                            n.slug.includes('feira') ||
+                            n.name.toLowerCase().includes('feira') ||
+                            n.slug.includes('patrocinad') ||
+                            n.name.toLowerCase().includes('patrocinad'),
+                        ) || false;
                       const formatLabel =
                         EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
                       const firstSp = specialidades[0];
