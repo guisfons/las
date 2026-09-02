@@ -62,7 +62,7 @@ export default function FiltroEmailEspecialidade({
             Eventos
           </h2>
           <p className="font-exo2 text-gray-500 text-sm md:text-base mt-1">
-            Explore os eventos da LAS For Life por segmento e especialidade.
+            Explore os eventos da LAS por segmento e especialidade.
           </p>
         </div>
 
