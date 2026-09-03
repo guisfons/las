@@ -1,0 +1,82 @@
+# Publica o site em produção usando um Access Token da Vercel.
+#
+# POR QUE EXISTE
+# A promoção para Production neste projeto é MANUAL, feita no painel da conta
+# pessoal `guisfons-projects`: um push em `feat/wp` gera apenas um Preview.
+# Como a conta é do plano Hobby, não há assento para convidar quem publica —
+# então quem publica aqui é o TOKEN, não o commit. Mesmo arranjo já em uso no
+# las-congress-app (LAS GO).
+#
+# GATILHO: só manual. Deliberadamente NÃO publica no push, porque `feat/wp` é
+# compartilhado com o trabalho em andamento do guisfons — publicar a cada push
+# levaria o WIP dele ao ar junto.
+#
+# COMO PUBLICAR
+#   aba Actions → "Publicar em produção" → Run workflow → escolher o branch
+#   ou:  gh workflow run deploy.yml --repo guisfons/las --ref feat/wp
+#
+# SECRETS NECESSÁRIOS (sem eles o job falha no primeiro passo, sem publicar):
+#   VERCEL_TOKEN       Account Settings → Tokens. Escopo **Full Account** — a
+#                      CLI recusa token de projeto com "User not found".
+#   VERCEL_ORG_ID      Account Settings → General
+#   VERCEL_PROJECT_ID  projeto `las` → Settings → General
+
+name: Publicar em produção
+
+on:
+  workflow_dispatch:
+    inputs:
+      motivo:
+        description: 'O que está sendo publicado (fica no histórico da Action)'
+        required: false
+        default: ''
+
+# Dois disparos seguidos não viram dois deploys concorrentes.
+concurrency:
+  group: deploy-producao
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: O que vai ao ar
+        run: |
+          echo "ref:    ${{ github.ref_name }}"
+          echo "commit: ${{ github.sha }}"
+          echo "por:    ${{ github.actor }}"
+          echo "motivo: ${{ inputs.motivo }}"
+          git --no-pager log -1 --pretty='%h %an %s'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Instalar a CLI da Vercel
+        run: npm install -g vercel@latest
+
+      - name: Puxar configurações e env vars do projeto
+        run: vercel pull --yes --environment=production --token "${{ secrets.VERCEL_TOKEN }}"
+
+      # `vercel build` roda o script "build" do projeto, que é
+      # `next lint && next build` — o lint barra antes do build, de graça.
+      #
+      # Se o build aqui divergir do build do painel, o primeiro suspeito é o
+      # `.env.production` versionado no repo: ele concorre com as variáveis que
+      # o `vercel pull` traz do projeto.
+      - name: Build de produção
+        run: vercel build --prod --token "${{ secrets.VERCEL_TOKEN }}"
+
+      # Sem o contorno de "publicar de pasta sem .git" que o LAS GO precisa:
+      # lá o seat block derruba o deployment pelo autor do commit. Aqui o token
+      # é do dono da conta, então não há seat block.
+      - name: Publicar
+        run: vercel deploy --prebuilt --prod --yes --token "${{ secrets.VERCEL_TOKEN }}"
