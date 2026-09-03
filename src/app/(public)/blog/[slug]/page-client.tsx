@@ -177,13 +177,40 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="prose prose-lg prose-blue max-w-none font-exo2
-              prose-headings:font-exo2 prose-headings:font-bold prose-headings:text-[#1a2a5e]
-              prose-p:text-gray-600 prose-p:leading-relaxed
-              prose-a:text-[#31A1FF] prose-a:no-underline hover:prose-a:underline
-              prose-img:rounded-2xl prose-img:shadow-md
-              prose-strong:text-gray-900
-              prose-blockquote:border-l-[#31A1FF] prose-blockquote:text-gray-500"
+            className={[
+              'wp-content',
+              'prose prose-lg max-w-none',
+              'font-exo2',
+              // Headings
+              'prose-headings:font-exo2 prose-headings:font-bold prose-headings:text-[#1a2a5e] prose-headings:leading-tight',
+              'prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base',
+              // Paragraphs
+              'prose-p:text-gray-600 prose-p:leading-relaxed prose-p:my-4',
+              // Links
+              'prose-a:text-[#31A1FF] prose-a:no-underline prose-a:font-medium hover:prose-a:underline',
+              // Images
+              'prose-img:rounded-xl prose-img:shadow-md prose-img:my-6 prose-img:mx-auto',
+              // Strong & em
+              'prose-strong:text-gray-900 prose-strong:font-semibold',
+              'prose-em:text-gray-600 prose-em:italic',
+              // Blockquote
+              'prose-blockquote:border-l-4 prose-blockquote:border-[#31A1FF] prose-blockquote:text-gray-500 prose-blockquote:bg-blue-50/40 prose-blockquote:rounded-r-lg prose-blockquote:px-6 prose-blockquote:py-2 prose-blockquote:not-italic',
+              // Lists
+              'prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6',
+              'prose-li:text-gray-600 prose-li:my-1',
+              // Tables
+              'prose-table:w-full prose-table:border-collapse prose-table:text-sm',
+              'prose-thead:bg-[#1a2a5e] prose-th:text-white prose-th:font-semibold prose-th:px-4 prose-th:py-3',
+              'prose-td:px-4 prose-td:py-3 prose-td:border prose-td:border-gray-200',
+              'prose-tr:even:bg-gray-50',
+              // Code
+              'prose-code:text-[#31A1FF] prose-code:bg-blue-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:before:content-none prose-code:after:content-none',
+              'prose-pre:bg-[#0d1b3e] prose-pre:text-gray-100 prose-pre:rounded-xl prose-pre:overflow-x-auto',
+              // HR
+              'prose-hr:border-gray-200 prose-hr:my-8',
+              // Figure & figcaption
+              'prose-figure:my-6 prose-figcaption:text-center prose-figcaption:text-sm prose-figcaption:text-gray-400 prose-figcaption:mt-2',
+            ].join(' ')}
             dangerouslySetInnerHTML={{ __html: post.content || '' }}
           />
 
