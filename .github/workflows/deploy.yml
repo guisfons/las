@@ -60,6 +60,27 @@ jobs:
         with:
           node-version: 24
 
+      # Sem isso a falha vem como "--token, but it's missing a value", que não
+      # diz qual secret faltou nem onde criá-lo.
+      - name: Conferir se os secrets existem
+        env:
+          T: ${{ secrets.VERCEL_TOKEN }}
+          O: ${{ secrets.VERCEL_ORG_ID }}
+          P: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          faltando=""
+          [ -n "$T" ] || faltando="$faltando VERCEL_TOKEN"
+          [ -n "$O" ] || faltando="$faltando VERCEL_ORG_ID"
+          [ -n "$P" ] || faltando="$faltando VERCEL_PROJECT_ID"
+          if [ -n "$faltando" ]; then
+            echo "::error::Secrets ausentes ou vazios:$faltando"
+            echo "Crie em: https://github.com/guisfons/las/settings/secrets/actions"
+            echo "Precisa ser 'Repository secrets', na aba Actions."
+            echo "NAO valem as abas Dependabot/Codespaces, nem 'Environment secrets'."
+            exit 1
+          fi
+          echo "os tres secrets estao presentes"
+
       - name: Instalar a CLI da Vercel
         run: npm install -g vercel@latest
 
