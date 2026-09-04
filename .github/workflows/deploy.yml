@@ -84,6 +84,26 @@ jobs:
       - name: Instalar a CLI da Vercel
         run: npm install -g vercel@latest
 
+      # Diagnóstico do vínculo. Imprime só veredictos e o dono do token —
+      # nunca trechos dos valores: log de Action em repositório público é
+      # visível para qualquer um.
+      - name: Conferir o vínculo com a Vercel
+        env:
+          T: ${{ secrets.VERCEL_TOKEN }}
+          O: ${{ secrets.VERCEL_ORG_ID }}
+          P: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          case "$P" in
+            prj_*) echo "PROJECT_ID: formato ok (prj_...)" ;;
+            *)     echo "PROJECT_ID: NAO comeca com prj_ — foi colado o nome do projeto?" ;;
+          esac
+          case "$O" in
+            team_*) echo "ORG_ID: e id de TIME (team_...). Em conta pessoal deve ser o 'Your ID' de Account Settings -> General" ;;
+            *)      echo "ORG_ID: nao e team_ — compativel com conta pessoal" ;;
+          esac
+          echo "--- a quem pertence o token ---"
+          vercel whoami --token "$T" || echo "o token nao resolveu"
+
       - name: Puxar configurações e env vars do projeto
         run: vercel pull --yes --environment=production --token "${{ secrets.VERCEL_TOKEN }}"
 
