@@ -97,12 +97,19 @@ jobs:
             prj_*) echo "PROJECT_ID: formato ok (prj_...)" ;;
             *)     echo "PROJECT_ID: NAO comeca com prj_ — foi colado o nome do projeto?" ;;
           esac
+          # ORG_ID começando com team_ e normal: contas pessoais novas da
+          # Vercel também usam esse prefixo. Nao e sinal de erro.
           case "$O" in
-            team_*) echo "ORG_ID: e id de TIME (team_...). Em conta pessoal deve ser o 'Your ID' de Account Settings -> General" ;;
-            *)      echo "ORG_ID: nao e team_ — compativel com conta pessoal" ;;
+            team_*) echo "ORG_ID: prefixo team_ (normal, inclusive em conta pessoal)" ;;
+            *)      echo "ORG_ID: sem prefixo team_" ;;
           esac
           echo "--- a quem pertence o token ---"
-          vercel whoami --token "$T" || echo "o token nao resolveu"
+          if ! vercel whoami --token "$T"; then
+            echo "::error::O token nao resolveu. 'User not found' aqui significa token de ESCOPO RESTRITO (time/projeto)."
+            echo "A CLI so aceita Access Token de escopo **Full Account**:"
+            echo "Vercel -> Account Settings -> Tokens -> Create Token -> Scope: Full Account"
+            exit 1
+          fi
 
       - name: Puxar configurações e env vars do projeto
         run: vercel pull --yes --environment=production --token "${{ secrets.VERCEL_TOKEN }}"
