@@ -89,6 +89,38 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [filter, setFilter] = useState('Todos');
 
+  /**
+   * Filtro por mês (Bruno, 02/10/2026): o ano inteiro numa lista só ficava
+   * extenso demais. Abre no mês atual — ou no mais próximo dele que tenha
+   * evento —, e "Ano inteiro" devolve a visão completa.
+   */
+  const mesesComEventoNoAno = (ano: number) =>
+    Array.from(
+      new Set(
+        eventos
+          .filter((e) => Number(e.eventoacf?.year) === ano)
+          .map((e) => parseMonthIndex(e.eventoacf?.month || ''))
+          .filter((m) => m >= 0),
+      ),
+    ).sort((a, b) => a - b);
+
+  const mesInicial = (ano: number): number | 'todos' => {
+    const meses = mesesComEventoNoAno(ano);
+    if (meses.length === 0) return 'todos';
+    if (ano !== currentYear) return meses[0];
+    // O atual, se tiver evento; senão o próximo; no fim do ano, o último.
+    return meses.find((m) => m >= currentMonth) ?? meses[meses.length - 1];
+  };
+
+  const [mes, setMes] = useState<number | 'todos'>(() =>
+    mesInicial(currentYear),
+  );
+
+  const escolherAno = (ano: number) => {
+    setSelectedYear(ano);
+    setMes(mesInicial(ano));
+  };
+
   // ─── Anos disponíveis ───────────────────────────────────────────
   const availableYears = useMemo(() => {
     const yrs = new Set<number>();
@@ -130,16 +162,31 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
       .sort((a, b) => a._monthIndex - b._monthIndex);
   }, [eventos, selectedYear, filter]);
 
+  // Os meses que têm evento no ano e na especialidade escolhidos — os demais
+  // botões de mês ficam apagados, para nenhum clique dar em lista vazia.
+  const mesesDisponiveis = useMemo(
+    () => new Set(enrichedEventos.map((e) => e._monthIndex)),
+    [enrichedEventos],
+  );
+
+  const visiveis = useMemo(
+    () =>
+      mes === 'todos'
+        ? enrichedEventos
+        : enrichedEventos.filter((e) => e._monthIndex === mes),
+    [enrichedEventos, mes],
+  );
+
   // ─── Agrupar por mês ────────────────────────────────────────────
   const byMonth = useMemo(() => {
     const map = new Map<number, EventoComMes[]>();
-    enrichedEventos.forEach((e) => {
+    visiveis.forEach((e) => {
       const idx = e._monthIndex;
       if (!map.has(idx)) map.set(idx, []);
       map.get(idx)!.push(e);
     });
     return map;
-  }, [enrichedEventos]);
+  }, [visiveis]);
 
   // Meses com eventos
   const monthsWithEvents = Array.from(byMonth.keys()).sort((a, b) => a - b);
@@ -184,7 +231,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
               {availableYears.map((yr) => (
                 <button
                   key={yr}
-                  onClick={() => setSelectedYear(yr)}
+                  onClick={() => escolherAno(yr)}
                   className={cn(
                     'font-exo2 font-semibold text-sm px-5 py-2 rounded-full transition-all',
                     selectedYear === yr
@@ -217,10 +264,40 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
           ))}
         </div>
 
+        {/* Filtro de mês */}
+        <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Mês">
+          {(['todos', ...MONTH_SHORT.map((_, i) => i)] as const).map((m) => {
+            const ativo = mes === m;
+            const vazio = m !== 'todos' && !mesesDisponiveis.has(m);
+            return (
+              <button
+                key={m}
+                type="button"
+                disabled={vazio}
+                aria-pressed={ativo}
+                onClick={() => setMes(m)}
+                title={m === 'todos' ? undefined : MONTH_NAMES[m]}
+                className={cn(
+                  'font-exo2 text-xs font-semibold uppercase tracking-wide px-3 py-1.5 rounded-lg border transition-all',
+                  ativo
+                    ? 'bg-[#1a2a5e] text-white border-[#1a2a5e]'
+                    : vazio
+                      ? 'bg-transparent text-gray-300 border-transparent cursor-not-allowed'
+                      : 'bg-white text-gray-600 border-gray-200 hover:border-[#1a2a5e]/40 hover:text-[#1a2a5e]',
+                )}
+              >
+                {m === 'todos' ? 'Ano inteiro' : MONTH_SHORT[m]}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Timeline */}
         {monthsWithEvents.length === 0 ? (
           <p className="font-exo2 text-gray-400 text-center py-12">
-            Nenhum evento encontrado para esse período.
+            {mes === 'todos'
+              ? 'Nenhum evento encontrado para esse período.'
+              : `Nenhum evento${filter !== 'Todos' ? ` de ${filter}` : ''} em ${MONTH_NAMES[mes].toLowerCase()}.`}
           </p>
         ) : (
           <div className="relative flex flex-col gap-0">
