@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, Fragment } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Clock, ExternalLink } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
@@ -69,6 +69,13 @@ const SPECIALTY_COLORS: Record<
     badge: 'bg-[#1a2a5e]/10 border-[#1a2a5e]/30',
     badgeText: 'text-[#1a2a5e]',
   },
+  // Azul-púrpura institucional. Sem entrada aqui a especialidade cai no cinza
+  // do fallback, que ao lado das outras quatro lê como "não reconhecida".
+  uroginecologia: {
+    dot: 'bg-[#474F99]',
+    badge: 'bg-[#474F99]/10 border-[#474F99]/30',
+    badgeText: 'text-[#474F99]',
+  },
 };
 
 function getColor(name: string) {
@@ -134,12 +141,18 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
     return Array.from(yrs).sort();
   }, [eventos]);
 
-  const availableSpecialties = useMemo(() => {
-    const doAno = eventos.filter(
-      (e) => Number(e.eventoacf?.year) === selectedYear,
-    );
-    return ['Todos', ...especialidadesComEvento(doAno)];
-  }, [eventos, selectedYear]);
+  /**
+   * As mesmas especialidades do filtro do topo da página: as canônicas que
+   * têm pelo menos um evento, independentemente do ano escolhido aqui.
+   *
+   * Antes a lista era só a do ano, e por isso as duas seções da mesma página
+   * ofereciam conjuntos diferentes — trocar de ano fazia um botão aparecer e
+   * outro sumir, o que lê como defeito e não como recorte.
+   */
+  const availableSpecialties = useMemo(
+    () => ['Todos', ...especialidadesComEvento(eventos)],
+    [eventos],
+  );
 
   // ─── Eventos enriquecidos com índice de mês ─────────────────────
   const enrichedEventos: EventoComMes[] = useMemo(() => {
@@ -173,6 +186,21 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
   // Meses com eventos
   const monthsWithEvents = Array.from(byMonth.keys()).sort((a, b) => a - b);
 
+  /**
+   * O primeiro mês da linha do tempo que ainda não passou. É antes dele que
+   * entra o título "Próximos Eventos", separando a retrospectiva do que está
+   * por vir.
+   *
+   * O mês é calculado, não cravado em outubro: a divisória tem de continuar
+   * no lugar certo em novembro, e no ano passado — onde nada é futuro — ela
+   * simplesmente não aparece.
+   */
+  const primeiroMesFuturo = monthsWithEvents.find(
+    (m) =>
+      selectedYear > currentYear ||
+      (selectedYear === currentYear && m >= currentMonth),
+  );
+
   if (availableYears.length === 0) return null;
 
   return (
@@ -188,7 +216,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
               Mapa do Ano
             </h2>
             <p className="font-exo2 text-gray-500 text-base mt-2">
-              Veja todos os eventos programados ao longo do ano
+              Veja todos os eventos que aconteceram ao longo do ano
             </p>
           </div>
 
@@ -250,134 +278,145 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
                 selectedYear === currentYear && monthIdx === currentMonth;
 
               return (
-                <motion.div
-                  key={monthIdx}
-                  className="flex gap-6 md:gap-10"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.07, duration: 0.4 }}
-                >
-                  {/* Mês label */}
-                  <div className="relative flex flex-col items-end w-20 md:w-28 pt-6 shrink-0">
-                    <span
-                      className={cn(
-                        'font-exo2 font-bold text-sm md:text-base text-right uppercase tracking-wide leading-none',
-                        isCurrent
-                          ? 'text-[#31A1FF]'
-                          : isPast
-                            ? 'text-gray-300'
-                            : 'text-gray-800',
-                      )}
-                    >
-                      {MONTH_SHORT[monthIdx]}
-                    </span>
-                    <span
-                      className={cn(
-                        'font-exo2 text-xs text-right mt-0.5',
-                        isPast ? 'text-gray-200' : 'text-gray-400',
-                      )}
-                    >
-                      {selectedYear}
-                    </span>
+                <Fragment key={monthIdx}>
+                  {monthIdx === primeiroMesFuturo && (
+                    <div className="flex gap-6 md:gap-10 items-center pb-1 pt-10 first:pt-0">
+                      {/* Coluna vazia, para o título alinhar com os cards */}
+                      <div className="w-20 md:w-28 shrink-0" />
+                      <h3 className="font-exo2 font-bold text-base md:text-lg uppercase tracking-wide text-[#1a2a5e]">
+                        Próximos Eventos
+                      </h3>
+                    </div>
+                  )}
 
-                    {/* Dot */}
-                    <div
-                      className={cn(
-                        'absolute right-[-21px] md:right-[-27px] top-7 size-3 rounded-full border-2 border-white z-10',
-                        isCurrent
-                          ? 'bg-[#31A1FF] shadow-[0_0_0_4px_rgba(49,161,255,0.2)]'
-                          : isPast
-                            ? 'bg-gray-200'
-                            : 'bg-[#31A1FF]/60',
-                      )}
-                    />
-                  </div>
+                  <motion.div
+                    className="flex gap-6 md:gap-10"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.07, duration: 0.4 }}
+                  >
+                    {/* Mês label */}
+                    <div className="relative flex flex-col items-end w-20 md:w-28 pt-6 shrink-0">
+                      <span
+                        className={cn(
+                          'font-exo2 font-bold text-sm md:text-base text-right uppercase tracking-wide leading-none',
+                          isCurrent
+                            ? 'text-[#31A1FF]'
+                            : isPast
+                              ? 'text-gray-300'
+                              : 'text-gray-800',
+                        )}
+                      >
+                        {MONTH_SHORT[monthIdx]}
+                      </span>
+                      <span
+                        className={cn(
+                          'font-exo2 text-xs text-right mt-0.5',
+                          isPast ? 'text-gray-200' : 'text-gray-400',
+                        )}
+                      >
+                        {selectedYear}
+                      </span>
 
-                  {/* Eventos do mês */}
-                  <div className="flex flex-col gap-3 py-4 flex-1 min-w-0">
-                    {monthEventos.map((evento) => {
-                      const acf = evento.eventoacf;
-                      const specialidades = especialidadesDoEvento(evento);
-                      const firstSp = specialidades[0];
-                      const color = getColor(firstSp || '');
+                      {/* Dot */}
+                      <div
+                        className={cn(
+                          'absolute right-[-21px] md:right-[-27px] top-7 size-3 rounded-full border-2 border-white z-10',
+                          isCurrent
+                            ? 'bg-[#31A1FF] shadow-[0_0_0_4px_rgba(49,161,255,0.2)]'
+                            : isPast
+                              ? 'bg-gray-200'
+                              : 'bg-[#31A1FF]/60',
+                        )}
+                      />
+                    </div>
 
-                      return (
-                        <div
-                          key={evento.id}
-                          className={cn(
-                            'flex items-start gap-3 p-4 rounded-2xl border transition-all hover:shadow-md',
-                            isPast
-                              ? 'bg-gray-50 border-gray-100 opacity-60'
-                              : 'bg-white border-gray-100 hover:border-[#31A1FF]/30',
-                          )}
-                        >
-                          {/* Dot de especialidade */}
+                    {/* Eventos do mês */}
+                    <div className="flex flex-col gap-3 py-4 flex-1 min-w-0">
+                      {monthEventos.map((evento) => {
+                        const acf = evento.eventoacf;
+                        const specialidades = especialidadesDoEvento(evento);
+                        const firstSp = specialidades[0];
+                        const color = getColor(firstSp || '');
+
+                        return (
                           <div
+                            key={evento.id}
                             className={cn(
-                              'size-2.5 rounded-full mt-1.5 shrink-0',
-                              color.dot,
+                              'flex items-start gap-3 p-4 rounded-2xl border transition-all hover:shadow-md',
+                              isPast
+                                ? 'bg-gray-50 border-gray-100 opacity-60'
+                                : 'bg-white border-gray-100 hover:border-[#31A1FF]/30',
                             )}
-                          />
+                          >
+                            {/* Dot de especialidade */}
+                            <div
+                              className={cn(
+                                'size-2.5 rounded-full mt-1.5 shrink-0',
+                                color.dot,
+                              )}
+                            />
 
-                          <div className="flex flex-col gap-1 min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              {specialidades.map((sp) => {
-                                const c = getColor(sp);
-                                return (
-                                  <span
-                                    key={sp}
-                                    className={cn(
-                                      'font-exo2 text-xs px-2 py-0.5 rounded-full border',
-                                      c.badge,
-                                      c.badgeText,
-                                    )}
-                                  >
-                                    {sp}
+                            <div className="flex flex-col gap-1 min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                {specialidades.map((sp) => {
+                                  const c = getColor(sp);
+                                  return (
+                                    <span
+                                      key={sp}
+                                      className={cn(
+                                        'font-exo2 text-xs px-2 py-0.5 rounded-full border',
+                                        c.badge,
+                                        c.badgeText,
+                                      )}
+                                    >
+                                      {sp}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+
+                              <p className="font-exo2 font-semibold text-sm text-gray-900 truncate">
+                                {evento.title}
+                              </p>
+
+                              <div className="flex flex-wrap items-center gap-3 text-gray-500">
+                                {acf?.dateNumber && (
+                                  <span className="font-exo2 text-xs">
+                                    {acf.dateNumber} de {MONTH_NAMES[monthIdx]}
                                   </span>
-                                );
-                              })}
+                                )}
+                                {acf?.local && (
+                                  <span className="flex items-center gap-1 font-exo2 text-xs">
+                                    <MapPin className="size-3" /> {acf.local}
+                                  </span>
+                                )}
+                                {acf?.hours && (
+                                  <span className="flex items-center gap-1 font-exo2 text-xs">
+                                    <Clock className="size-3" /> {acf.hours}
+                                  </span>
+                                )}
+                              </div>
                             </div>
 
-                            <p className="font-exo2 font-semibold text-sm text-gray-900 truncate">
-                              {evento.title}
-                            </p>
-
-                            <div className="flex flex-wrap items-center gap-3 text-gray-500">
-                              {acf?.dateNumber && (
-                                <span className="font-exo2 text-xs">
-                                  {acf.dateNumber} de {MONTH_NAMES[monthIdx]}
-                                </span>
-                              )}
-                              {acf?.local && (
-                                <span className="flex items-center gap-1 font-exo2 text-xs">
-                                  <MapPin className="size-3" /> {acf.local}
-                                </span>
-                              )}
-                              {acf?.hours && (
-                                <span className="flex items-center gap-1 font-exo2 text-xs">
-                                  <Clock className="size-3" /> {acf.hours}
-                                </span>
-                              )}
-                            </div>
+                            {/* CTA rápida */}
+                            {acf?.subscribe && !isPast && (
+                              <a
+                                href={acf.subscribe}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="shrink-0 p-2 rounded-full bg-[#31A1FF]/10 text-[#31A1FF] hover:bg-[#31A1FF]/20 transition-colors"
+                                aria-label="Inscrever-se"
+                              >
+                                <ExternalLink className="size-3.5" />
+                              </a>
+                            )}
                           </div>
-
-                          {/* CTA rápida */}
-                          {acf?.subscribe && !isPast && (
-                            <a
-                              href={acf.subscribe}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="shrink-0 p-2 rounded-full bg-[#31A1FF]/10 text-[#31A1FF] hover:bg-[#31A1FF]/20 transition-colors"
-                              aria-label="Inscrever-se"
-                            >
-                              <ExternalLink className="size-3.5" />
-                            </a>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                </Fragment>
               );
             })}
           </div>
