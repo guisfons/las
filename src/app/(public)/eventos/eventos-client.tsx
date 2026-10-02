@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import Footer from '@/components/footer';
 import { WPEventoNode } from '@/lib/types/events';
+import { SEGMENTOS, especialidadesComEvento } from '@/lib/eventos/taxonomia';
 
 import FiltroEmailEspecialidade from './_components/filtro-email-especialidade';
 import GridProximosEventos from './_components/grid-proximos-eventos';
@@ -83,28 +84,16 @@ export default function EventosClient({
   eventos,
   initialCategory,
 }: EventosClientProps) {
-  const especialidades = useMemo(() => {
-    const sp = new Set<string>();
-    eventos.forEach((e) =>
-      e.eventoCategorias?.nodes?.forEach((n) => {
-        if (n.name && n.name.trim().toLowerCase() !== 'todos') {
-          sp.add(n.name);
-        }
-      }),
-    );
-    return Array.from(sp).sort((a, b) => a.localeCompare(b, 'pt-BR'));
-  }, [eventos]);
+  // Canônicas, com Ablação já somada a Cabeça e Pescoço, e só as que têm
+  // evento. Ver src/lib/eventos/taxonomia.ts.
+  const especialidades = useMemo(
+    () => especialidadesComEvento(eventos),
+    [eventos],
+  );
 
-  const segmentsList = useMemo(() => {
-    const sp = new Set<string>();
-    eventos.forEach((e) =>
-      e.eventoSegmentos?.nodes?.forEach((n) => {
-        if (n.name) sp.add(n.name);
-      }),
-    );
-    const arr = Array.from(sp).sort((a, b) => a.localeCompare(b, 'pt-BR'));
-    return arr.length > 0 ? arr : ['Autoral', 'Educacional', 'Patrocinado'];
-  }, [eventos]);
+  // Lista fixa: os dois segmentos são a divisão do cliente, não o que a
+  // taxonomia do WordPress tiver num dado dia.
+  const segmentsList = useMemo(() => [...SEGMENTOS], []);
 
   // Inicializa o filtro com a categoria passada via URL (se válida)
   const initialFilter = useMemo(() => {

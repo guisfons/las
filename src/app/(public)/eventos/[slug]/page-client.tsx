@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
+import { especialidadesDoEvento } from '@/lib/eventos/taxonomia';
 import Footer from '@/components/footer';
 import CardProduct, { Product } from '../../produtos/_components/card-product';
 
@@ -27,16 +28,6 @@ interface Props {
   outrosEventos: WPEventoNode[];
   produtos?: Product[];
 }
-
-const EVENT_FORMAT_LABELS: Record<string, string> = {
-  jantar_cientifico: 'Jantar Científico',
-  curso: 'Curso',
-  congresso: 'Congresso',
-  feira: 'Feira',
-  simposio: 'Simpósio',
-  workshop: 'Workshop',
-  outro: 'Evento',
-};
 
 const SUBSCRIBE_TYPE_LABELS: Record<string, string> = {
   participar: 'Quero Participar',
@@ -198,11 +189,12 @@ export default function EventoPageClient({
         n.name.toLowerCase().includes('patrocinad'),
     ) || false;
   const isFuture = acf?.fullDate ? new Date(acf.fullDate) > new Date() : false;
-  const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
   const ctaLabel =
     SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] ||
     'Quero Participar';
-  const specialidades = evento.eventoCategorias?.nodes || [];
+  // Nomes canônicos: Ablação aparece como Cabeça e Pescoço, aqui e na
+  // listagem. Ver src/lib/eventos/taxonomia.ts.
+  const specialidades = especialidadesDoEvento(evento);
   const photos = acf?.gallery?.nodes || [];
   const hasPhotos = photos.length > 0;
 
@@ -232,8 +224,8 @@ export default function EventoPageClient({
 
   const relatedEvents = [...outrosEventos]
     .filter((e) => {
-      const hasSameSpecialty = e.eventoCategorias?.nodes?.some((c) =>
-        specialidades.some((s) => s.slug === c.slug),
+      const hasSameSpecialty = especialidadesDoEvento(e).some((c) =>
+        specialidades.includes(c),
       );
       return hasSameSpecialty;
     })
@@ -243,7 +235,7 @@ export default function EventoPageClient({
   const relatedProducts = [...produtos]
     .filter((p) => {
       const hasSameSpecialty = p.specialities.some((ps) =>
-        specialidades.some((es) => es.name.toLowerCase() === ps.toLowerCase()),
+        specialidades.some((es) => es.toLowerCase() === ps.toLowerCase()),
       );
       const hasSameName = p.name
         .toLowerCase()
@@ -283,20 +275,12 @@ export default function EventoPageClient({
 
           {/* Tags */}
           <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={cn(
-                'font-exo2 font-semibold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full',
-                isFeira ? 'bg-[#7EE000] text-black' : 'bg-[#31A1FF] text-white',
-              )}
-            >
-              {formatLabel}
-            </span>
             {specialidades.map((sp) => (
               <span
-                key={sp.slug}
+                key={sp}
                 className="inline-flex items-center bg-white/15 backdrop-blur-sm border border-white/20 text-white font-exo2 text-xs px-3 py-1.5 rounded-full"
               >
-                {sp.name}
+                {sp}
               </span>
             ))}
           </div>

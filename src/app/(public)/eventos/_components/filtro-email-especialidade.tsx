@@ -21,11 +21,16 @@ export default function FiltroEmailEspecialidade({
   onFilterChange,
   onSegmentChange,
 }: FiltroEmailEspecialidadeProps) {
-  const tabs = [...dynamicSegments, 'Passados'];
+  // Sem aba de passados: evento que já aconteceu sai da grade e vive na
+  // linha do tempo do Mapa do Ano, logo abaixo.
+  const tabs = dynamicSegments;
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedAlertType, setSelectedAlertType] = useState('Autoral');
+  const [selectedAlertType, setSelectedAlertType] = useState(
+    dynamicSegments[0] || 'Autoral',
+  );
+  const [selectedAlertEsp, setSelectedAlertEsp] = useState('Todas');
 
   const cleanEspecialidades = (especialidades || []).filter(
     (sp) => sp && sp.trim().toLowerCase() !== 'todos',
@@ -166,7 +171,7 @@ export default function FiltroEmailEspecialidade({
               <input
                 type="hidden"
                 name="_subject"
-                value={`Alerta de Eventos — ${selectedAlertType}`}
+                value={`Alerta de Eventos — ${selectedAlertType} · ${selectedAlertEsp}`}
               />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
@@ -181,15 +186,32 @@ export default function FiltroEmailEspecialidade({
                   onChange={(e) => setSelectedAlertType(e.target.value)}
                   className="w-full font-exo2 text-sm px-3 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#31A1FF]"
                 >
-                  <option value="Autoral" className="text-gray-900">
-                    Autoral
+                  {tabs.map((s) => (
+                    <option key={s} value={s} className="text-gray-900">
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="font-exo2 text-xs text-white/80">
+                  Especialidade
+                </label>
+                <select
+                  name="especialidade"
+                  value={selectedAlertEsp}
+                  onChange={(e) => setSelectedAlertEsp(e.target.value)}
+                  className="w-full font-exo2 text-sm px-3 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#31A1FF]"
+                >
+                  <option value="Todas" className="text-gray-900">
+                    Todas
                   </option>
-                  <option value="Educacional" className="text-gray-900">
-                    Educacional
-                  </option>
-                  <option value="Patrocinado" className="text-gray-900">
-                    Patrocinado
-                  </option>
+                  {cleanEspecialidades.map((sp) => (
+                    <option key={sp} value={sp} className="text-gray-900">
+                      {sp}
+                    </option>
+                  ))}
                 </select>
               </div>
 

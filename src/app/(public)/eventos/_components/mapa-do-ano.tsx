@@ -5,6 +5,11 @@ import { motion } from 'framer-motion';
 import { MapPin, Clock, ExternalLink } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
+import {
+  especialidadesComEvento,
+  especialidadesDoEvento,
+  eventoTemEspecialidade,
+} from '@/lib/eventos/taxonomia';
 
 interface MapaDoAnoProps {
   eventos: WPEventoNode[];
@@ -39,16 +44,6 @@ const MONTH_SHORT = [
   'Nov',
   'Dez',
 ];
-
-const EVENT_FORMAT_LABELS: Record<string, string> = {
-  jantar_cientifico: 'Jantar Científico',
-  curso: 'Curso',
-  congresso: 'Congresso',
-  feira: 'Feira',
-  simposio: 'Simpósio',
-  workshop: 'Workshop',
-  outro: 'Evento',
-};
 
 const SPECIALTY_COLORS: Record<
   string,
@@ -140,17 +135,10 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
   }, [eventos]);
 
   const availableSpecialties = useMemo(() => {
-    const sps = new Set<string>();
-    eventos
-      .filter((e) => Number(e.eventoacf?.year) === selectedYear)
-      .forEach((e) =>
-        e.eventoCategorias?.nodes?.forEach((n) => {
-          if (n.name && n.name.trim().toLowerCase() !== 'todos') {
-            sps.add(n.name);
-          }
-        }),
-      );
-    return ['Todos', ...Array.from(sps)];
+    const doAno = eventos.filter(
+      (e) => Number(e.eventoacf?.year) === selectedYear,
+    );
+    return ['Todos', ...especialidadesComEvento(doAno)];
   }, [eventos, selectedYear]);
 
   // ─── Eventos enriquecidos com índice de mês ─────────────────────
@@ -160,8 +148,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
         const yr = Number(e.eventoacf?.year);
         const matchYear = yr === selectedYear;
         const matchFilter =
-          filter === 'Todos' ||
-          (e.eventoCategorias?.nodes || []).some((n) => n.name === filter);
+          filter === 'Todos' || eventoTemEspecialidade(e, filter);
         return matchYear && matchFilter;
       })
       .map((e) => ({
@@ -310,22 +297,9 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
                   <div className="flex flex-col gap-3 py-4 flex-1 min-w-0">
                     {monthEventos.map((evento) => {
                       const acf = evento.eventoacf;
-                      const specialidades =
-                        evento.eventoCategorias?.nodes || [];
-                      const isFeira =
-                        evento.eventoSegmentos?.nodes?.some(
-                          (n) =>
-                            n.slug.includes('feira') ||
-                            n.name.toLowerCase().includes('feira') ||
-                            n.slug.includes('patrocinad') ||
-                            n.name.toLowerCase().includes('patrocinad'),
-                        ) || false;
-                      const formatLabel =
-                        EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
+                      const specialidades = especialidadesDoEvento(evento);
                       const firstSp = specialidades[0];
-                      const color = firstSp
-                        ? getColor(firstSp.name)
-                        : getColor('');
+                      const color = getColor(firstSp || '');
 
                       return (
                         <div
@@ -347,28 +321,18 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
 
                           <div className="flex flex-col gap-1 min-w-0 flex-1">
                             <div className="flex flex-wrap items-center gap-2">
-                              <span
-                                className={cn(
-                                  'font-exo2 text-xs font-semibold px-2 py-0.5 rounded-full',
-                                  isFeira
-                                    ? 'bg-[#7EE000]/10 text-[#5aac00]'
-                                    : 'bg-[#31A1FF]/10 text-[#31A1FF]',
-                                )}
-                              >
-                                {formatLabel}
-                              </span>
                               {specialidades.map((sp) => {
-                                const c = getColor(sp.name);
+                                const c = getColor(sp);
                                 return (
                                   <span
-                                    key={sp.slug}
+                                    key={sp}
                                     className={cn(
                                       'font-exo2 text-xs px-2 py-0.5 rounded-full border',
                                       c.badge,
                                       c.badgeText,
                                     )}
                                   >
-                                    {sp.name}
+                                    {sp}
                                   </span>
                                 );
                               })}

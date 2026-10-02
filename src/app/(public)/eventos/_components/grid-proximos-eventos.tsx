@@ -7,6 +7,11 @@ import { MapPin, Clock, ExternalLink, Share2, Calendar } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
 import { getEventDate } from '../eventos-client';
+import {
+  especialidadesDoEvento,
+  eventoTemEspecialidade,
+  segmentoDoEvento,
+} from '@/lib/eventos/taxonomia';
 
 interface GridProximosEventosProps {
   eventos: WPEventoNode[];
@@ -50,16 +55,6 @@ function getSpecialtyColor(name: string) {
     }
   );
 }
-
-const EVENT_FORMAT_LABELS: Record<string, string> = {
-  jantar_cientifico: 'Jantar Científico',
-  curso: 'Curso',
-  congresso: 'Congresso',
-  feira: 'Feira',
-  simposio: 'Simpósio',
-  workshop: 'Workshop',
-  outro: 'Evento',
-};
 
 const SUBSCRIBE_TYPE_LABELS: Record<string, string> = {
   participar: 'Quero Participar',
@@ -157,10 +152,9 @@ function getEventStyle(evento: WPEventoNode) {
 // ─── Card Quadrado ──────────────────────────────────────────────────────────
 function CardQuadrado({ evento }: { evento: WPEventoNode }) {
   const acf = evento.eventoacf;
-  const specialidades = evento.eventoCategorias?.nodes || [];
+  const specialidades = especialidadesDoEvento(evento);
   const ctaLabel =
     SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] || 'Saiba Mais';
-  const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
   const style = getEventStyle(evento);
 
   const whatsappText = encodeURIComponent(
@@ -208,26 +202,15 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
             </span>
           </div>
         )}
-
-        <div className="absolute top-4 right-4">
-          <span
-            className={cn(
-              'font-exo2 text-[10px] lg:text-xs font-semibold px-3 py-1 rounded-full shadow-lg',
-              style.tag,
-            )}
-          >
-            {formatLabel}
-          </span>
-        </div>
       </Link>
 
       <div className="flex flex-col gap-2 px-1">
         <div className="flex flex-wrap gap-1.5">
           {specialidades.map((sp) => {
-            const color = getSpecialtyColor(sp.name);
+            const color = getSpecialtyColor(sp);
             return (
               <span
-                key={sp.slug}
+                key={sp}
                 className={cn(
                   'font-exo2 text-[10px] px-2 py-0.5 rounded-full border font-medium',
                   color.bg,
@@ -235,7 +218,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
                   color.border,
                 )}
               >
-                {sp.name}
+                {sp}
               </span>
             );
           })}
@@ -320,9 +303,8 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
 // ─── Card Banner (Retangular) ───────────────────────────────────────────────
 function CardBanner({ evento }: { evento: WPEventoNode }) {
   const acf = evento.eventoacf;
-  const specialidades = evento.eventoCategorias?.nodes || [];
+  const specialidades = especialidadesDoEvento(evento);
   const ctaLabel = SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'];
-  const formatLabel = EVENT_FORMAT_LABELS[acf?.eventFormat || ''] || 'Evento';
   const style = getEventStyle(evento);
 
   return (
@@ -355,19 +337,11 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
 
         <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-10">
           <div className="flex flex-wrap gap-2">
-            <span
-              className={cn(
-                'font-exo2 text-xs font-semibold px-3 py-1 rounded-full shadow-md',
-                style.tag,
-              )}
-            >
-              {formatLabel}
-            </span>
             {specialidades.map((sp) => {
-              const color = getSpecialtyColor(sp.name);
+              const color = getSpecialtyColor(sp);
               return (
                 <span
-                  key={sp.slug}
+                  key={sp}
                   className={cn(
                     'font-exo2 text-xs px-2.5 py-1 rounded-full border',
                     color.bg,
@@ -375,7 +349,7 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
                     color.border,
                   )}
                 >
-                  {sp.name}
+                  {sp}
                 </span>
               );
             })}
@@ -436,41 +410,22 @@ export default function GridProximosEventos({
   today.setHours(0, 0, 0, 0);
 
   const filteredEventos = eventos.filter((e) => {
-    // Especialidade filter
-    const matchEspecialidade =
-      !filter ||
-      (e.eventoCategorias?.nodes || []).some((n) => n.name === filter);
+    if (!eventoTemEspecialidade(e, filter)) return false;
 
-    if (!matchEspecialidade) return false;
-
-    // Segmento filter
+    // A grade é só do que ainda vai acontecer. Evento passado não some do
+    // site: ele vive na linha do tempo do Mapa do Ano, logo abaixo.
     const date = getEventDate(e);
-    const isPast = date ? date < today : false;
     const isFuture = date ? date >= today : true;
+    if (!isFuture) return false;
 
-    if (segment === 'Passados') return isPast;
-
-    const belongsToSegment =
-      e.eventoSegmentos?.nodes?.some(
-        (n) => n.name.toLowerCase() === segment.toLowerCase(),
-      ) ?? false;
-
-    // Se o evento não tiver nenhum segmento, e estivermos na aba padrão "Autoral" (ou primeiro segmento listado), podemos mostrar por fallback.
-    // Mas idealmente, devemos exigir que a aba combine com o segmento dinâmico selecionado.
-    const hasSegments = (e.eventoSegmentos?.nodes?.length || 0) > 0;
-
-    if (!hasSegments && segment.toLowerCase() === 'autoral') {
-      return isFuture;
-    }
-
-    return isFuture && belongsToSegment;
+    return segmentoDoEvento(e) === segment;
   });
 
   // Sort chronological
   filteredEventos.sort((a, b) => {
     const da = getEventDate(a)?.getTime() || 0;
     const db = getEventDate(b)?.getTime() || 0;
-    return segment === 'Passados' ? db - da : da - db; // Passados: newest first. Future: soonest first.
+    return da - db; // o mais próximo primeiro
   });
 
   // Group by month
