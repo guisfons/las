@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/api/blog';
 import BlogPostClient from './page-client';
+import { comMarca } from '@/lib/utils/seo';
 
 interface Props {
   params: { slug: string };
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description,
     openGraph: {
-      title: post.title,
+      title: comMarca(post.title),
       description,
       type: 'article',
       publishedTime: post.date,

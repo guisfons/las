@@ -13,10 +13,8 @@ export function generateSeoMetadata(
     image?: string;
   } = {},
 ): Metadata {
-  // O título com marca continua valendo para Open Graph e Twitter, que não
-  // passam pelo template do layout.
-  const tituloComMarca = seo?.title || defaults.title || 'LAS For Life';
-  const title = semMarca(tituloComMarca);
+  const tituloBruto = seo?.title || defaults.title || 'LAS For Life';
+  const title = semMarca(tituloBruto);
   const description =
     seo?.metaDesc ||
     defaults.description ||
@@ -30,13 +28,13 @@ export function generateSeoMetadata(
     description,
     ...(seo?.canonical ? { alternates: { canonical: seo.canonical } } : {}),
     openGraph: {
-      title: seo?.opengraphTitle || tituloComMarca,
+      title: comMarca(seo?.opengraphTitle || tituloBruto),
       description: seo?.opengraphDescription || description,
       ...(ogImage ? { images: [{ url: ogImage }] } : {}),
     },
     twitter: {
       card: 'summary_large_image',
-      title: seo?.twitterTitle || tituloComMarca,
+      title: comMarca(seo?.twitterTitle || seo?.opengraphTitle || tituloBruto),
       description: seo?.twitterDescription || description,
       ...(twitterImage ? { images: [twitterImage] } : {}),
     },
@@ -61,4 +59,18 @@ export function semMarca(titulo: string): string {
   let t = titulo.trim();
   while (marca.test(t)) t = t.replace(marca, '').trim();
   return /^las(\s+for\s+life)?$/i.test(t) ? '' : t;
+}
+
+/**
+ * O título de compartilhamento — a prévia do link no WhatsApp, LinkedIn e
+ * Facebook (Open Graph e Twitter).
+ *
+ * Ele NÃO passa pelo template do layout, então a marca tem de ser posta aqui.
+ * E ele vinha de três jeitos: do Yoast com a marca dele ("LAS Talks - LAS"),
+ * com a nossa ("Eventos | LAS For Life") e sem marca nenhuma (eventos e posts).
+ * Agora é um só: "Título | LAS For Life", igual ao da aba.
+ */
+export function comMarca(titulo?: string | null): string {
+  const t = semMarca(titulo || '');
+  return t ? `${t} | LAS For Life` : 'LAS For Life';
 }

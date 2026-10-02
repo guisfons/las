@@ -4,6 +4,7 @@ import { getEventoBySlug, getAllEventos } from '@/lib/api/events';
 import { getAllProducts } from '@/lib/api/products';
 import { mapWPProductToProduct } from '@/lib/utils/product-mapper';
 import EventoPageClient from './page-client';
+import { comMarca } from '@/lib/utils/seo';
 
 interface Props {
   params: { slug: string };
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: evento.title,
     description,
     openGraph: {
-      title: evento.title,
+      title: comMarca(evento.title),
       description,
       images: acf?.img?.node?.sourceUrl
         ? [{ url: acf.img.node.sourceUrl }]
