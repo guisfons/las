@@ -96,8 +96,12 @@ export type Segmento = (typeof SEGMENTOS)[number];
 
 /**
  * Evento autoral é o que a LAS organiza: LAStalks, LASclubs, LASxperts,
- * LASxperience, LASacademy. Todo o resto — congresso, feira, curso de parceiro
- * — é patrocinado.
+ * LASxperience, LASacademy e os webinars de parceiros. Todo o resto —
+ * congresso, feira, curso de parceiro — é patrocinado.
+ *
+ * "Webinar" entra na lista por decisão do Bruno (02/10/2026): os quatro
+ * títulos que começam com a palavra são encontros que a LAS promove para
+ * parceiro e distribuidor, não evento de terceiro em que ela patrocina.
  *
  * ⚠️ O nome do programa tem de estar NO COMEÇO do título, não em qualquer
  * lugar. "Recall Asami + LAStalks" é um evento patrocinado em que a LAS faz um
@@ -106,7 +110,7 @@ export type Segmento = (typeof SEGMENTOS)[number];
  * hoje, e o calendário do cliente confirma que ele é patrocinado.
  */
 const PROGRAMAS_LAS =
-  /^\s*(las\s*talks?|lastalks?|las\s*clubs?|lasclubs?|las\s*xperts?|lasxperts?|las\s*xperience|lasxperience|lasacademy|las\s*academy)/i;
+  /^\s*(las\s*talks?|lastalks?|las\s*clubs?|lasclubs?|las\s*xperts?|lasxperts?|las\s*xperience|lasxperience|lasacademy|las\s*academy|webinar)/i;
 
 /**
  * O segmento de um evento.
