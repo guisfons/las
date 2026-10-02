@@ -104,8 +104,54 @@ export function eventoFuturo(evento: WPEventoNode): boolean {
   return p.fim >= hoje;
 }
 
+/**
+ * O evento tem o que mostrar além do card? (Bruno, 02/10/2026)
+ *
+ * O topo da página interna repete título, data e local, que o card já mostra.
+ * O que justifica abrir a página é o que vem depois: o texto do evento,
+ * palestrante, estande, galeria, marcas, mapa, como chegar, hotéis, impacto ou
+ * recap. Sem nenhum deles, o card não tem "Ver Detalhes" e não é clicável — e
+ * no dia em que o WordPress ganhar um desses campos, a página se abre sozinha.
+ *
+ * Medido em 02/10/2026: **nenhum dos 87 eventos tem texto**, e só 2 (os dois
+ * já passados) têm palestrante.
+ *
+ * A listagem não traz o texto (é pesado para 87 eventos), então ela calcula
+ * isto no servidor e manda só o booleano — ver getAllEventos().
+ */
+export function eventoTemDetalhes(evento: WPEventoNode): boolean {
+  if (typeof evento.temDetalhes === 'boolean') return evento.temDetalhes;
+  const acf = evento.eventoacf;
+  const preenchido = (v?: string | null) =>
+    !!(v || '').replace(/<[^>]*>|&nbsp;/g, '').trim();
+  return (
+    preenchido(evento.content) ||
+    preenchido(evento.excerpt) ||
+    preenchido(acf?.speaker) ||
+    preenchido(acf?.moderator) ||
+    preenchido(acf?.boothNumber) ||
+    preenchido(acf?.boothHours) ||
+    preenchido(acf?.boothHighlights) ||
+    preenchido(acf?.boothMapUrl) ||
+    preenchido(acf?.mapEmbedUrl) ||
+    preenchido(acf?.howToGet) ||
+    preenchido(acf?.partnerHotels) ||
+    preenchido(acf?.impactNumber) ||
+    preenchido(acf?.recapLink) ||
+    (acf?.gallery?.nodes?.length ?? 0) > 0 ||
+    (acf?.sponsors?.length ?? 0) > 0
+  );
+}
+
+/**
+ * Para onde mandar quem recebe o evento — WhatsApp, QR code, calendário.
+ * Evento sem página interna aponta para a agenda: mandar alguém a uma página
+ * que só repete o card é pior que mandá-lo à lista.
+ */
 export function urlDoEvento(evento: WPEventoNode): string {
-  return `${SITE}/eventos/${evento.slug}`;
+  return eventoTemDetalhes(evento)
+    ? `${SITE}/eventos/${evento.slug}`
+    : `${SITE}/eventos`;
 }
 
 // ─── Calendário ─────────────────────────────────────────────────────────────

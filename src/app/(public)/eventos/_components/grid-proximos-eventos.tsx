@@ -14,6 +14,29 @@ import {
 } from '@/lib/eventos/taxonomia';
 import { coresDoEvento } from './cores-segmento';
 import { BotaoCalendario, BotaoWhatsApp } from './acoes-evento';
+import { eventoTemDetalhes } from '@/lib/eventos/agenda';
+
+/**
+ * Link para a página do evento só quando ela tem o que mostrar; sem isso, o
+ * mesmo conteúdo sem clique. Ver eventoTemDetalhes().
+ */
+function LinkDoEvento({
+  evento,
+  className,
+  children,
+}: {
+  evento: WPEventoNode;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return eventoTemDetalhes(evento) ? (
+    <Link href={`/eventos/${evento.slug}`} className={className}>
+      {children}
+    </Link>
+  ) : (
+    <div className={className}>{children}</div>
+  );
+}
 
 interface GridProximosEventosProps {
   eventos: WPEventoNode[];
@@ -89,8 +112,8 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
       exit="exit"
       layout
     >
-      <Link
-        href={`/eventos/${evento.slug}`}
+      <LinkDoEvento
+        evento={evento}
         className="block relative aspect-video rounded-3xl overflow-hidden bg-gray-100"
       >
         {acf?.img?.node?.sourceUrl ? (
@@ -121,7 +144,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
             </span>
           </div>
         )}
-      </Link>
+      </LinkDoEvento>
 
       <div className="flex flex-col gap-2 px-1">
         <div className="flex flex-wrap gap-1.5">
@@ -138,18 +161,18 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
           ))}
         </div>
 
-        <Link href={`/eventos/${evento.slug}`}>
+        <LinkDoEvento evento={evento}>
           <h3
             className={cn(
               'font-exo2 font-bold text-lg leading-snug transition-colors',
               style.isPast
                 ? 'text-gray-600 hover:text-gray-900'
-                : style.textoHover,
+                : eventoTemDetalhes(evento) && style.textoHover,
             )}
           >
             {evento.title}
           </h3>
-        </Link>
+        </LinkDoEvento>
 
         {acf?.local && (
           <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
@@ -178,14 +201,14 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
             >
               {ctaLabel} <ExternalLink className="size-3" />
             </Link>
-          ) : (
+          ) : eventoTemDetalhes(evento) ? (
             <Link
               href={`/eventos/${evento.slug}`}
               className="inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
             >
               Ver Detalhes
             </Link>
-          )}
+          ) : null}
           {/* Todo evento compartilha e, se ainda não passou, vai para a agenda. */}
           <BotaoWhatsApp evento={evento} />
           {!style.isPast && <BotaoCalendario evento={evento} />}
@@ -281,14 +304,14 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
                 >
                   {ctaLabel} <ExternalLink className="size-4" />
                 </Link>
-              ) : (
+              ) : eventoTemDetalhes(evento) ? (
                 <Link
                   href={`/eventos/${evento.slug}`}
                   className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm rounded-full px-6 py-3 bg-white/15 backdrop-blur-sm border border-white/20 text-white hover:bg-white/25 transition-all"
                 >
                   Ver Detalhes
                 </Link>
-              )}
+              ) : null}
               <BotaoWhatsApp evento={evento} variante="escuro" />
               {!style.isPast && (
                 <BotaoCalendario evento={evento} variante="escuro" />

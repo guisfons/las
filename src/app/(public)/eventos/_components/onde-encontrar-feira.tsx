@@ -19,6 +19,7 @@ import {
 } from '@/lib/eventos/taxonomia';
 import {
   eventoFuturo,
+  eventoTemDetalhes,
   periodoDoEvento,
   urlDoEvento,
 } from '@/lib/eventos/agenda';
@@ -252,12 +253,14 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
         )}
 
         <div className="flex items-center gap-2">
-          <Link
-            href={`/eventos/${evento.slug}`}
-            className="inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
-          >
-            Ver Detalhes
-          </Link>
+          {eventoTemDetalhes(evento) && (
+            <Link
+              href={`/eventos/${evento.slug}`}
+              className="inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+            >
+              Ver Detalhes
+            </Link>
+          )}
           <BotaoWhatsApp evento={evento} />
           <BotaoCalendario evento={evento} />
         </div>

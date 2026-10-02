@@ -23,7 +23,11 @@ import {
   especialidadesDoEvento,
   segmentoDoEvento,
 } from '@/lib/eventos/taxonomia';
-import { eventoFuturo, linkWhatsApp } from '@/lib/eventos/agenda';
+import {
+  eventoFuturo,
+  eventoTemDetalhes,
+  linkWhatsApp,
+} from '@/lib/eventos/agenda';
 import { varCorEvento } from '../_components/cores-segmento';
 import { BotaoCalendario, BotaoWhatsApp } from '../_components/acoes-evento';
 import Footer from '@/components/footer';
@@ -202,7 +206,10 @@ export default function EventoPageClient({
   const recapIsInstagram = acf?.recapLink?.includes('instagram');
   const recapIsLinkedin = acf?.recapLink?.includes('linkedin');
 
+  // Só evento que tem página para abrir: um relacionado sem clique não leva
+  // a lugar nenhum.
   const relatedEvents = [...outrosEventos]
+    .filter(eventoTemDetalhes)
     .filter((e) => {
       const hasSameSpecialty = especialidadesDoEvento(e).some((c) =>
         specialidades.includes(c),

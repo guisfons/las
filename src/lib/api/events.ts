@@ -1,5 +1,6 @@
 import { fetchWPGraphQL } from '../wp';
 import { WPEventoNode, WPEventosConnection } from '../types/events';
+import { eventoTemDetalhes } from '../eventos/agenda';
 
 const EVENTO_FIELDS = `
   id
@@ -77,6 +78,8 @@ export async function getAllEventos(): Promise<WPEventoNode[]> {
       eventos(first: 100, where: { orderby: { field: MENU_ORDER, order: ASC } }) {
         nodes {
           ${EVENTO_FIELDS}
+          content
+          excerpt
         }
       }
     }
@@ -84,7 +87,14 @@ export async function getAllEventos(): Promise<WPEventoNode[]> {
 
   try {
     const data = await fetchWPGraphQL<{ eventos: WPEventosConnection }>(query);
-    return data?.eventos?.nodes || [];
+    // O texto só serve para decidir se o evento tem página interna. Ele não
+    // segue para o navegador: são 87 eventos, e a listagem não o exibe.
+    return (data?.eventos?.nodes || []).map(
+      ({ content, excerpt, ...evento }) => ({
+        ...evento,
+        temDetalhes: eventoTemDetalhes({ ...evento, content, excerpt }),
+      }),
+    );
   } catch (error) {
     console.error('Failed to fetch eventos from WP:', error);
     return [];

@@ -82,6 +82,8 @@ export type WPEventoNode = {
   date: string;
   content?: string;
   excerpt?: string;
+  /** Calculado no servidor pela listagem. Ver eventoTemDetalhes(). */
+  temDetalhes?: boolean;
   eventoacf?: WPEventoAcf;
   eventoCategorias?: {
     nodes: {

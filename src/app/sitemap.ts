@@ -1,10 +1,21 @@
 import { MetadataRoute } from 'next';
 import { getAllProducts } from '@/lib/api/products';
 import { getAllEventos } from '@/lib/api/events';
+import { eventoTemDetalhes } from '@/lib/eventos/agenda';
 import { getAllBlogPosts } from '@/lib/api/blog';
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://lasforlife.com.br';
+
+/**
+ * Regenerado na Vercel a cada hora, e não congelado no build.
+ *
+ * O build roda na máquina de quem publica (deploy-site-las.sh) e consulta o
+ * WordPress dezenas de vezes — o bastante para o WAF da Hostinger bloquear o
+ * IP. Em 02/10/2026 o sitemap no ar tinha saído assim, sem nenhum evento e sem
+ * nenhum post, porque as duas consultas falharam em silêncio no `catch`.
+ */
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -136,7 +147,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let eventoRoutes: MetadataRoute.Sitemap = [];
   try {
     const eventos = await getAllEventos();
-    eventoRoutes = eventos.map((evento) => ({
+    // Só evento com página interna de verdade. Os outros abrem uma página que
+    // repete o card, e não devem concorrer na busca.
+    eventoRoutes = eventos.filter(eventoTemDetalhes).map((evento) => ({
       url: `${BASE_URL}/eventos/${evento.slug}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
