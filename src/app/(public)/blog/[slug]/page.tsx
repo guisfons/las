@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     post.featuredImage?.node?.sourceUrl;
 
   return {
-    title: `${post.title} | Blog LAS For Life`,
+    title: post.title,
     description,
     openGraph: {
       title: post.title,

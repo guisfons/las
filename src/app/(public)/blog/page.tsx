@@ -3,7 +3,8 @@ import { getAllBlogPosts } from '@/lib/api/blog';
 import BlogClient from './blog-client';
 
 export const metadata: Metadata = {
-  title: 'Blog | LAS For Life',
+  // O sufixo vem do template do layout raiz.
+  title: 'Blog',
   description:
     'Artigos, notícias e conteúdos educativos sobre saúde, ortopedia, ginecologia e mais — da LAS For Life.',
   openGraph: {

@@ -10,6 +10,7 @@ import {
   especialidadesDoEvento,
   eventoTemEspecialidade,
 } from '@/lib/eventos/taxonomia';
+import { coresDoEvento } from './cores-segmento';
 
 interface MapaDoAnoProps {
   eventos: WPEventoNode[];
@@ -44,49 +45,6 @@ const MONTH_SHORT = [
   'Nov',
   'Dez',
 ];
-
-const SPECIALTY_COLORS: Record<
-  string,
-  { dot: string; badge: string; badgeText: string }
-> = {
-  ortopedia: {
-    dot: 'bg-[#31A1FF]',
-    badge: 'bg-[#31A1FF]/10 border-[#31A1FF]/30',
-    badgeText: 'text-[#31A1FF]',
-  },
-  ginecologia: {
-    dot: 'bg-[#7EE000]',
-    badge: 'bg-[#7EE000]/10 border-[#7EE000]/30',
-    badgeText: 'text-[#7EE000]',
-  },
-  coluna: {
-    dot: 'bg-[#31A1FF]',
-    badge: 'bg-[#31A1FF]/10 border-[#31A1FF]/30',
-    badgeText: 'text-[#31A1FF]',
-  },
-  'cabeça e pescoço': {
-    dot: 'bg-[#1a2a5e]',
-    badge: 'bg-[#1a2a5e]/10 border-[#1a2a5e]/30',
-    badgeText: 'text-[#1a2a5e]',
-  },
-  // Azul-púrpura institucional. Sem entrada aqui a especialidade cai no cinza
-  // do fallback, que ao lado das outras quatro lê como "não reconhecida".
-  uroginecologia: {
-    dot: 'bg-[#474F99]',
-    badge: 'bg-[#474F99]/10 border-[#474F99]/30',
-    badgeText: 'text-[#474F99]',
-  },
-};
-
-function getColor(name: string) {
-  return (
-    SPECIALTY_COLORS[name.toLowerCase()] || {
-      dot: 'bg-gray-400',
-      badge: 'bg-gray-100 border-gray-200',
-      badgeText: 'text-gray-600',
-    }
-  );
-}
 
 function parseMonthIndex(monthStr: string): number {
   const normalized = monthStr.toLowerCase().trim();
@@ -336,8 +294,9 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
                       {monthEventos.map((evento) => {
                         const acf = evento.eventoacf;
                         const specialidades = especialidadesDoEvento(evento);
-                        const firstSp = specialidades[0];
-                        const color = getColor(firstSp || '');
+                        // A cor é a do segmento: Autoral no azul de Promover Educação,
+                        // Patrocinado no de Articular o Ecossistema.
+                        const cor = coresDoEvento(evento);
 
                         return (
                           <div
@@ -346,34 +305,33 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
                               'flex items-start gap-3 p-4 rounded-2xl border transition-all hover:shadow-md',
                               isPast
                                 ? 'bg-gray-50 border-gray-100 opacity-60'
-                                : 'bg-white border-gray-100 hover:border-[#31A1FF]/30',
+                                : cn(
+                                    'bg-white border-gray-100',
+                                    cor.bordaHover,
+                                  ),
                             )}
                           >
                             {/* Dot de especialidade */}
                             <div
                               className={cn(
                                 'size-2.5 rounded-full mt-1.5 shrink-0',
-                                color.dot,
+                                cor.ponto,
                               )}
                             />
 
                             <div className="flex flex-col gap-1 min-w-0 flex-1">
                               <div className="flex flex-wrap items-center gap-2">
-                                {specialidades.map((sp) => {
-                                  const c = getColor(sp);
-                                  return (
-                                    <span
-                                      key={sp}
-                                      className={cn(
-                                        'font-exo2 text-xs px-2 py-0.5 rounded-full border',
-                                        c.badge,
-                                        c.badgeText,
-                                      )}
-                                    >
-                                      {sp}
-                                    </span>
-                                  );
-                                })}
+                                {specialidades.map((sp) => (
+                                  <span
+                                    key={sp}
+                                    className={cn(
+                                      'font-exo2 text-xs px-2 py-0.5 rounded-full border',
+                                      cor.suave,
+                                    )}
+                                  >
+                                    {sp}
+                                  </span>
+                                ))}
                               </div>
 
                               <p className="font-exo2 font-semibold text-sm text-gray-900 truncate">
@@ -405,7 +363,11 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
                                 href={acf.subscribe}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="shrink-0 p-2 rounded-full bg-[#31A1FF]/10 text-[#31A1FF] hover:bg-[#31A1FF]/20 transition-colors"
+                                className={cn(
+                                  'shrink-0 p-2 rounded-full border transition-colors',
+                                  cor.suave,
+                                  cor.suaveHover,
+                                )}
                                 aria-label="Inscrever-se"
                               >
                                 <ExternalLink className="size-3.5" />

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `${evento.title} — ${acf?.dateNumber} de ${acf?.month}${acf?.year ? ` de ${acf.year}` : ''}${acf?.local ? ` | ${acf.local}` : ''}`;
 
   return {
-    title: `${evento.title} | LAS For Life`,
+    title: evento.title,
     description,
     openGraph: {
       title: evento.title,

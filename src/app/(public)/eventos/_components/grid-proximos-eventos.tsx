@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, ExternalLink, Share2, Calendar } from 'lucide-react';
+import { MapPin, Clock, ExternalLink } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
 import { getEventDate } from '../eventos-client';
@@ -12,48 +12,13 @@ import {
   eventoTemEspecialidade,
   segmentoDoEvento,
 } from '@/lib/eventos/taxonomia';
+import { coresDoEvento } from './cores-segmento';
+import { BotaoCalendario, BotaoWhatsApp } from './acoes-evento';
 
 interface GridProximosEventosProps {
   eventos: WPEventoNode[];
   filter: string | null;
   segment: string;
-}
-
-// ─── Cores por especialidade ────────────────────────────────────────────────
-const SPECIALTY_COLORS: Record<
-  string,
-  { bg: string; text: string; border: string }
-> = {
-  ortopedia: {
-    bg: 'bg-[#31A1FF]/20',
-    text: 'text-[#31A1FF]',
-    border: 'border-[#31A1FF]/40',
-  },
-  ginecologia: {
-    bg: 'bg-[#7EE000]/20',
-    text: 'text-[#7EE000]',
-    border: 'border-[#7EE000]/40',
-  },
-  coluna: {
-    bg: 'bg-[#31A1FF]/20',
-    text: 'text-[#31A1FF]',
-    border: 'border-[#31A1FF]/40',
-  },
-  'cabeça e pescoço': {
-    bg: 'bg-[#1a2a5e]/10',
-    text: 'text-[#1a2a5e]',
-    border: 'border-[#1a2a5e]/30',
-  },
-};
-
-function getSpecialtyColor(name: string) {
-  return (
-    SPECIALTY_COLORS[name.toLowerCase()] || {
-      bg: 'bg-gray-200',
-      text: 'text-gray-700',
-      border: 'border-gray-300',
-    }
-  );
 }
 
 const SUBSCRIBE_TYPE_LABELS: Record<string, string> = {
@@ -81,72 +46,30 @@ const cardVariants = {
   },
 };
 
+/**
+ * Passado fica cinza; o resto toma a cor do segmento. Ver cores-segmento.ts.
+ *
+ * A versão anterior procurava "feira" e "educa" nos segmentos do WordPress,
+ * que estão vazios — todo evento caía no azul padrão, e o verde de congresso
+ * nunca aparecia.
+ */
 function getEventStyle(evento: WPEventoNode) {
   const date = getEventDate(evento);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const isPast = date ? date < today : false;
+  const cores = coresDoEvento(evento);
 
   if (isPast) {
     return {
-      bg: 'bg-gray-500',
-      tag: 'bg-gray-500 text-white',
-      border: 'border-gray-300',
-      text: 'text-gray-600',
-      gradient: 'from-gray-500/30 to-gray-800',
+      ...cores,
+      suave: 'bg-gray-100 text-gray-600 border-gray-200',
+      texto: 'text-gray-500',
+      degrade: 'from-gray-500/30 to-gray-800',
       isPast: true,
     };
   }
-
-  const isFeira =
-    evento.eventoSegmentos?.nodes?.some(
-      (n) =>
-        n.slug.includes('feira') ||
-        n.name.toLowerCase().includes('feira') ||
-        n.slug.includes('patrocinad') ||
-        n.name.toLowerCase().includes('patrocinad'),
-    ) || false;
-
-  const isEducacional =
-    evento.eventoSegmentos?.nodes?.some(
-      (n) =>
-        n.slug.includes('educa') ||
-        n.name.toLowerCase().includes('educa') ||
-        n.slug.includes('curso') ||
-        n.name.toLowerCase().includes('curso'),
-    ) || false;
-
-  if (isFeira) {
-    return {
-      bg: 'bg-[#7EE000]',
-      tag: 'bg-[#7EE000] text-black',
-      border: 'border-[#7EE000]/30',
-      text: 'text-[#5aac00]',
-      gradient: 'from-[#7EE000]/30 to-[#1a2a5e]',
-      isPast: false,
-    };
-  }
-
-  if (isEducacional) {
-    return {
-      bg: 'bg-[#1a2a5e]',
-      tag: 'bg-[#1a2a5e] text-white',
-      border: 'border-[#1a2a5e]/30',
-      text: 'text-[#1a2a5e]',
-      gradient: 'from-[#1a2a5e]/50 to-[#0a1433]',
-      isPast: false,
-    };
-  }
-
-  // Default (Autoral/Other)
-  return {
-    bg: 'bg-[#31A1FF]',
-    tag: 'bg-[#31A1FF] text-white',
-    border: 'border-[#31A1FF]/30',
-    text: 'text-[#31A1FF]',
-    gradient: 'from-[#31A1FF]/30 to-[#1a2a5e]',
-    isPast: false,
-  };
+  return { ...cores, isPast: false };
 }
 
 // ─── Card Quadrado ──────────────────────────────────────────────────────────
@@ -156,10 +79,6 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
   const ctaLabel =
     SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] || 'Saiba Mais';
   const style = getEventStyle(evento);
-
-  const whatsappText = encodeURIComponent(
-    `🩺 ${evento.title} — ${acf?.dateNumber} de ${acf?.month}\n📍 ${acf?.local || ''}\n\nSaiba mais: ${typeof window !== 'undefined' ? window.location.href : ''}`,
-  );
 
   return (
     <motion.figure
@@ -187,7 +106,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
           />
         ) : (
           <div
-            className={cn('absolute inset-0 bg-gradient-to-br', style.gradient)}
+            className={cn('absolute inset-0 bg-gradient-to-br', style.degrade)}
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -206,22 +125,17 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
 
       <div className="flex flex-col gap-2 px-1">
         <div className="flex flex-wrap gap-1.5">
-          {specialidades.map((sp) => {
-            const color = getSpecialtyColor(sp);
-            return (
-              <span
-                key={sp}
-                className={cn(
-                  'font-exo2 text-[10px] px-2 py-0.5 rounded-full border font-medium',
-                  color.bg,
-                  color.text,
-                  color.border,
-                )}
-              >
-                {sp}
-              </span>
-            );
-          })}
+          {specialidades.map((sp) => (
+            <span
+              key={sp}
+              className={cn(
+                'font-exo2 text-[10px] px-2 py-0.5 rounded-full border font-medium',
+                style.suave,
+              )}
+            >
+              {sp}
+            </span>
+          ))}
         </div>
 
         <Link href={`/eventos/${evento.slug}`}>
@@ -230,7 +144,7 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
               'font-exo2 font-bold text-lg leading-snug transition-colors',
               style.isPast
                 ? 'text-gray-600 hover:text-gray-900'
-                : 'hover:text-[#31A1FF]',
+                : style.textoHover,
             )}
           >
             {evento.title}
@@ -239,43 +153,31 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
 
         {acf?.local && (
           <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
-            <MapPin className={cn('size-3.5 shrink-0', style.text)} />
+            <MapPin className={cn('size-3.5 shrink-0', style.texto)} />
             {acf.local}
           </p>
         )}
         {acf?.hours && (
           <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
-            <Clock className={cn('size-3.5 shrink-0', style.text)} />
+            <Clock className={cn('size-3.5 shrink-0', style.texto)} />
             {acf.hours}
           </p>
         )}
 
         <div className="flex items-center gap-2 mt-2">
           {acf?.subscribe && !style.isPast ? (
-            <>
-              <Link
-                href={acf.subscribe}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  'inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 border',
-                  `bg-${style.text.replace('text-', '')}/10`,
-                  style.text,
-                  style.border,
-                  `hover:bg-${style.text.replace('text-', '')}/20`,
-                )}
-              >
-                {ctaLabel} <ExternalLink className="size-3" />
-              </Link>
-              <Link
-                href={`https://wa.me/?text=${whatsappText}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
-              >
-                <Share2 className="size-3.5" />
-              </Link>
-            </>
+            <Link
+              href={acf.subscribe}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                'inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 border',
+                style.suave,
+                style.suaveHover,
+              )}
+            >
+              {ctaLabel} <ExternalLink className="size-3" />
+            </Link>
           ) : (
             <Link
               href={`/eventos/${evento.slug}`}
@@ -284,16 +186,9 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
               Ver Detalhes
             </Link>
           )}
-          {acf?.fullDate && !style.isPast && (
-            <Link
-              href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(evento.title)}&dates=${new Date(acf.fullDate).toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${new Date(new Date(acf.fullDate).getTime() + 2 * 3600000).toISOString().replace(/[-:]/g, '').split('.')[0]}Z&location=${encodeURIComponent(acf?.local || '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
-            >
-              <Calendar className="size-3.5" />
-            </Link>
-          )}
+          {/* Todo evento compartilha e, se ainda não passou, vai para a agenda. */}
+          <BotaoWhatsApp evento={evento} />
+          {!style.isPast && <BotaoCalendario evento={evento} />}
         </div>
       </div>
     </motion.figure>
@@ -330,29 +225,24 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
           />
         ) : (
           <div
-            className={cn('absolute inset-0 bg-gradient-to-br', style.gradient)}
+            className={cn('absolute inset-0 bg-gradient-to-br', style.degrade)}
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
 
         <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-10">
           <div className="flex flex-wrap gap-2">
-            {specialidades.map((sp) => {
-              const color = getSpecialtyColor(sp);
-              return (
-                <span
-                  key={sp}
-                  className={cn(
-                    'font-exo2 text-xs px-2.5 py-1 rounded-full border',
-                    color.bg,
-                    color.text,
-                    color.border,
-                  )}
-                >
-                  {sp}
-                </span>
-              );
-            })}
+            {specialidades.map((sp) => (
+              <span
+                key={sp}
+                className={cn(
+                  'font-exo2 text-xs px-2.5 py-1 rounded-full',
+                  style.isPast ? 'bg-gray-500 text-white' : style.solido,
+                )}
+              >
+                {sp}
+              </span>
+            ))}
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -377,22 +267,33 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
               )}
             </div>
 
-            {acf?.subscribe && !style.isPast && (
-              <Link
-                href={acf.subscribe}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  'inline-flex items-center gap-2 font-exo2 font-bold text-sm rounded-full px-6 py-3 transition-all duration-200 shrink-0 border border-transparent hover:border-white/20',
-                  style.bg,
-                  style.bg === 'bg-[#7EE000]'
-                    ? 'text-black hover:bg-[#6bcc00]'
-                    : 'text-white hover:brightness-110',
-                )}
-              >
-                {ctaLabel} <ExternalLink className="size-4" />
-              </Link>
-            )}
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              {acf?.subscribe && !style.isPast ? (
+                <Link
+                  href={acf.subscribe}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    'inline-flex items-center gap-2 font-exo2 font-bold text-sm rounded-full px-6 py-3 transition-all duration-200 border border-transparent hover:border-white/20',
+                    style.solido,
+                    style.solidoHover,
+                  )}
+                >
+                  {ctaLabel} <ExternalLink className="size-4" />
+                </Link>
+              ) : (
+                <Link
+                  href={`/eventos/${evento.slug}`}
+                  className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm rounded-full px-6 py-3 bg-white/15 backdrop-blur-sm border border-white/20 text-white hover:bg-white/25 transition-all"
+                >
+                  Ver Detalhes
+                </Link>
+              )}
+              <BotaoWhatsApp evento={evento} variante="escuro" />
+              {!style.isPast && (
+                <BotaoCalendario evento={evento} variante="escuro" />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -441,18 +342,30 @@ export default function GridProximosEventos({
     {} as Record<string, WPEventoNode[]>,
   );
 
+  // O título é fixo: abre a sequência de meses abaixo, que é sempre o que
+  // ainda vai acontecer. O passado vive no Mapa do Ano.
+  const cabecalho = (
+    <h2 className="font-exo2 font-bold text-2xl md:text-3xl text-[#1a2a5e]">
+      Próximos Eventos
+    </h2>
+  );
+
   if (filteredEventos.length === 0) {
     return (
-      <div className="w-full max-w-7xl px-6 mx-auto py-12 text-center">
-        <p className="font-exo2 text-gray-400 text-lg">
-          Nenhum evento encontrado para os filtros selecionados.
-        </p>
+      <div className="flex flex-col gap-6 w-full">
+        {cabecalho}
+        <div className="w-full py-12 text-center">
+          <p className="font-exo2 text-gray-400 text-lg">
+            Nenhum evento encontrado para os filtros selecionados.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
     <div id="grid_events" className="flex flex-col gap-16 w-full">
+      <div className="-mb-8">{cabecalho}</div>
       {Object.entries(grouped).map(([monthYear, evs]) => (
         <div key={monthYear} className="flex flex-col gap-6 w-full">
           {monthYear !== 'Sem Mês' && (

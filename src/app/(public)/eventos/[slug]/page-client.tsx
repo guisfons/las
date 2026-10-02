@@ -19,7 +19,13 @@ import {
 } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
-import { especialidadesDoEvento } from '@/lib/eventos/taxonomia';
+import {
+  especialidadesDoEvento,
+  segmentoDoEvento,
+} from '@/lib/eventos/taxonomia';
+import { eventoFuturo, linkWhatsApp } from '@/lib/eventos/agenda';
+import { varCorEvento } from '../_components/cores-segmento';
+import { BotaoCalendario, BotaoWhatsApp } from '../_components/acoes-evento';
 import Footer from '@/components/footer';
 import CardProduct, { Product } from '../../produtos/_components/card-product';
 
@@ -115,7 +121,7 @@ function PhotoGallery({
               className={cn(
                 'relative size-16 rounded-xl overflow-hidden border-2 transition-all',
                 active === idx
-                  ? 'border-[#31A1FF]'
+                  ? 'border-[rgb(var(--cor-evento))]'
                   : 'border-transparent opacity-60 hover:opacity-80',
               )}
             >
@@ -139,7 +145,8 @@ function MiniCard({ evento }: { evento: WPEventoNode }) {
   return (
     <Link
       href={`/eventos/${evento.slug}`}
-      className="group flex gap-4 p-4 rounded-2xl border border-gray-100 hover:border-[#31A1FF]/30 hover:bg-blue-50/30 transition-all"
+      style={varCorEvento(evento)}
+      className="group flex gap-4 p-4 rounded-2xl border border-gray-100 hover:border-[rgb(var(--cor-evento)/0.3)] hover:bg-[rgb(var(--cor-evento)/0.05)] transition-all"
     >
       <div className="relative aspect-[324/222] w-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
         {acf?.img?.node?.sourceUrl ? (
@@ -151,15 +158,15 @@ function MiniCard({ evento }: { evento: WPEventoNode }) {
             sizes="112px"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#31A1FF]/30 to-[#1a2a5e]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[rgb(var(--cor-evento)/0.3)] to-[#1a2a5e]" />
         )}
       </div>
       <div className="flex flex-col gap-1 flex-1 min-w-0">
-        <span className="font-exo2 text-xs text-[#31A1FF] font-semibold">
+        <span className="font-exo2 text-xs text-[rgb(var(--cor-evento))] font-semibold">
           {acf?.dateNumber} de {acf?.month}
           {acf?.year ? ` / ${acf.year}` : ''}
         </span>
-        <h4 className="font-exo2 font-bold text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-[#31A1FF] transition-colors">
+        <h4 className="font-exo2 font-bold text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-[rgb(var(--cor-evento))] transition-colors">
           {evento.title}
         </h4>
         {acf?.local && (
@@ -177,17 +184,11 @@ export default function EventoPageClient({
   outrosEventos,
   produtos = [],
 }: Props) {
-  const [calendarOpen, setCalendarOpen] = useState(false);
   const acf = evento.eventoacf;
   const countdown = useCountdown(acf?.fullDate);
-  const isFeira =
-    evento.eventoSegmentos?.nodes?.some(
-      (n) =>
-        n.slug.includes('feira') ||
-        n.name.toLowerCase().includes('feira') ||
-        n.slug.includes('patrocinad') ||
-        n.name.toLowerCase().includes('patrocinad'),
-    ) || false;
+  // O bloco "Nosso Estande" é de evento patrocinado. Antes a condição
+  // procurava "feira" nos segmentos do WordPress, que estão vazios.
+  const isFeira = segmentoDoEvento(evento) === 'Patrocinado';
   const isFuture = acf?.fullDate ? new Date(acf.fullDate) > new Date() : false;
   const ctaLabel =
     SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] ||
@@ -197,27 +198,6 @@ export default function EventoPageClient({
   const specialidades = especialidadesDoEvento(evento);
   const photos = acf?.gallery?.nodes || [];
   const hasPhotos = photos.length > 0;
-
-  const whatsappText = encodeURIComponent(
-    acf?.whatsappShareText ||
-      `🩺 Evento LAS For Life: *${evento.title}*\n📅 ${acf?.dateNumber} de ${acf?.month} de ${acf?.year}\n📍 ${acf?.local || ''}\n\nSaiba mais em: ${typeof window !== 'undefined' ? window.location.href : ''}`,
-  );
-
-  const buildCalendarLinks = () => {
-    if (!acf?.fullDate) return null;
-    const title = encodeURIComponent(acf?.calendarTitle || evento.title || '');
-    const location = encodeURIComponent(acf?.local || '');
-    const details = encodeURIComponent(`Evento LAS For Life — ${evento.title}`);
-    const start = new Date(acf.fullDate);
-    const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
-    const fmt = (d: Date) =>
-      d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    return {
-      google: `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(start)}/${fmt(end)}&details=${details}&location=${location}`,
-      outlook: `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&startdt=${start.toISOString()}&enddt=${end.toISOString()}&location=${location}&body=${details}`,
-    };
-  };
-  const calendarLinks = buildCalendarLinks();
 
   const recapIsInstagram = acf?.recapLink?.includes('instagram');
   const recapIsLinkedin = acf?.recapLink?.includes('linkedin');
@@ -246,7 +226,8 @@ export default function EventoPageClient({
     .slice(0, 4);
 
   return (
-    <>
+    // `contents` não cria caixa: só declara a cor para tudo o que vem dentro.
+    <div className="contents" style={varCorEvento(evento)}>
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="relative w-full min-h-[70vh] md:min-h-[80vh] flex items-end overflow-hidden">
         {acf?.img?.node?.sourceUrl ? (
@@ -262,7 +243,7 @@ export default function EventoPageClient({
           <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f2e] via-[#1a2a5e] to-[#0d1b3e]" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#31A1FF]/15 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[rgb(var(--cor-evento)/0.15)] via-transparent to-transparent" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-12 pt-36 flex flex-col gap-5">
           {/* Breadcrumb */}
@@ -294,20 +275,20 @@ export default function EventoPageClient({
           <div className="flex flex-wrap items-center gap-5 text-white/80">
             {acf?.dateNumber && acf?.month && (
               <span className="flex items-center gap-2 font-exo2 text-base">
-                <Calendar className="size-4 text-[#31A1FF] shrink-0" />
+                <Calendar className="size-4 text-[rgb(var(--cor-evento))] shrink-0" />
                 {acf.dateNumber} de {acf.month}
                 {acf?.year ? ` de ${acf.year}` : ''}
               </span>
             )}
             {acf?.local && (
               <span className="flex items-center gap-2 font-exo2 text-base">
-                <MapPin className="size-4 text-[#31A1FF] shrink-0" />
+                <MapPin className="size-4 text-[rgb(var(--cor-evento))] shrink-0" />
                 {acf.local}
               </span>
             )}
             {acf?.hours && (
               <span className="flex items-center gap-2 font-exo2 text-base">
-                <Clock className="size-4 text-[#31A1FF] shrink-0" />
+                <Clock className="size-4 text-[rgb(var(--cor-evento))] shrink-0" />
                 {acf.hours}
               </span>
             )}
@@ -346,54 +327,18 @@ export default function EventoPageClient({
                 rel="noopener noreferrer"
                 className={cn(
                   'inline-flex items-center gap-2 font-exo2 font-bold text-base rounded-full px-8 py-3 transition-all duration-200',
-                  isFeira
-                    ? 'bg-[#7EE000] text-black hover:bg-[#6bcc00]'
-                    : 'bg-[#31A1FF] text-white hover:bg-[#258de6]',
+                  'bg-[rgb(var(--cor-evento))] text-white hover:brightness-110',
                 )}
               >
                 {ctaLabel} <ExternalLink className="size-4" />
               </Link>
             )}
 
-            {calendarLinks && (
-              <div className="relative">
-                <button
-                  onClick={() => setCalendarOpen((v) => !v)}
-                  className="inline-flex items-center gap-2 font-exo2 font-medium text-sm rounded-full px-5 py-3 bg-white/15 backdrop-blur-sm border border-white/20 text-white hover:bg-white/25 transition-all"
-                >
-                  <Calendar className="size-4" /> Adicionar ao Calendário
-                </button>
-                {calendarOpen && (
-                  <div className="absolute bottom-full mb-2 left-0 bg-white rounded-xl shadow-2xl overflow-hidden z-50 min-w-[180px]">
-                    <Link
-                      href={calendarLinks.google}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-3 font-exo2 text-sm text-gray-800 hover:bg-gray-50 transition-colors"
-                    >
-                      📅 Google Calendar
-                    </Link>
-                    <Link
-                      href={calendarLinks.outlook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-3 font-exo2 text-sm text-gray-800 hover:bg-gray-50 transition-colors border-t border-gray-100"
-                    >
-                      📧 Outlook
-                    </Link>
-                  </div>
-                )}
-              </div>
+            {/* Calendário só para o que ainda vai acontecer; compartilhar, sempre. */}
+            {eventoFuturo(evento) && (
+              <BotaoCalendario evento={evento} variante="escuro" />
             )}
-
-            <Link
-              href={`https://wa.me/?text=${whatsappText}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-exo2 font-medium text-sm rounded-full px-5 py-3 bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] hover:bg-[#25D366]/30 transition-all"
-            >
-              <Share2 className="size-4" /> WhatsApp
-            </Link>
+            <BotaoWhatsApp evento={evento} variante="escuro" />
           </div>
         </div>
       </section>
@@ -433,12 +378,12 @@ export default function EventoPageClient({
               </h2>
               <div className="flex flex-col gap-3">
                 {acf?.speaker && (
-                  <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-2xl border border-blue-100">
-                    <div className="size-10 rounded-full bg-[#31A1FF]/20 flex items-center justify-center shrink-0">
-                      <Users className="size-5 text-[#31A1FF]" />
+                  <div className="flex items-start gap-3 p-4 bg-[rgb(var(--cor-evento)/0.06)] rounded-2xl border border-[rgb(var(--cor-evento)/0.15)]">
+                    <div className="size-10 rounded-full bg-[rgb(var(--cor-evento)/0.2)] flex items-center justify-center shrink-0">
+                      <Users className="size-5 text-[rgb(var(--cor-evento))]" />
                     </div>
                     <div>
-                      <p className="font-exo2 text-xs text-[#31A1FF] font-semibold uppercase tracking-wider mb-0.5">
+                      <p className="font-exo2 text-xs text-[rgb(var(--cor-evento))] font-semibold uppercase tracking-wider mb-0.5">
                         Palestrante
                       </p>
                       <p className="font-exo2 font-bold text-gray-900">
@@ -473,7 +418,7 @@ export default function EventoPageClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
-                className="bg-gradient-to-br from-[#7EE000]/5 to-[#31A1FF]/5 border border-[#7EE000]/20 rounded-3xl p-6 md:p-8"
+                className="bg-gradient-to-br from-[rgb(var(--cor-evento)/0.05)] to-[rgb(var(--cor-evento)/0.05)] border border-[rgb(var(--cor-evento)/0.2)] rounded-3xl p-6 md:p-8"
               >
                 <h2 className="font-exo2 font-bold text-2xl md:text-3xl mb-5">
                   Nosso Estande
@@ -514,7 +459,7 @@ export default function EventoPageClient({
                       href={acf.boothMapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[#31A1FF] hover:underline"
+                      className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[rgb(var(--cor-evento))] hover:underline"
                     >
                       <Navigation className="size-4" /> Ver mapa do pavilhão
                     </Link>
@@ -539,8 +484,8 @@ export default function EventoPageClient({
 
           {/* Número de Impacto */}
           {acf?.impactNumber && (
-            <div className="flex items-center gap-4 p-6 bg-[#31A1FF]/5 border border-[#31A1FF]/15 rounded-2xl">
-              <Users className="size-8 text-[#31A1FF] shrink-0" />
+            <div className="flex items-center gap-4 p-6 bg-[rgb(var(--cor-evento)/0.05)] border border-[rgb(var(--cor-evento)/0.15)] rounded-2xl">
+              <Users className="size-8 text-[rgb(var(--cor-evento))] shrink-0" />
               <div>
                 <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider">
                   Impacto gerado
@@ -616,7 +561,7 @@ export default function EventoPageClient({
             <div className="flex flex-col gap-3 text-sm">
               {acf?.dateNumber && acf?.month && (
                 <div className="flex items-start gap-3">
-                  <Calendar className="size-4 text-[#31A1FF] shrink-0 mt-0.5" />
+                  <Calendar className="size-4 text-[rgb(var(--cor-evento))] shrink-0 mt-0.5" />
                   <div>
                     <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider">
                       Data
@@ -630,7 +575,7 @@ export default function EventoPageClient({
               )}
               {acf?.hours && (
                 <div className="flex items-start gap-3">
-                  <Clock className="size-4 text-[#31A1FF] shrink-0 mt-0.5" />
+                  <Clock className="size-4 text-[rgb(var(--cor-evento))] shrink-0 mt-0.5" />
                   <div>
                     <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider">
                       Horário
@@ -643,7 +588,7 @@ export default function EventoPageClient({
               )}
               {acf?.local && !acf?.addressStreet && (
                 <div className="flex items-start gap-3">
-                  <MapPin className="size-4 text-[#31A1FF] shrink-0 mt-0.5" />
+                  <MapPin className="size-4 text-[rgb(var(--cor-evento))] shrink-0 mt-0.5" />
                   <div>
                     <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider">
                       Local
@@ -656,7 +601,7 @@ export default function EventoPageClient({
               )}
               {acf?.addressStreet && (
                 <div className="flex items-start gap-3">
-                  <MapPin className="size-4 text-[#31A1FF] shrink-0 mt-0.5" />
+                  <MapPin className="size-4 text-[rgb(var(--cor-evento))] shrink-0 mt-0.5" />
                   <div>
                     <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider">
                       Onde nos encontrar
@@ -691,9 +636,7 @@ export default function EventoPageClient({
                 rel="noopener noreferrer"
                 className={cn(
                   'inline-flex items-center justify-center gap-2 font-exo2 font-bold text-base rounded-full px-6 py-3 transition-all duration-200 w-full mt-2',
-                  isFeira
-                    ? 'bg-[#7EE000] text-black hover:bg-[#6bcc00]'
-                    : 'bg-[#31A1FF] text-white hover:bg-[#258de6]',
+                  'bg-[rgb(var(--cor-evento))] text-white hover:brightness-110',
                 )}
               >
                 {ctaLabel} <ExternalLink className="size-4" />
@@ -702,7 +645,7 @@ export default function EventoPageClient({
 
             {/* Compartilhar */}
             <Link
-              href={`https://wa.me/?text=${whatsappText}`}
+              href={linkWhatsApp(evento)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 font-exo2 font-semibold text-sm rounded-full px-6 py-2.5 bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] hover:bg-[#25D366]/20 transition-all"
@@ -734,7 +677,7 @@ export default function EventoPageClient({
           {acf?.howToGet && (
             <div className="flex flex-col gap-2 p-5 bg-gray-50 rounded-2xl border border-gray-100">
               <div className="flex items-center gap-2">
-                <Navigation className="size-4 text-[#31A1FF]" />
+                <Navigation className="size-4 text-[rgb(var(--cor-evento))]" />
                 <h3 className="font-exo2 font-bold text-sm">Como Chegar</h3>
               </div>
               <p className="font-exo2 text-sm text-gray-600 whitespace-pre-line leading-relaxed">
@@ -747,7 +690,7 @@ export default function EventoPageClient({
           {acf?.partnerHotels && (
             <div className="flex flex-col gap-2 p-5 bg-gray-50 rounded-2xl border border-gray-100">
               <div className="flex items-center gap-2">
-                <Hotel className="size-4 text-[#31A1FF]" />
+                <Hotel className="size-4 text-[rgb(var(--cor-evento))]" />
                 <h3 className="font-exo2 font-bold text-sm">
                   Hotéis Parceiros
                 </h3>
@@ -774,7 +717,7 @@ export default function EventoPageClient({
           <div className="mt-6">
             <Link
               href="/eventos"
-              className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[#31A1FF] border border-[#31A1FF]/30 rounded-full px-6 py-2.5 hover:bg-[#31A1FF]/5 transition-all"
+              className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[rgb(var(--cor-evento))] border border-[rgb(var(--cor-evento)/0.3)] rounded-full px-6 py-2.5 hover:bg-[rgb(var(--cor-evento)/0.05)] transition-all"
             >
               Ver todos os eventos
             </Link>
@@ -798,7 +741,7 @@ export default function EventoPageClient({
           <div className="mt-8 text-center sm:text-left">
             <Link
               href="/produtos"
-              className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[#31A1FF] border border-[#31A1FF]/30 rounded-full px-6 py-2.5 hover:bg-[#31A1FF]/5 transition-all"
+              className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[rgb(var(--cor-evento))] border border-[rgb(var(--cor-evento)/0.3)] rounded-full px-6 py-2.5 hover:bg-[rgb(var(--cor-evento)/0.05)] transition-all"
             >
               Ver todos os produtos
             </Link>
@@ -807,6 +750,6 @@ export default function EventoPageClient({
       )}
 
       <Footer />
-    </>
+    </div>
   );
 }

@@ -44,7 +44,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
               {evento.title}
             </h3>
             {acf?.boothNumber && (
-              <div className="bg-[#7EE000] text-black font-exo2 font-bold text-sm px-3 py-1.5 rounded-xl whitespace-nowrap">
+              <div className="bg-[#00B5C8] text-white font-exo2 font-bold text-sm px-3 py-1.5 rounded-xl whitespace-nowrap">
                 Estande {acf.boothNumber}
               </div>
             )}
@@ -58,7 +58,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
           <div className="flex items-start justify-between gap-4">
             <h3 className="font-exo2 font-bold text-xl">{evento.title}</h3>
             {acf?.boothNumber && (
-              <div className="bg-[#7EE000] text-black font-exo2 font-bold text-sm px-3 py-1.5 rounded-xl whitespace-nowrap shrink-0">
+              <div className="bg-[#00B5C8] text-white font-exo2 font-bold text-sm px-3 py-1.5 rounded-xl whitespace-nowrap shrink-0">
                 Estande {acf.boothNumber}
               </div>
             )}
@@ -70,7 +70,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
           {specialidades.map((sp) => (
             <span
               key={sp.slug}
-              className="font-exo2 text-xs px-3 py-1 rounded-full bg-[#7EE000]/10 text-[#5aac00] border border-[#7EE000]/20"
+              className="font-exo2 text-xs px-3 py-1 rounded-full bg-[#00B5C8]/10 text-[#008a99] border border-[#00B5C8]/20"
             >
               {sp.name}
             </span>
@@ -138,7 +138,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
         {acf?.boothHighlights && (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <Package className="size-4 text-[#7EE000]" />
+              <Package className="size-4 text-[#00B5C8]" />
               <span className="font-exo2 font-semibold text-sm text-gray-800">
                 O que terá no estande
               </span>
@@ -245,7 +245,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
             href={acf.subscribe}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 font-exo2 font-bold text-base rounded-full px-8 py-3 bg-[#7EE000] text-black hover:bg-[#6bcc00] transition-all"
+            className="inline-flex items-center justify-center gap-2 font-exo2 font-bold text-base rounded-full px-8 py-3 bg-[#00B5C8] text-white hover:bg-[#009fb0] transition-all"
           >
             Agende uma visita ao estande
             <ExternalLink className="size-4" />
@@ -280,7 +280,7 @@ export default function OndeEncontrarFeira({
   return (
     <section
       id="onde-nos-encontrar"
-      className="w-full py-20 bg-gradient-to-b from-[#f8fdf4] to-white"
+      className="w-full py-20 bg-gradient-to-b from-[#f0fbfc] to-white"
     >
       <div className="max-w-7xl mx-auto px-6 flex flex-col gap-8">
         <div className="flex flex-col gap-2">
