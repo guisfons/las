@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useMemo, Fragment } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Clock, ExternalLink } from 'lucide-react';
+import { MapPin, Clock } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
 import {
@@ -11,6 +11,7 @@ import {
   eventoTemEspecialidade,
 } from '@/lib/eventos/taxonomia';
 import { coresDoEvento } from './cores-segmento';
+import { eventoFuturo, periodoDoEvento } from '@/lib/eventos/agenda';
 
 interface MapaDoAnoProps {
   eventos: WPEventoNode[];
@@ -85,51 +86,62 @@ interface EventoComMes extends WPEventoNode {
 
 export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
-  const [selectedYear, setSelectedYear] = useState(currentYear);
+
+  /**
+   * Só o que já aconteceu (Bruno, 02/10/2026): o que está por vir mora na grade
+   * de cima. Passado é o evento cujo ÚLTIMO dia já ficou para trás — um
+   * congresso em andamento ainda não é retrospectiva.
+   */
+  const passados = useMemo(
+    () => eventos.filter((e) => periodoDoEvento(e) && !eventoFuturo(e)),
+    [eventos],
+  );
+
+  // ─── Anos disponíveis ───────────────────────────────────────────
+  const availableYears = useMemo(() => {
+    const yrs = new Set<number>();
+    passados.forEach((e) => {
+      const y = Number(e.eventoacf?.year);
+      if (!isNaN(y)) yrs.add(y);
+    });
+    return Array.from(yrs).sort();
+  }, [passados]);
+
+  // O ano atual, se já teve evento; em janeiro, o último que teve.
+  const [selectedYear, setSelectedYear] = useState(() =>
+    availableYears.includes(currentYear)
+      ? currentYear
+      : (availableYears[availableYears.length - 1] ?? currentYear),
+  );
   const [filter, setFilter] = useState('Todos');
 
   /**
    * Filtro por mês (Bruno, 02/10/2026): o ano inteiro numa lista só ficava
-   * extenso demais. Abre no mês atual — ou no mais próximo dele que tenha
-   * evento —, e "Ano inteiro" devolve a visão completa.
+   * extenso demais. Abre no mês mais recente que já teve evento. O seletor
+   * de ano vive no começo da mesma fileira; a opção de ver o ano inteiro
+   * existiu e saiu no mesmo dia, a pedido dele.
    */
   const mesesComEventoNoAno = (ano: number) =>
     Array.from(
       new Set(
-        eventos
+        passados
           .filter((e) => Number(e.eventoacf?.year) === ano)
           .map((e) => parseMonthIndex(e.eventoacf?.month || ''))
           .filter((m) => m >= 0),
       ),
     ).sort((a, b) => a - b);
 
-  const mesInicial = (ano: number): number | 'todos' => {
+  const mesInicial = (ano: number): number => {
     const meses = mesesComEventoNoAno(ano);
-    if (meses.length === 0) return 'todos';
-    if (ano !== currentYear) return meses[0];
-    // O atual, se tiver evento; senão o próximo; no fim do ano, o último.
-    return meses.find((m) => m >= currentMonth) ?? meses[meses.length - 1];
+    return meses.length ? meses[meses.length - 1] : 0;
   };
 
-  const [mes, setMes] = useState<number | 'todos'>(() =>
-    mesInicial(currentYear),
-  );
+  const [mes, setMes] = useState<number>(() => mesInicial(selectedYear));
 
   const escolherAno = (ano: number) => {
     setSelectedYear(ano);
     setMes(mesInicial(ano));
   };
-
-  // ─── Anos disponíveis ───────────────────────────────────────────
-  const availableYears = useMemo(() => {
-    const yrs = new Set<number>();
-    eventos.forEach((e) => {
-      const y = Number(e.eventoacf?.year);
-      if (!isNaN(y)) yrs.add(y);
-    });
-    return Array.from(yrs).sort();
-  }, [eventos]);
 
   /**
    * As mesmas especialidades do filtro do topo da página: as canônicas que
@@ -146,7 +158,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
 
   // ─── Eventos enriquecidos com índice de mês ─────────────────────
   const enrichedEventos: EventoComMes[] = useMemo(() => {
-    return eventos
+    return passados
       .filter((e) => {
         const yr = Number(e.eventoacf?.year);
         const matchYear = yr === selectedYear;
@@ -160,7 +172,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
         _year: Number(e.eventoacf?.year),
       }))
       .sort((a, b) => a._monthIndex - b._monthIndex);
-  }, [eventos, selectedYear, filter]);
+  }, [passados, selectedYear, filter]);
 
   // Os meses que têm evento no ano e na especialidade escolhidos — os demais
   // botões de mês ficam apagados, para nenhum clique dar em lista vazia.
@@ -170,10 +182,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
   );
 
   const visiveis = useMemo(
-    () =>
-      mes === 'todos'
-        ? enrichedEventos
-        : enrichedEventos.filter((e) => e._monthIndex === mes),
+    () => enrichedEventos.filter((e) => e._monthIndex === mes),
     [enrichedEventos, mes],
   );
 
@@ -190,21 +199,6 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
 
   // Meses com eventos
   const monthsWithEvents = Array.from(byMonth.keys()).sort((a, b) => a - b);
-
-  /**
-   * O primeiro mês da linha do tempo que ainda não passou. É antes dele que
-   * entra o título "Próximos Eventos", separando a retrospectiva do que está
-   * por vir.
-   *
-   * O mês é calculado, não cravado em outubro: a divisória tem de continuar
-   * no lugar certo em novembro, e no ano passado — onde nada é futuro — ela
-   * simplesmente não aparece.
-   */
-  const primeiroMesFuturo = monthsWithEvents.find(
-    (m) =>
-      selectedYear > currentYear ||
-      (selectedYear === currentYear && m >= currentMonth),
-  );
 
   if (availableYears.length === 0) return null;
 
@@ -224,26 +218,6 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
               Veja todos os eventos que aconteceram ao longo do ano
             </p>
           </div>
-
-          {/* Seletor de ano */}
-          {availableYears.length > 1 && (
-            <div className="flex gap-2">
-              {availableYears.map((yr) => (
-                <button
-                  key={yr}
-                  onClick={() => escolherAno(yr)}
-                  className={cn(
-                    'font-exo2 font-semibold text-sm px-5 py-2 rounded-full transition-all',
-                    selectedYear === yr
-                      ? 'bg-[#1a2a5e] text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
-                  )}
-                >
-                  {yr}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Filtro de especialidades */}
@@ -264,40 +238,61 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
           ))}
         </div>
 
-        {/* Filtro de mês */}
-        <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Mês">
-          {(['todos', ...MONTH_SHORT.map((_, i) => i)] as const).map((m) => {
-            const ativo = mes === m;
-            const vazio = m !== 'todos' && !mesesDisponiveis.has(m);
-            return (
+        {/* Ano e mês, na mesma fileira: o ano escolhe o conjunto, o mês recorta */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <div className="flex gap-1.5" role="group" aria-label="Ano">
+            {availableYears.map((yr) => (
               <button
-                key={m}
+                key={yr}
                 type="button"
-                disabled={vazio}
-                aria-pressed={ativo}
-                onClick={() => setMes(m)}
-                title={m === 'todos' ? undefined : MONTH_NAMES[m]}
+                aria-pressed={selectedYear === yr}
+                onClick={() => escolherAno(yr)}
                 className={cn(
-                  'font-exo2 text-xs font-semibold uppercase tracking-wide px-3 py-1.5 rounded-lg border transition-all',
-                  ativo
+                  'font-exo2 text-xs font-bold px-3 py-1.5 rounded-lg border transition-all',
+                  selectedYear === yr
                     ? 'bg-[#1a2a5e] text-white border-[#1a2a5e]'
-                    : vazio
-                      ? 'bg-transparent text-gray-300 border-transparent cursor-not-allowed'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-[#1a2a5e]/40 hover:text-[#1a2a5e]',
+                    : 'bg-gray-100 text-gray-600 border-gray-100 hover:bg-gray-200',
                 )}
               >
-                {m === 'todos' ? 'Ano inteiro' : MONTH_SHORT[m]}
+                {yr}
               </button>
-            );
-          })}
+            ))}
+          </div>
+
+          <span className="h-5 w-px bg-gray-200" aria-hidden="true" />
+
+          <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Mês">
+            {MONTH_SHORT.map((rotulo, m) => {
+              const ativo = mes === m;
+              const vazio = !mesesDisponiveis.has(m);
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  disabled={vazio}
+                  aria-pressed={ativo}
+                  onClick={() => setMes(m)}
+                  title={MONTH_NAMES[m]}
+                  className={cn(
+                    'font-exo2 text-xs font-semibold uppercase tracking-wide px-3 py-1.5 rounded-lg border transition-all',
+                    ativo
+                      ? 'bg-[#31A1FF] text-white border-[#31A1FF]'
+                      : vazio
+                        ? 'bg-transparent text-gray-300 border-transparent cursor-not-allowed'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#31A1FF]/50 hover:text-[#31A1FF]',
+                  )}
+                >
+                  {rotulo}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Timeline */}
         {monthsWithEvents.length === 0 ? (
           <p className="font-exo2 text-gray-400 text-center py-12">
-            {mes === 'todos'
-              ? 'Nenhum evento encontrado para esse período.'
-              : `Nenhum evento${filter !== 'Todos' ? ` de ${filter}` : ''} em ${MONTH_NAMES[mes].toLowerCase()}.`}
+            {`Nenhum evento${filter !== 'Todos' ? ` de ${filter}` : ''} em ${MONTH_NAMES[mes].toLowerCase()} de ${selectedYear}.`}
           </p>
         ) : (
           <div className="relative flex flex-col gap-0">
@@ -306,156 +301,110 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
 
             {monthsWithEvents.map((monthIdx, i) => {
               const monthEventos = byMonth.get(monthIdx)!;
-              const isPast =
-                selectedYear < currentYear ||
-                (selectedYear === currentYear && monthIdx < currentMonth);
-              const isCurrent =
-                selectedYear === currentYear && monthIdx === currentMonth;
-
               return (
-                <Fragment key={monthIdx}>
-                  {monthIdx === primeiroMesFuturo && (
-                    <div className="flex gap-6 md:gap-10 items-center pb-1 pt-10 first:pt-0">
-                      {/* Coluna vazia, para o título alinhar com os cards */}
-                      <div className="w-20 md:w-28 shrink-0" />
-                      <h3 className="font-exo2 font-bold text-base md:text-lg uppercase tracking-wide text-[#1a2a5e]">
-                        Próximos Eventos
-                      </h3>
-                    </div>
-                  )}
+                <motion.div
+                  key={monthIdx}
+                  className="flex gap-6 md:gap-10"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.07, duration: 0.4 }}
+                >
+                  {/* Mês label */}
+                  <div className="relative flex flex-col items-end w-20 md:w-28 pt-6 shrink-0">
+                    <span
+                      className={cn(
+                        'font-exo2 font-bold text-sm md:text-base text-right uppercase tracking-wide leading-none',
+                        'text-gray-800',
+                      )}
+                    >
+                      {MONTH_SHORT[monthIdx]}
+                    </span>
+                    <span
+                      className={cn(
+                        'font-exo2 text-xs text-right mt-0.5',
+                        'text-gray-400',
+                      )}
+                    >
+                      {selectedYear}
+                    </span>
 
-                  <motion.div
-                    className="flex gap-6 md:gap-10"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.07, duration: 0.4 }}
-                  >
-                    {/* Mês label */}
-                    <div className="relative flex flex-col items-end w-20 md:w-28 pt-6 shrink-0">
-                      <span
-                        className={cn(
-                          'font-exo2 font-bold text-sm md:text-base text-right uppercase tracking-wide leading-none',
-                          isCurrent
-                            ? 'text-[#31A1FF]'
-                            : isPast
-                              ? 'text-gray-300'
-                              : 'text-gray-800',
-                        )}
-                      >
-                        {MONTH_SHORT[monthIdx]}
-                      </span>
-                      <span
-                        className={cn(
-                          'font-exo2 text-xs text-right mt-0.5',
-                          isPast ? 'text-gray-200' : 'text-gray-400',
-                        )}
-                      >
-                        {selectedYear}
-                      </span>
+                    {/* Dot */}
+                    <div
+                      className={cn(
+                        'absolute right-[-21px] md:right-[-27px] top-7 size-3 rounded-full border-2 border-white z-10',
+                        'bg-[#31A1FF]/60',
+                      )}
+                    />
+                  </div>
 
-                      {/* Dot */}
-                      <div
-                        className={cn(
-                          'absolute right-[-21px] md:right-[-27px] top-7 size-3 rounded-full border-2 border-white z-10',
-                          isCurrent
-                            ? 'bg-[#31A1FF] shadow-[0_0_0_4px_rgba(49,161,255,0.2)]'
-                            : isPast
-                              ? 'bg-gray-200'
-                              : 'bg-[#31A1FF]/60',
-                        )}
-                      />
-                    </div>
+                  {/* Eventos do mês */}
+                  <div className="flex flex-col gap-3 py-4 flex-1 min-w-0">
+                    {monthEventos.map((evento) => {
+                      const acf = evento.eventoacf;
+                      const specialidades = especialidadesDoEvento(evento);
+                      // A cor é a do segmento: Autoral no azul de Promover Educação,
+                      // Patrocinado no de Articular o Ecossistema.
+                      const cor = coresDoEvento(evento);
 
-                    {/* Eventos do mês */}
-                    <div className="flex flex-col gap-3 py-4 flex-1 min-w-0">
-                      {monthEventos.map((evento) => {
-                        const acf = evento.eventoacf;
-                        const specialidades = especialidadesDoEvento(evento);
-                        // A cor é a do segmento: Autoral no azul de Promover Educação,
-                        // Patrocinado no de Articular o Ecossistema.
-                        const cor = coresDoEvento(evento);
-
-                        return (
+                      return (
+                        <div
+                          key={evento.id}
+                          className={cn(
+                            'flex items-start gap-3 p-4 rounded-2xl border transition-all hover:shadow-md',
+                            'bg-white border-gray-100',
+                            cor.bordaHover,
+                          )}
+                        >
+                          {/* Dot de especialidade */}
                           <div
-                            key={evento.id}
                             className={cn(
-                              'flex items-start gap-3 p-4 rounded-2xl border transition-all hover:shadow-md',
-                              isPast
-                                ? 'bg-gray-50 border-gray-100 opacity-60'
-                                : cn(
-                                    'bg-white border-gray-100',
-                                    cor.bordaHover,
-                                  ),
+                              'size-2.5 rounded-full mt-1.5 shrink-0',
+                              cor.ponto,
                             )}
-                          >
-                            {/* Dot de especialidade */}
-                            <div
-                              className={cn(
-                                'size-2.5 rounded-full mt-1.5 shrink-0',
-                                cor.ponto,
-                              )}
-                            />
+                          />
 
-                            <div className="flex flex-col gap-1 min-w-0 flex-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                {specialidades.map((sp) => (
-                                  <span
-                                    key={sp}
-                                    className={cn(
-                                      'font-exo2 text-xs px-2 py-0.5 rounded-full border',
-                                      cor.suave,
-                                    )}
-                                  >
-                                    {sp}
-                                  </span>
-                                ))}
-                              </div>
-
-                              <p className="font-exo2 font-semibold text-sm text-gray-900 truncate">
-                                {evento.title}
-                              </p>
-
-                              <div className="flex flex-wrap items-center gap-3 text-gray-500">
-                                {acf?.dateNumber && (
-                                  <span className="font-exo2 text-xs">
-                                    {acf.dateNumber} de {MONTH_NAMES[monthIdx]}
-                                  </span>
-                                )}
-                                {acf?.local && (
-                                  <span className="flex items-center gap-1 font-exo2 text-xs">
-                                    <MapPin className="size-3" /> {acf.local}
-                                  </span>
-                                )}
-                                {acf?.hours && (
-                                  <span className="flex items-center gap-1 font-exo2 text-xs">
-                                    <Clock className="size-3" /> {acf.hours}
-                                  </span>
-                                )}
-                              </div>
+                          <div className="flex flex-col gap-1 min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              {specialidades.map((sp) => (
+                                <span
+                                  key={sp}
+                                  className={cn(
+                                    'font-exo2 text-xs px-2 py-0.5 rounded-full border',
+                                    cor.suave,
+                                  )}
+                                >
+                                  {sp}
+                                </span>
+                              ))}
                             </div>
 
-                            {/* CTA rápida */}
-                            {acf?.subscribe && !isPast && (
-                              <a
-                                href={acf.subscribe}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={cn(
-                                  'shrink-0 p-2 rounded-full border transition-colors',
-                                  cor.suave,
-                                  cor.suaveHover,
-                                )}
-                                aria-label="Inscrever-se"
-                              >
-                                <ExternalLink className="size-3.5" />
-                              </a>
-                            )}
+                            <p className="font-exo2 font-semibold text-sm text-gray-900 truncate">
+                              {evento.title}
+                            </p>
+
+                            <div className="flex flex-wrap items-center gap-3 text-gray-500">
+                              {acf?.dateNumber && (
+                                <span className="font-exo2 text-xs">
+                                  {acf.dateNumber} de {MONTH_NAMES[monthIdx]}
+                                </span>
+                              )}
+                              {acf?.local && (
+                                <span className="flex items-center gap-1 font-exo2 text-xs">
+                                  <MapPin className="size-3" /> {acf.local}
+                                </span>
+                              )}
+                              {acf?.hours && (
+                                <span className="flex items-center gap-1 font-exo2 text-xs">
+                                  <Clock className="size-3" /> {acf.hours}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                </Fragment>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
               );
             })}
           </div>
