@@ -8,7 +8,6 @@ import { SEGMENTOS, especialidadesComEvento } from '@/lib/eventos/taxonomia';
 import FiltroEmailEspecialidade from './_components/filtro-email-especialidade';
 import GridProximosEventos from './_components/grid-proximos-eventos';
 import MapaDoAno from './_components/mapa-do-ano';
-import OndeEncontrarFeira from './_components/onde-encontrar-feira';
 
 interface EventosClientProps {
   eventos: WPEventoNode[];
@@ -146,9 +145,6 @@ export default function EventosClient({
           segment={segment}
         />
       </section>
-
-      {/* 3. Onde nos encontrar (só aparece se houver feiras futuras) */}
-      <OndeEncontrarFeira eventos={eventos} />
 
       {/* 4. Mapa do Ano — timeline visual */}
       <MapaDoAno eventos={eventos} />

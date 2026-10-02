@@ -19,10 +19,7 @@ import {
 } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
-import {
-  especialidadesDoEvento,
-  segmentoDoEvento,
-} from '@/lib/eventos/taxonomia';
+import { especialidadesDoEvento } from '@/lib/eventos/taxonomia';
 import {
   eventoFuturo,
   eventoTemDetalhes,
@@ -190,9 +187,6 @@ export default function EventoPageClient({
 }: Props) {
   const acf = evento.eventoacf;
   const countdown = useCountdown(acf?.fullDate);
-  // O bloco "Nosso Estande" é de evento patrocinado. Antes a condição
-  // procurava "feira" nos segmentos do WordPress, que estão vazios.
-  const isFeira = segmentoDoEvento(evento) === 'Patrocinado';
   const isFuture = acf?.fullDate ? new Date(acf.fullDate) > new Date() : false;
   const ctaLabel =
     SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] ||
@@ -419,61 +413,64 @@ export default function EventoPageClient({
           )}
 
           {/* Informações de Feira / Estande */}
-          {isFeira &&
-            (acf?.boothNumber || acf?.boothHighlights || acf?.boothHours) && (
-              <motion.section
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-                className="bg-gradient-to-br from-[rgb(var(--cor-evento)/0.05)] to-[rgb(var(--cor-evento)/0.05)] border border-[rgb(var(--cor-evento)/0.2)] rounded-3xl p-6 md:p-8"
-              >
-                <h2 className="font-exo2 font-bold text-2xl md:text-3xl mb-5">
-                  Nosso Estande
-                </h2>
-                <div className="flex flex-col gap-4">
-                  {acf?.boothNumber && (
-                    <div>
-                      <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
-                        Localização
-                      </p>
-                      <p className="font-exo2 font-bold text-2xl text-[#1a2a5e]">
-                        {acf.boothNumber}
-                      </p>
-                    </div>
-                  )}
-                  {acf?.boothHours && (
-                    <div>
-                      <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
-                        Horário de Funcionamento
-                      </p>
-                      <p className="font-exo2 text-gray-700">
-                        {acf.boothHours}
-                      </p>
-                    </div>
-                  )}
-                  {acf?.boothHighlights && (
-                    <div>
-                      <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
-                        O que terá no estande
-                      </p>
-                      <p className="font-exo2 text-gray-700 whitespace-pre-line">
-                        {acf.boothHighlights}
-                      </p>
-                    </div>
-                  )}
-                  {acf?.boothMapUrl && (
-                    <Link
-                      href={acf.boothMapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[rgb(var(--cor-evento))] hover:underline"
-                    >
-                      <Navigation className="size-4" /> Ver mapa do pavilhão
-                    </Link>
-                  )}
-                </div>
-              </motion.section>
-            )}
+          {/* O estande é um campo da página do evento: aparece sempre que
+              está preenchido, em qualquer evento. Era a seção "Onde nos
+              Encontrar" da listagem, que saiu em 02/10/2026. */}
+          {(acf?.boothNumber ||
+            acf?.boothHighlights ||
+            acf?.boothHours ||
+            acf?.boothMapUrl) && (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="bg-gradient-to-br from-[rgb(var(--cor-evento)/0.05)] to-[rgb(var(--cor-evento)/0.05)] border border-[rgb(var(--cor-evento)/0.2)] rounded-3xl p-6 md:p-8"
+            >
+              <h2 className="font-exo2 font-bold text-2xl md:text-3xl mb-5">
+                Nosso Estande
+              </h2>
+              <div className="flex flex-col gap-4">
+                {acf?.boothNumber && (
+                  <div>
+                    <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
+                      Localização
+                    </p>
+                    <p className="font-exo2 font-bold text-2xl text-[#1a2a5e]">
+                      {acf.boothNumber}
+                    </p>
+                  </div>
+                )}
+                {acf?.boothHours && (
+                  <div>
+                    <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
+                      Horário de Funcionamento
+                    </p>
+                    <p className="font-exo2 text-gray-700">{acf.boothHours}</p>
+                  </div>
+                )}
+                {acf?.boothHighlights && (
+                  <div>
+                    <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wider mb-1">
+                      O que terá no estande
+                    </p>
+                    <p className="font-exo2 text-gray-700 whitespace-pre-line">
+                      {acf.boothHighlights}
+                    </p>
+                  </div>
+                )}
+                {acf?.boothMapUrl && (
+                  <Link
+                    href={acf.boothMapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 font-exo2 font-semibold text-sm text-[rgb(var(--cor-evento))] hover:underline"
+                  >
+                    <Navigation className="size-4" /> Ver mapa do pavilhão
+                  </Link>
+                )}
+              </div>
+            </motion.section>
+          )}
 
           {/* Galeria */}
           {hasPhotos && (

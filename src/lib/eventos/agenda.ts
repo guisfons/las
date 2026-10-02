@@ -109,8 +109,8 @@ export function eventoFuturo(evento: WPEventoNode): boolean {
  *
  * O topo da página interna repete título, data e local, que o card já mostra.
  * O que justifica abrir a página é o que vem depois: o texto do evento,
- * palestrante, estande, galeria, marcas, mapa, como chegar, hotéis, impacto ou
- * recap. Sem nenhum deles, o card não tem "Ver Detalhes" e não é clicável — e
+ * palestrante, estande, onde nos encontrar (endereço e pavilhão), galeria,
+ * marcas, mapa, como chegar, hotéis, impacto ou recap. Sem nenhum deles, o card não tem "Ver Detalhes" e não é clicável — e
  * no dia em que o WordPress ganhar um desses campos, a página se abre sozinha.
  *
  * Medido em 02/10/2026: **nenhum dos 87 eventos tem texto**, e só 2 (os dois
@@ -133,6 +133,9 @@ export function eventoTemDetalhes(evento: WPEventoNode): boolean {
     preenchido(acf?.boothHours) ||
     preenchido(acf?.boothHighlights) ||
     preenchido(acf?.boothMapUrl) ||
+    // "Onde nos encontrar": endereço e pavilhão, na lateral da página.
+    preenchido(acf?.addressStreet) ||
+    preenchido(acf?.boothPavilion) ||
     preenchido(acf?.mapEmbedUrl) ||
     preenchido(acf?.howToGet) ||
     preenchido(acf?.partnerHotels) ||

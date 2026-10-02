@@ -8,14 +8,19 @@ const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://lasforlife.com.br';
 
 /**
- * Regenerado na Vercel a cada hora, e não congelado no build.
+ * Gerado na hora, na Vercel — nunca no build.
  *
  * O build roda na máquina de quem publica (deploy-site-las.sh) e consulta o
- * WordPress dezenas de vezes — o bastante para o WAF da Hostinger bloquear o
- * IP. Em 02/10/2026 o sitemap no ar tinha saído assim, sem nenhum evento e sem
- * nenhum post, porque as duas consultas falharam em silêncio no `catch`.
+ * WordPress dezenas de vezes, o bastante para o WAF da Hostinger bloquear o
+ * IP. Em 02/10/2026 o sitemap no ar saiu assim, sem nenhum evento e sem nenhum
+ * post, porque as duas consultas falharam em silêncio no `catch`.
+ *
+ * ⚠️ `revalidate = 3600` foi a primeira tentativa e não bastava: a versão
+ * inicial continuava saindo do build, e cada publicação devolvia ao ar um
+ * sitemap incompleto por até uma hora. As consultas ao WordPress continuam
+ * em cache de 60s (fetchWPGraphQL), então gerar na hora não as multiplica.
  */
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
