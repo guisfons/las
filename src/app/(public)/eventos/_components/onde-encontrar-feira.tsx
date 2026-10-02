@@ -13,6 +13,16 @@ import {
 } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
 import { cn } from '@/lib/utils';
+import {
+  especialidadesDoEvento,
+  segmentoDoEvento,
+} from '@/lib/eventos/taxonomia';
+import {
+  eventoFuturo,
+  periodoDoEvento,
+  urlDoEvento,
+} from '@/lib/eventos/agenda';
+import { BotaoCalendario, BotaoWhatsApp } from './acoes-evento';
 
 interface OndeEncontrarFeiraProps {
   eventos: WPEventoNode[];
@@ -20,11 +30,13 @@ interface OndeEncontrarFeiraProps {
 
 function FeiraCard({ evento }: { evento: WPEventoNode }) {
   const acf = evento.eventoacf;
-  const specialidades = evento.eventoCategorias?.nodes || [];
-  const pageUrl =
-    typeof window !== 'undefined'
-      ? `${window.location.origin}/eventos#${evento.slug}`
-      : `https://lasforlife.com.br/eventos#${evento.slug}`;
+  // Nomes canônicos, como no resto da página: sem "Todos", Ablação como
+  // Cabeça e Pescoço.
+  const specialidades = especialidadesDoEvento(evento);
+  // O QR leva à página do evento. Apontava para /eventos#slug, uma âncora que
+  // não existe, e lia `window` no render — servidor e navegador geravam QRs
+  // diferentes.
+  const pageUrl = urlDoEvento(evento);
 
   return (
     <div className="bg-white rounded-3xl border border-gray-100 shadow-md overflow-hidden">
@@ -69,10 +81,10 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
         <div className="flex flex-wrap gap-2">
           {specialidades.map((sp) => (
             <span
-              key={sp.slug}
+              key={sp}
               className="font-exo2 text-xs px-3 py-1 rounded-full bg-[#00B5C8]/10 text-[#008a99] border border-[#00B5C8]/20"
             >
-              {sp.name}
+              {sp}
             </span>
           ))}
         </div>
@@ -83,8 +95,8 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
           <div className="flex flex-col gap-3">
             {acf?.local && (
               <div className="flex items-start gap-2.5">
-                <div className="size-7 rounded-lg bg-[#31A1FF]/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <MapPin className="size-3.5 text-[#31A1FF]" />
+                <div className="size-7 rounded-lg bg-[#00B5C8]/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <MapPin className="size-3.5 text-[#00B5C8]" />
                 </div>
                 <div>
                   <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wide">
@@ -98,8 +110,8 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
             )}
             {acf?.dateNumber && acf?.month && (
               <div className="flex items-start gap-2.5">
-                <div className="size-7 rounded-lg bg-[#FF6B35]/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <Clock className="size-3.5 text-[#FF6B35]" />
+                <div className="size-7 rounded-lg bg-[#00B5C8]/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <Clock className="size-3.5 text-[#00B5C8]" />
                 </div>
                 <div>
                   <p className="font-exo2 text-xs text-gray-400 uppercase tracking-wide">
@@ -155,7 +167,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
             href={acf.boothMapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-exo2 text-sm text-[#31A1FF] hover:underline"
+            className="inline-flex items-center gap-2 font-exo2 text-sm text-[#008a99] hover:underline"
           >
             <Navigation className="size-4" />
             Ver mapa do pavilhão
@@ -182,7 +194,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
         {acf?.howToGet && (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <Navigation className="size-4 text-[#FF6B35]" />
+              <Navigation className="size-4 text-[#00B5C8]" />
               <span className="font-exo2 font-semibold text-sm text-gray-800">
                 Como chegar
               </span>
@@ -197,7 +209,7 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
         {acf?.partnerHotels && (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <Hotel className="size-4 text-purple-500" />
+              <Hotel className="size-4 text-[#00B5C8]" />
               <span className="font-exo2 font-semibold text-sm text-gray-800">
                 Hotéis parceiros
               </span>
@@ -239,6 +251,17 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
           </div>
         )}
 
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/eventos/${evento.slug}`}
+            className="inline-flex items-center gap-1.5 font-exo2 font-semibold text-xs rounded-full px-4 py-2 transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+          >
+            Ver Detalhes
+          </Link>
+          <BotaoWhatsApp evento={evento} />
+          <BotaoCalendario evento={evento} />
+        </div>
+
         {/* CTA Visitar estande */}
         {acf?.subscribe && (
           <Link
@@ -259,21 +282,21 @@ function FeiraCard({ evento }: { evento: WPEventoNode }) {
 export default function OndeEncontrarFeira({
   eventos,
 }: OndeEncontrarFeiraProps) {
-  const currentYear = new Date().getFullYear();
-
-  const feiras = eventos.filter((e) => {
-    const isFeira =
-      e.eventoSegmentos?.nodes?.some(
-        (n) =>
-          n.slug.includes('feira') ||
-          n.name.toLowerCase().includes('feira') ||
-          n.slug.includes('patrocinad') ||
-          n.name.toLowerCase().includes('patrocinad'),
-      ) || false;
-    const yr = Number(e.eventoacf?.year);
-    const isUpcoming = yr >= currentYear;
-    return isFeira && isUpcoming;
-  });
+  /**
+   * Os patrocinados que ainda não terminaram, do mais próximo ao mais
+   * distante (Bruno, 02/10/2026).
+   *
+   * A regra anterior procurava "feira" nos segmentos do WordPress, que estão
+   * vazios, e o bloco nunca aparecia; e comparava só o ano, então ligá-la
+   * mostraria também o congresso de março.
+   */
+  const feiras = eventos
+    .filter((e) => segmentoDoEvento(e) === 'Patrocinado' && eventoFuturo(e))
+    .sort(
+      (a, b) =>
+        (periodoDoEvento(a)?.inicio.getTime() ?? 0) -
+        (periodoDoEvento(b)?.inicio.getTime() ?? 0),
+    );
 
   if (feiras.length === 0) return null;
 
