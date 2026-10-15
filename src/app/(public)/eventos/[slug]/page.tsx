@@ -4,7 +4,7 @@ import { getEventoBySlug, getAllEventos } from '@/lib/api/events';
 import { getAllProducts } from '@/lib/api/products';
 import { mapWPProductToProduct } from '@/lib/utils/product-mapper';
 import EventoPageClient from './page-client';
-import { comMarca } from '@/lib/utils/seo';
+import { comMarca, marcaEmMaiusculas } from '@/lib/utils/seo';
 
 interface Props {
   params: { slug: string };
@@ -20,9 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!evento) return { title: 'Evento não encontrado' };
 
   const acf = evento.eventoacf;
-  const description =
+  const description = marcaEmMaiusculas(
     evento.excerpt?.replace(/<[^>]*>/g, '').slice(0, 160) ||
-    `${evento.title} — ${acf?.dateNumber} de ${acf?.month}${acf?.year ? ` de ${acf.year}` : ''}${acf?.local ? ` | ${acf.local}` : ''}`;
+      `${evento.title} — ${acf?.dateNumber} de ${acf?.month}${acf?.year ? ` de ${acf.year}` : ''}${acf?.local ? ` | ${acf.local}` : ''}`,
+  );
 
   return {
     title: evento.title,

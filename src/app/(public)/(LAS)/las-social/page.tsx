@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return generateSeoMetadata(pageData?.seo, {
     title: 'LAS Social | LAS FOR LIFE',
     description:
-      'A LASsocial apoia programas sociais e educacionais com parte do lucro mensal da LAS For Life.',
+      'A LASsocial apoia programas sociais e educacionais com parte do lucro mensal da LAS FOR LIFE.',
   });
 }
 

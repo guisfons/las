@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/api/blog';
 import BlogPostClient from './page-client';
-import { comMarca } from '@/lib/utils/seo';
+import { comMarca, marcaEmMaiusculas } from '@/lib/utils/seo';
 
 interface Props {
   params: { slug: string };
@@ -17,9 +17,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug);
   if (!post) return { title: 'Artigo não encontrado' };
 
-  const description =
+  const description = marcaEmMaiusculas(
     post.excerpt?.replace(/<[^>]*>/g, '').slice(0, 160) ||
-    `Artigo da LAS For Life: ${post.title}`;
+      `Artigo da LAS FOR LIFE: ${post.title}`,
+  );
 
   const img =
     post.blogacf?.coverImage?.node?.sourceUrl ||

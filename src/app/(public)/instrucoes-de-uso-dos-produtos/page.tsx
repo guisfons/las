@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return generateSeoMetadata(pageData?.seo, {
     title: 'Instruções de Uso dos Produtos | LAS FOR LIFE',
     description:
-      'Baixe as instruções de uso dos produtos LAS For Life: Neurosign, EasyCore, CellColt, Fziomed e mais.',
+      'Baixe as instruções de uso dos produtos LAS FOR LIFE: Neurosign, EasyCore, CellColt, Fziomed e mais.',
   });
 }
 

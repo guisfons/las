@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   // O sufixo vem do template do layout raiz.
   title: 'Blog',
   description:
-    'Artigos, notícias e conteúdos educativos sobre saúde, ortopedia, ginecologia e mais — da LAS For Life.',
+    'Artigos, notícias e conteúdos educativos sobre saúde, ortopedia, ginecologia e mais — da LAS FOR LIFE.',
   openGraph: {
     title: 'Blog | LAS FOR LIFE',
     description:

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     default: 'LAS FOR LIFE | Saúde para a vida',
     template: '%s | LAS FOR LIFE',
   },
-  description: 'LAS For Life – Saúde para a vida.',
+  description: 'LAS FOR LIFE – Saúde para a vida.',
   verification: {
     google: 'gOdDm5gusQ5L0ct9RtMDyCaeKwi6F_10ytEGyudd8_c',
   },

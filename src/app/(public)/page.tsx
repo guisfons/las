@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('home');
   return generateSeoMetadata(pageData?.seo, {
     title: 'Home',
-    description: 'LAS For Life – Saúde para a vida.',
+    description: 'LAS FOR LIFE – Saúde para a vida.',
   });
 }
 

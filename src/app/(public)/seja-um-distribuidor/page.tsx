@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return generateSeoMetadata(pageData?.seo, {
     title: 'Seja um Distribuidor | LAS FOR LIFE',
     description:
-      'Quer distribuir nossos produtos? Entre em contato com a LAS For Life.',
+      'Quer distribuir nossos produtos? Entre em contato com a LAS FOR LIFE.',
   });
 }
 

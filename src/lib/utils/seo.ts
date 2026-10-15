@@ -15,10 +15,11 @@ export function generateSeoMetadata(
 ): Metadata {
   const tituloBruto = seo?.title || defaults.title || 'LAS FOR LIFE';
   const title = semMarca(tituloBruto);
-  const description =
+  const description = marcaEmMaiusculas(
     seo?.metaDesc ||
-    defaults.description ||
-    'LAS For Life – Saúde para a vida.';
+      defaults.description ||
+      'LAS FOR LIFE – Saúde para a vida.',
+  );
   const ogImage = seo?.opengraphImage?.node?.sourceUrl || defaults.image;
   const twitterImage = seo?.twitterImage?.node?.sourceUrl || ogImage;
 
@@ -29,13 +30,13 @@ export function generateSeoMetadata(
     ...(seo?.canonical ? { alternates: { canonical: seo.canonical } } : {}),
     openGraph: {
       title: comMarca(seo?.opengraphTitle || tituloBruto),
-      description: seo?.opengraphDescription || description,
+      description: marcaEmMaiusculas(seo?.opengraphDescription || description),
       ...(ogImage ? { images: [{ url: ogImage }] } : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title: comMarca(seo?.twitterTitle || seo?.opengraphTitle || tituloBruto),
-      description: seo?.twitterDescription || description,
+      description: marcaEmMaiusculas(seo?.twitterDescription || description),
       ...(twitterImage ? { images: [twitterImage] } : {}),
     },
   };
@@ -74,4 +75,15 @@ export function semMarca(titulo: string): string {
 export function comMarca(titulo?: string | null): string {
   const t = semMarca(titulo || '');
   return t ? `${t} | LAS FOR LIFE` : 'LAS FOR LIFE';
+}
+
+/**
+ * A marca em maiúsculas nas descrições (Bruno, 14/10/2026), venham elas do
+ * código ou do WordPress — Yoast, resumo de post, resumo de evento. Sem isto,
+ * bastaria alguém preencher uma descrição no painel para "LAS For Life" voltar.
+ */
+export function marcaEmMaiusculas(texto: string): string;
+export function marcaEmMaiusculas(texto?: string | null): string | undefined;
+export function marcaEmMaiusculas(texto?: string | null) {
+  return texto?.replace(/\bLAS\s+for\s+life\b/gi, 'LAS FOR LIFE') ?? undefined;
 }

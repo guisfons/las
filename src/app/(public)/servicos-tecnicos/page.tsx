@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('servicos-tecnicos');
   return generateSeoMetadata(pageData?.seo, {
     title: 'Serviços Técnicos | LAS FOR LIFE',
-    description: 'Serviços técnicos especializados da LAS For Life.',
+    description: 'Serviços técnicos especializados da LAS FOR LIFE.',
   });
 }
 

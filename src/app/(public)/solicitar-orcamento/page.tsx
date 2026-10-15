@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return generateSeoMetadata(pageData?.seo, {
     title: 'Solicitar Orçamento | LAS FOR LIFE',
     description:
-      'Solicite um orçamento personalizado para sua região e especialidade com a LAS For Life.',
+      'Solicite um orçamento personalizado para sua região e especialidade com a LAS FOR LIFE.',
   });
 }
 
