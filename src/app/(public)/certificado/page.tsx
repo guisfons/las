@@ -6,7 +6,7 @@ import CertificadoForm from './_components/form';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('certificado');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'Consulta de Certificado | LAS For Life',
+    title: 'Consulta de Certificado | LAS FOR LIFE',
     description: 'Consulte o certificado dos produtos LAS For Life.',
   });
 }

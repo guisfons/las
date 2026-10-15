@@ -7,7 +7,7 @@ import { generateSeoMetadata } from '@/lib/utils/seo';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('eventos');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'Eventos | LAS For Life',
+    title: 'Eventos | LAS FOR LIFE',
     description: 'Confira os eventos promovidos pela LAS For Life.',
   });
 }

@@ -4,7 +4,7 @@ import { mapWPProductToProduct } from '@/lib/utils/product-mapper';
 
 export const metadata = {
   title: 'Produtos',
-  openGraph: { title: 'Produtos | LAS For Life' },
+  openGraph: { title: 'Produtos | LAS FOR LIFE' },
 };
 
 export default async function ProdutosPage() {

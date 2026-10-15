@@ -6,7 +6,7 @@ import GerarSaudeClient from './gerar-saude-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('generate-health');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'Gerar Saúde | LAS For Life',
+    title: 'Gerar Saúde | LAS FOR LIFE',
     description:
       'Transformar saúde em algo que acontece todo dia, não só no consultório.',
   });

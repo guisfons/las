@@ -6,7 +6,7 @@ import TratarDoencaClient from './tratar-doenca-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('treating-disease');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'Tratar a Doença | LAS For Life',
+    title: 'Tratar a Doença | LAS FOR LIFE',
     description:
       'Cuidamos de pessoas, não apenas de diagnósticos. Soluções médicas precisas para quem precisa.',
   });

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     'Artigos, notícias e conteúdos educativos sobre saúde, ortopedia, ginecologia e mais — da LAS For Life.',
   openGraph: {
-    title: 'Blog | LAS For Life',
+    title: 'Blog | LAS FOR LIFE',
     description:
       'Artigos, notícias e conteúdos educativos sobre saúde, ortopedia, ginecologia e mais.',
   },

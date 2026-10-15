@@ -6,7 +6,7 @@ import LasSportsClient from './las-sports-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('las-sports');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'LAS Sports | LAS For Life',
+    title: 'LAS Sports | LAS FOR LIFE',
     description:
       'O LASsports acredita no esporte como papel fundamental na formação de uma sociedade melhor.',
   });

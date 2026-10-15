@@ -6,7 +6,7 @@ import LasTalksClient from './las-talks-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('las-talks');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'LAS Talks | LAS For Life',
+    title: 'LAS Talks | LAS FOR LIFE',
     description:
       'O LAStalks é um evento exclusivo com KOLs ministrando aulas a médicos convidados em formato de jantar científico.',
   });

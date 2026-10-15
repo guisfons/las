@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const capa = material.featuredImage?.node?.sourceUrl || undefined;
 
   const base = generateSeoMetadata(material.seo, {
-    // Sem sufixo: o layout raiz já aplica o template '%s | LAS For Life'.
+    // Sem sufixo: o layout raiz já aplica o template '%s | LAS FOR LIFE'.
     title: material.title,
     description: descricaoDe(material),
     image: capa,

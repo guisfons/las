@@ -7,7 +7,7 @@ import { generateSeoMetadata } from '@/lib/utils/seo';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('solicitar-orcamento');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'Solicitar Orçamento | LAS For Life',
+    title: 'Solicitar Orçamento | LAS FOR LIFE',
     description:
       'Solicite um orçamento personalizado para sua região e especialidade com a LAS For Life.',
   });

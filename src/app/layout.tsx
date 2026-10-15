@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || 'https://lasforlife.com.br',
   ),
   title: {
-    default: 'LAS For Life | Saúde para a vida',
-    template: '%s | LAS For Life',
+    default: 'LAS FOR LIFE | Saúde para a vida',
+    template: '%s | LAS FOR LIFE',
   },
   description: 'LAS For Life – Saúde para a vida.',
   verification: {

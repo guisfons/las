@@ -13,7 +13,7 @@ export function generateSeoMetadata(
     image?: string;
   } = {},
 ): Metadata {
-  const tituloBruto = seo?.title || defaults.title || 'LAS For Life';
+  const tituloBruto = seo?.title || defaults.title || 'LAS FOR LIFE';
   const title = semMarca(tituloBruto);
   const description =
     seo?.metaDesc ||
@@ -43,7 +43,7 @@ export function generateSeoMetadata(
 
 /**
  * Tira a marca do fim do título, porque o layout raiz já a acrescenta
- * (`template: '%s | LAS For Life'`).
+ * (`template: '%s | LAS FOR LIFE'`).
  *
  * Os títulos chegam com a marca de dois jeitos, e os dois duplicavam:
  * - **do código**, como fallback — "Eventos | LAS For Life" virava
@@ -68,9 +68,10 @@ export function semMarca(titulo: string): string {
  * Ele NÃO passa pelo template do layout, então a marca tem de ser posta aqui.
  * E ele vinha de três jeitos: do Yoast com a marca dele ("LAS Talks - LAS"),
  * com a nossa ("Eventos | LAS For Life") e sem marca nenhuma (eventos e posts).
- * Agora é um só: "Título | LAS For Life", igual ao da aba.
+ * Agora é um só: "Título | LAS FOR LIFE", igual ao da aba — a marca em
+ * maiúsculas, que é a grafia da marca na aba (Bruno, 14/10/2026).
  */
 export function comMarca(titulo?: string | null): string {
   const t = semMarca(titulo || '');
-  return t ? `${t} | LAS For Life` : 'LAS For Life';
+  return t ? `${t} | LAS FOR LIFE` : 'LAS FOR LIFE';
 }

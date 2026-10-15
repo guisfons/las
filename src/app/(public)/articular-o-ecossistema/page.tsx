@@ -6,7 +6,7 @@ import ArticulateClient from './articular-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('articular-o-ecossistema');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'Articular o Ecossistema | LAS For Life',
+    title: 'Articular o Ecossistema | LAS FOR LIFE',
     description:
       'Unimos diferentes agentes do setor para pensar, cocriar e construir um sistema de saúde mais eficiente, acessível e integrado.',
   });
