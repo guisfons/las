@@ -133,7 +133,17 @@ export function BotaoCalendario({
             onClick={() => setAberto(false)}
             className={cn(item, 'border-t border-gray-100')}
           >
-            Outlook
+            Outlook.com / Hotmail
+          </a>
+          <a
+            role="menuitem"
+            href={links.outlook365}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setAberto(false)}
+            className={cn(item, 'border-t border-gray-100')}
+          >
+            Outlook do trabalho (Microsoft 365)
           </a>
           <button
             role="menuitem"
@@ -141,7 +151,7 @@ export function BotaoCalendario({
             onClick={baixarIcs}
             className={cn(item, 'border-t border-gray-100')}
           >
-            Apple e outros (.ics)
+            Apple, Outlook no computador e outros (.ics)
           </button>
         </div>
       )}

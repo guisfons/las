@@ -169,7 +169,10 @@ const maisDias = (d: Date, n: number) =>
 
 export interface LinksCalendario {
   google: string;
+  /** Outlook.com, Hotmail e Live: conta pessoal da Microsoft. */
   outlook: string;
+  /** Outlook do Microsoft 365: conta de trabalho, como a do hospital. */
+  outlook365: string;
   /** Conteúdo do .ics, para Apple Calendar e qualquer outro. */
   ics: string;
 }
@@ -196,7 +199,7 @@ export function linksDeCalendario(
   const enc = encodeURIComponent;
 
   let google: string;
-  let outlook: string;
+  let outlookQuery: string;
   let icsDatas: string;
 
   if (p.hora) {
@@ -207,15 +210,23 @@ export function linksDeCalendario(
     google = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(titulo)}&dates=${ini}/${fim}&ctz=America/Sao_Paulo&details=${enc(detalhes)}&location=${enc(local)}`;
     const isoIni = `${diaIso(p.inicio)}T${dois(p.hora.h)}:${dois(p.hora.min)}:00-03:00`;
     const isoFim = `${diaIso(fimData)}T${dois(fimH % 24)}:${dois(p.hora.min)}:00-03:00`;
-    outlook = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${enc(titulo)}&startdt=${enc(isoIni)}&enddt=${enc(isoFim)}&location=${enc(local)}&body=${enc(detalhes)}`;
+    outlookQuery = `subject=${enc(titulo)}&startdt=${enc(isoIni)}&enddt=${enc(isoFim)}&allday=false&location=${enc(local)}&body=${enc(detalhes)}`;
     icsDatas = `DTSTART;TZID=America/Sao_Paulo:${ini}\r\nDTEND;TZID=America/Sao_Paulo:${fim}`;
   } else {
     // Fim exclusivo, que é a convenção dos três para dia inteiro.
     const depois = maisDias(p.fim, 1);
     google = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(titulo)}&dates=${dia(p.inicio)}/${dia(depois)}&details=${enc(detalhes)}&location=${enc(local)}`;
-    outlook = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${enc(titulo)}&startdt=${diaIso(p.inicio)}&enddt=${diaIso(depois)}&allday=true&location=${enc(local)}&body=${enc(detalhes)}`;
+    outlookQuery = `subject=${enc(titulo)}&startdt=${diaIso(p.inicio)}&enddt=${diaIso(depois)}&allday=true&location=${enc(local)}&body=${enc(detalhes)}`;
     icsDatas = `DTSTART;VALUE=DATE:${dia(p.inicio)}\r\nDTEND;VALUE=DATE:${dia(depois)}`;
   }
+
+  // "/action/compose" com rru=addevent, e não "/deeplink/compose": o
+  // deeplink se perde no login e larga a pessoa na caixa de entrada, sem o
+  // evento. Pessoal (outlook.live.com) e trabalho (outlook.office.com) são
+  // sistemas diferentes, e um não abre a conta do outro.
+  const outlookPath = `path=${enc('/calendar/action/compose')}&rru=addevent`;
+  const outlook = `https://outlook.live.com/calendar/0/action/compose?${outlookPath}&${outlookQuery}`;
+  const outlook365 = `https://outlook.office.com/calendar/0/action/compose?${outlookPath}&${outlookQuery}`;
 
   const esc = (s: string) =>
     s.replace(/([,;\\])/g, '\\$1').replace(/\n/g, '\\n');
@@ -235,7 +246,7 @@ export function linksDeCalendario(
     'END:VCALENDAR',
   ].join('\r\n');
 
-  return { google, outlook, ics };
+  return { google, outlook, outlook365, ics };
 }
 
 // ─── WhatsApp ───────────────────────────────────────────────────────────────
