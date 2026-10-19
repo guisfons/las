@@ -23,7 +23,10 @@ export default function FiltroEmailEspecialidade({
 }: FiltroEmailEspecialidadeProps) {
   // Sem aba de passados: evento que já aconteceu sai da grade e vive na
   // linha do tempo do Mapa do Ano, logo abaixo.
-  const tabs = dynamicSegments;
+  // "Todos" vem primeiro e é o padrão: com a página aberta em Autoral, todo
+  // evento patrocinado (HisteroPro, JOPA, CBOT) ficava escondido até alguém
+  // clicar em Patrocinado, e parecia que não estava no calendário.
+  const tabs = ['Todos', ...dynamicSegments];
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);

@@ -342,7 +342,7 @@ export default function GridProximosEventos({
     const isFuture = date ? date >= today : true;
     if (!isFuture) return false;
 
-    return segmentoDoEvento(e) === segment;
+    return segment === 'Todos' || segmentoDoEvento(e) === segment;
   });
 
   // Sort chronological

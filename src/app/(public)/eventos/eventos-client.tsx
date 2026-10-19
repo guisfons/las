@@ -106,7 +106,7 @@ export default function EventosClient({
   const [filter, setFilter] = useState<string | null>(
     initialCategory ? initialFilter : null,
   );
-  const [segment, setSegment] = useState<string>(segmentsList[0] || 'Autoral');
+  const [segment, setSegment] = useState<string>('Todos');
 
   // Atualiza o estado e a URL quando o filtro muda
   const handleFilterChange = (newFilter: string | null) => {
