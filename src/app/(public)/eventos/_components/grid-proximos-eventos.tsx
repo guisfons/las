@@ -70,6 +70,19 @@ const cardVariants = {
 };
 
 /**
+ * As artes de programa (LASclubs, LAStalks, LASxperts) são logo centralizado
+ * sobre o azul de Promover Educação, e não foto. Em "cover" o logo caía embaixo
+ * da data; elas entram encostadas à direita e um pouco menores, sobre o mesmo
+ * azul, e a data fica com o canto livre. Foto de evento continua em "cover".
+ */
+const ARTE_DE_PROGRAMA =
+  /\/(evento-azul|las-experts|las-talks)(-\d+x\d+)?\.(png|webp|jpe?g)$/i;
+
+function ehArteDePrograma(url?: string | null) {
+  return !!url && ARTE_DE_PROGRAMA.test(url);
+}
+
+/**
  * Passado fica cinza; o resto toma a cor do segmento. Ver cores-segmento.ts.
  *
  * A versão anterior procurava "feira" e "educa" nos segmentos do WordPress,
@@ -98,6 +111,7 @@ function getEventStyle(evento: WPEventoNode) {
 // ─── Card Quadrado ──────────────────────────────────────────────────────────
 function CardQuadrado({ evento }: { evento: WPEventoNode }) {
   const acf = evento.eventoacf;
+  const arte = ehArteDePrograma(acf?.img?.node?.sourceUrl);
   const specialidades = especialidadesDoEvento(evento);
   const ctaLabel =
     SUBSCRIBE_TYPE_LABELS[acf?.subscribeType || 'participar'] || 'Saiba Mais';
@@ -114,7 +128,10 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
     >
       <LinkDoEvento
         evento={evento}
-        className="block relative aspect-video rounded-3xl overflow-hidden bg-gray-100"
+        className={cn(
+          'block relative aspect-video rounded-3xl overflow-hidden',
+          arte ? 'bg-[#31A1FF]' : 'bg-gray-100',
+        )}
       >
         {acf?.img?.node?.sourceUrl ? (
           <Image
@@ -122,7 +139,9 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
             alt={evento.title}
             fill
             className={cn(
-              'object-cover transition-transform duration-500 group-hover:scale-105',
+              arte
+                ? 'object-contain object-right scale-[0.85] origin-bottom-right'
+                : 'object-cover transition-transform duration-500 group-hover:scale-105',
               style.isPast && 'grayscale opacity-80 group-hover:grayscale-0',
             )}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -133,6 +152,12 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        {/* Com arte de programa (LASclubs, LAStalks, LASxperts) o logo fica no
+            meio do card e a data caía em cima dele. O canto escurece só quando
+            há imagem; sem ela o degradê do segmento já dá o contraste. */}
+        {acf?.img?.node?.sourceUrl && acf?.dateNumber && (
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_80%_at_0%_0%,rgba(10,18,40,0.75)_0%,rgba(10,18,40,0.45)_45%,rgba(10,18,40,0)_80%)]" />
+        )}
 
         {acf?.dateNumber && (
           <div className="absolute top-4 left-4 flex flex-col">
