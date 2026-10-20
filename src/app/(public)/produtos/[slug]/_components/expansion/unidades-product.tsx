@@ -78,6 +78,19 @@ const SPINEMED_UNITS: Record<string, StateData> = {
       },
     ],
   },
+  DF: {
+    name: 'Distrito Federal',
+    clinics: [
+      {
+        name: 'Instituto dos Reis (Dr. Felipe Reis)',
+        city: 'Brasília, DF',
+        address:
+          'SGAS 611, Centro Clínico Lúcio Costa, Conjunto F, Bloco 2, Sala 13 (subsolo), Asa Sul, Brasília, DF',
+        cep: 'CEP: 70200-700',
+        phone: '(61) 99984-9628',
+      },
+    ],
+  },
   MT: {
     name: 'Mato Grosso',
     clinics: [
