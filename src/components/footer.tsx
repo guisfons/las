@@ -53,7 +53,7 @@ export default function Footer() {
 
   const redes_sociais = [
     {
-      link: socialLinks?.facebookUrl || 'https://www.facebook.com/lasbrasil',
+      link: socialLinks?.facebookUrl || 'https://www.facebook.com/lasforlife/',
       icon: <Facebook></Facebook>,
     },
     {

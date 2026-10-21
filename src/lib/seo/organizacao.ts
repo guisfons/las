@@ -56,7 +56,7 @@ export const organizacao = {
     'https://www.instagram.com/las.forlife/',
     'https://www.linkedin.com/company/lasforlife/',
     'https://www.youtube.com/@lasforlife',
-    'https://www.facebook.com/lasbrasil',
+    'https://www.facebook.com/lasforlife/',
   ],
 };
 
