@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { WPSeo } from '@/lib/types/pages';
+import { OG_PADRAO } from '@/lib/site';
 
 /**
  * Converts Yoast SEO data from WPGraphQL SEO plugin into a Next.js Metadata object.
@@ -13,31 +14,41 @@ export function generateSeoMetadata(
     image?: string;
   } = {},
 ): Metadata {
-  const tituloBruto = seo?.title || defaults.title || 'LAS FOR LIFE';
+  const tituloBruto = grafiaDosProgramas(
+    seo?.title || defaults.title || 'LAS FOR LIFE',
+  );
   const title = semMarca(tituloBruto);
   const description = marcaEmMaiusculas(
     seo?.metaDesc ||
       defaults.description ||
       'LAS FOR LIFE – Saúde para a vida.',
   );
-  const ogImage = seo?.opengraphImage?.node?.sourceUrl || defaults.image;
-  const twitterImage = seo?.twitterImage?.node?.sourceUrl || ogImage;
+  // O WPGraphQL entrega a imagem do Yoast como { sourceUrl }, sem "node"; ler
+  // só .node.sourceUrl fazia o site inteiro cair no padrão. Lê as duas formas.
+  const ogImage =
+    imagemDoYoast(seo?.opengraphImage) || defaults.image || OG_PADRAO;
+  const twitterImage = imagemDoYoast(seo?.twitterImage) || ogImage;
 
   return {
     // Sem nada que sobre depois de tirar a marca, vale o título padrão do layout.
     ...(title ? { title } : {}),
     description,
-    ...(seo?.canonical ? { alternates: { canonical: seo.canonical } } : {}),
+    // O canonical vem do layout raiz, sempre no www. O do Yoast ficava vazio ou
+    // apontaria para o endereço do WordPress na Hostinger.
     openGraph: {
-      title: comMarca(seo?.opengraphTitle || tituloBruto),
+      title: comMarca(grafiaDosProgramas(seo?.opengraphTitle || tituloBruto)),
       description: marcaEmMaiusculas(seo?.opengraphDescription || description),
-      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+      images: [{ url: ogImage }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: comMarca(seo?.twitterTitle || seo?.opengraphTitle || tituloBruto),
+      title: comMarca(
+        grafiaDosProgramas(
+          seo?.twitterTitle || seo?.opengraphTitle || tituloBruto,
+        ),
+      ),
       description: marcaEmMaiusculas(seo?.twitterDescription || description),
-      ...(twitterImage ? { images: [twitterImage] } : {}),
+      images: [twitterImage],
     },
   };
 }
@@ -86,4 +97,22 @@ export function marcaEmMaiusculas(texto: string): string;
 export function marcaEmMaiusculas(texto?: string | null): string | undefined;
 export function marcaEmMaiusculas(texto?: string | null) {
   return texto?.replace(/\bLAS\s+for\s+life\b/gi, 'LAS FOR LIFE') ?? undefined;
+}
+
+function imagemDoYoast(img: unknown): string | undefined {
+  const i = img as { sourceUrl?: string; node?: { sourceUrl?: string } } | null;
+  return i?.sourceUrl || i?.node?.sourceUrl || undefined;
+}
+
+/**
+ * Grafia oficial dos programas: LAStalks, LASclubs, LASxperts, LASxperience,
+ * LASacademy, LASsocial e LASsports, com LAS colado ao nome em minúsculo. O Yoast e os títulos de
+ * reserva escreviam "LAS Xperts - LAS", e nome inconsistente enfraquece a marca
+ * como entidade para o Google e para as IAs.
+ */
+export function grafiaDosProgramas(texto: string): string {
+  return texto.replace(
+    /\bLAS\s*(talks|clubs|xperts|xperience|academy|social|sports)\b/gi,
+    (_m, programa: string) => `LAS${programa.toLowerCase()}`,
+  );
 }

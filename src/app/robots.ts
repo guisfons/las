@@ -1,8 +1,12 @@
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://lasforlife.com.br';
-
+/**
+ * Todos os robôs entram, inclusive os de IA (GPTBot, OAI-SearchBot, ClaudeBot,
+ * PerplexityBot, Google-Extended): ser lido por eles é o que permite à LAS
+ * aparecer nas respostas. O sitemap vai no endereço com www, que é o que
+ * responde; sem www ele redirecionava.
+ */
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -12,7 +16,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/'],
       },
     ],
-    sitemap: `${BASE_URL}/sitemap.xml`,
-    host: BASE_URL,
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

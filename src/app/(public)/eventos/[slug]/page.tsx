@@ -5,6 +5,10 @@ import { getAllProducts } from '@/lib/api/products';
 import { mapWPProductToProduct } from '@/lib/utils/product-mapper';
 import EventoPageClient from './page-client';
 import { comMarca, marcaEmMaiusculas } from '@/lib/utils/seo';
+import { JsonLd } from '@/components/json-ld';
+import { dadosDoEvento } from '@/lib/seo/evento';
+import { trilha } from '@/lib/seo/organizacao';
+import { OG_PADRAO } from '@/lib/site';
 
 interface Props {
   params: { slug: string };
@@ -22,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const acf = evento.eventoacf;
   const description = marcaEmMaiusculas(
     evento.excerpt?.replace(/<[^>]*>/g, '').slice(0, 160) ||
-      `${evento.title} — ${acf?.dateNumber} de ${acf?.month}${acf?.year ? ` de ${acf.year}` : ''}${acf?.local ? ` | ${acf.local}` : ''}`,
+      `${evento.title}, ${acf?.dateNumber} de ${acf?.month}${acf?.year ? ` de ${acf.year}` : ''}${acf?.local ? ` | ${acf.local}` : ''}`,
   );
 
   return {
@@ -31,9 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: comMarca(evento.title),
       description,
-      images: acf?.img?.node?.sourceUrl
-        ? [{ url: acf.img.node.sourceUrl }]
-        : [],
+      images: [{ url: acf?.img?.node?.sourceUrl || OG_PADRAO }],
     },
   };
 }
@@ -50,11 +52,24 @@ export default async function EventoPage({ params }: Props) {
   const outrosEventos = todos.filter((e) => e.slug !== params.slug).slice(0, 3);
   const products = wpProducts.map(mapWPProductToProduct);
 
+  const dadosEvento = dadosDoEvento(evento);
   return (
-    <EventoPageClient
-      evento={evento}
-      outrosEventos={outrosEventos}
-      produtos={products}
-    />
+    <>
+      <JsonLd
+        dados={[
+          ...(dadosEvento ? [dadosEvento] : []),
+          trilha([
+            ['Início', '/'],
+            ['Eventos', '/eventos'],
+            [evento.title, `/eventos/${evento.slug}`],
+          ]),
+        ]}
+      />
+      <EventoPageClient
+        evento={evento}
+        outrosEventos={outrosEventos}
+        produtos={products}
+      />
+    </>
   );
 }

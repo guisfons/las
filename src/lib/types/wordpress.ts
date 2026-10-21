@@ -63,6 +63,7 @@ export type WPProductAcf = {
 export type WPProductNode = {
   id: string;
   databaseId: number;
+  modified?: string;
   slug: string;
   title: string;
   productacf?: WPProductAcf;

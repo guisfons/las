@@ -6,7 +6,7 @@ import LasXpertsClient from './las-xperts-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('las-xperts');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'LAS Xperts | LAS FOR LIFE',
+    title: 'LASxperts | LAS FOR LIFE',
     description:
       'Nossos produtos nas mãos dos médicos, em projetos de Medicina Baseada em Evidência.',
   });

@@ -3,6 +3,7 @@ import { WPProductNode, WPProductsConnection } from '../types/wordpress';
 
 // A GraphQL fragment to avoid repeating the long list of fields
 const PRODUCT_FIELDS = `
+  modified
   id
   databaseId
   slug

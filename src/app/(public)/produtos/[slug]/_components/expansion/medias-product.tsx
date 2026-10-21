@@ -65,13 +65,15 @@ export default function MediasProduct({ product }: { product: Product }) {
                   {(caption || description) && (
                     <div className="mt-2 text-sm text-label font-exo2 flex flex-col gap-1">
                       {caption && (
-                        <p
+                        <div
                           className="font-bold"
                           dangerouslySetInnerHTML={{ __html: caption }}
                         />
                       )}
                       {description && (
-                        <p dangerouslySetInnerHTML={{ __html: description }} />
+                        <div
+                          dangerouslySetInnerHTML={{ __html: description }}
+                        />
                       )}
                     </div>
                   )}

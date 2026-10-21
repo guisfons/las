@@ -15,6 +15,7 @@ export default function LasTalksClient({ pageData }: LasTalksClientProps) {
   return (
     <>
       <HeaderLas
+        titulo="LAStalks"
         logo={
           acfData?.howWeDoItToday?.logo?.node?.sourceUrl || '/las-talks.png'
         }

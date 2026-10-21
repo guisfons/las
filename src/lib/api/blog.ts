@@ -37,6 +37,7 @@ export type WPBlogPost = {
   slug: string;
   title: string;
   date: string;
+  modified?: string;
   content?: string;
   excerpt?: string;
   featuredImage?: {
@@ -75,6 +76,7 @@ const BLOG_POST_FIELDS = `
   slug
   title
   date
+  modified
   excerpt
   featuredImage {
     node {

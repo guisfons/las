@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/api/blog';
 import BlogPostClient from './page-client';
 import { comMarca, marcaEmMaiusculas } from '@/lib/utils/seo';
+import { JsonLd } from '@/components/json-ld';
+import { dadosDoArtigo } from '@/lib/seo/artigo';
+import { OG_PADRAO } from '@/lib/site';
 
 interface Props {
   params: { slug: string };
@@ -34,7 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       type: 'article',
       publishedTime: post.date,
-      images: img ? [{ url: img }] : [],
+      ...(post.modified ? { modifiedTime: post.modified } : {}),
+      images: [{ url: img || OG_PADRAO }],
     },
   };
 }
@@ -49,5 +53,16 @@ export default async function BlogPostPage({ params }: Props) {
 
   const related = allPosts.filter((p) => p.slug !== params.slug).slice(0, 3);
 
-  return <BlogPostClient post={post} relatedPosts={related} />;
+  const descricao = marcaEmMaiusculas(
+    post.excerpt
+      ?.replace(/<[^>]*>/g, '')
+      .trim()
+      .slice(0, 300) || `Artigo da LAS FOR LIFE: ${post.title}`,
+  );
+  return (
+    <>
+      <JsonLd dados={dadosDoArtigo(post, descricao)} />
+      <BlogPostClient post={post} relatedPosts={related} />
+    </>
+  );
 }

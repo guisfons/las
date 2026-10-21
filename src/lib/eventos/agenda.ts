@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/site';
 import { WPEventoNode } from '@/lib/types/events';
 
 /**
@@ -9,9 +10,7 @@ import { WPEventoNode } from '@/lib/types/events';
  * ordenar a grade. O calendário passa a sair do mesmo lugar.
  */
 
-const SITE =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
-  'https://www.lasforlife.com.br';
+const SITE = SITE_URL;
 
 const MESES: Record<string, number> = {
   janeiro: 0,
@@ -71,7 +70,17 @@ export function periodoDoEvento(evento: WPEventoNode): Periodo | null {
   const mes = acf.month ? MESES[normalizar(acf.month)] : undefined;
   const dias = (acf.dateNumber || '').match(/\d{1,2}/g)?.map(Number) || [];
 
-  if (!isNaN(ano) && ano > 2000 && mes !== undefined && dias.length) {
+  // "30-02/05": do dia 30 do mês do evento ao dia 2 do mês 05. É o formato que
+  // atualizar_eventos_site.py grava para evento que atravessa a virada do mês;
+  // sem esta leitura o "05" contava como dia e o evento virava um dia só.
+  const virada = (acf.dateNumber || '').match(
+    /^\s*(\d{1,2})\s*-\s*(\d{1,2})\s*\/\s*(\d{1,2})\s*$/,
+  );
+  if (!isNaN(ano) && ano > 2000 && mes !== undefined && virada) {
+    inicio = new Date(ano, mes, Number(virada[1]));
+    const mesFim = Number(virada[3]) - 1;
+    fim = new Date(mesFim < mes ? ano + 1 : ano, mesFim, Number(virada[2]));
+  } else if (!isNaN(ano) && ano > 2000 && mes !== undefined && dias.length) {
     inicio = new Date(ano, mes, dias[0]);
     const ultimo = dias[dias.length - 1];
     // "30-02" atravessaria o mês; sem saber para qual, fica um dia só.

@@ -15,6 +15,7 @@ export default function LasSocialClient({ pageData }: LasSocialClientProps) {
   return (
     <>
       <HowWeDoItToday
+        nomeDoLogo="LASsocial"
         banner={
           acfData?.howWeDoItToday?.banner?.node?.sourceUrl ||
           '/images/las-screen/card-social-friends.png'

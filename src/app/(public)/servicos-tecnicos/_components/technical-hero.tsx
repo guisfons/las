@@ -29,9 +29,9 @@ export default function TechnicalHero({
       />
 
       <div className="flex items-center justify-center flex-col">
-        <p className="font-exo2 font-bold text-2xl lg:text-[56px] text-white text-center">
+        <h1 className="font-exo2 font-bold text-2xl lg:text-[56px] text-white text-center">
           {title}
-        </p>
+        </h1>
 
         <p className="max-w-[300px] md:max-w-[565px] font-exo2 font-normal text-base text-center text-white mt-10 mb-10">
           {description}

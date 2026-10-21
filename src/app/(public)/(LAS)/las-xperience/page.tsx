@@ -6,7 +6,7 @@ import LasXperienceClient from './las-xperience-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('las-xperience');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'LAS Xperience | LAS FOR LIFE',
+    title: 'LASxperience | LAS FOR LIFE',
     description:
       'A LASxperience é uma jornada imersiva levando médicos para conhecer as fábricas das marcas parceiras.',
   });

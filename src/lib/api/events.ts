@@ -3,6 +3,7 @@ import { WPEventoNode, WPEventosConnection } from '../types/events';
 import { eventoTemDetalhes } from '../eventos/agenda';
 
 const EVENTO_FIELDS = `
+  modified
   id
   slug
   title

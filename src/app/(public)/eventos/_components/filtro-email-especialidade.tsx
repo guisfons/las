@@ -66,9 +66,9 @@ export default function FiltroEmailEspecialidade({
       {/* ─── 1. Filtros Principais (Esquerda) ─────────────────────────────── */}
       <div className="flex flex-col gap-8 flex-1">
         <div>
-          <h2 className="font-exo2 font-bold text-3xl md:text-4xl text-[#1a2a5e]">
+          <h1 className="font-exo2 font-bold text-3xl md:text-4xl text-[#1a2a5e]">
             Eventos
-          </h2>
+          </h1>
           <p className="font-exo2 text-gray-500 text-sm md:text-base mt-1">
             Explore os eventos da LAS por segmento e especialidade.
           </p>

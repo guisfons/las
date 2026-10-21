@@ -15,6 +15,7 @@ export default function LasClubsClient({ pageData }: LasClubsClientProps) {
   return (
     <>
       <HeaderLas
+        titulo="LASclubs"
         logo={
           acfData?.howWeDoItToday?.logo?.node?.sourceUrl ||
           '/las-clubs-black.png'

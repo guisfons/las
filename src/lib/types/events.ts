@@ -77,6 +77,7 @@ export type WPEventoAcf = {
 
 export type WPEventoNode = {
   id: string;
+  modified?: string;
   slug: string;
   title: string;
   date: string;

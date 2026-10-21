@@ -13,6 +13,7 @@ export default function HowWeDoItToday({
   classNameTitle,
   reverse = false,
   acfData,
+  nomeDoLogo,
 }: {
   banner: string;
   title?: string;
@@ -21,6 +22,8 @@ export default function HowWeDoItToday({
   link?: string;
   classNameTitle?: string;
   reverse?: boolean;
+  /** Nome do programa quando o logo é o título da página: vira o H1. */
+  nomeDoLogo?: string;
   acfData?: {
     banner?: { node?: { sourceUrl?: string } };
     title?: string;
@@ -46,20 +49,25 @@ export default function HowWeDoItToday({
         src={displayBanner}
         width={1440}
         height={774}
-        alt="line"
+        alt={displayTitle || nomeDoLogo || ''}
         className="w-11/12 md:w-2/5 max-w-96 md:max-w-[555px] aspect-square rounded-3xl h-auto object-cover"
       />
 
       <div className="flex flex-col max-w-lg">
-        {logo && (
-          <Image
-            src={logo}
-            width={280}
-            height={56}
-            alt="line"
-            className="h-14"
-          />
-        )}
+        {logo &&
+          (nomeDoLogo ? (
+            <h1 className="m-0">
+              <Image
+                src={logo}
+                width={280}
+                height={56}
+                alt={nomeDoLogo}
+                className="h-14"
+              />
+            </h1>
+          ) : (
+            <Image src={logo} width={280} height={56} alt="" className="h-14" />
+          ))}
 
         {displayTitle && (
           <p className={cn('font-exo2 font-bold text-4xl', classNameTitle)}>

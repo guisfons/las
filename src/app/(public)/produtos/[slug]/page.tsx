@@ -3,6 +3,9 @@ import { getProductBySlug } from '@/lib/api/products';
 import { mapWPProductToProduct } from '@/lib/utils/product-mapper';
 import { notFound } from 'next/navigation';
 import { comMarca } from '@/lib/utils/seo';
+import { JsonLd } from '@/components/json-ld';
+import { dadosDoProduto, descricaoDoProduto } from '@/lib/seo/produto';
+import { OG_PADRAO } from '@/lib/site';
 
 export async function generateMetadata({
   params,
@@ -20,11 +23,20 @@ export async function generateMetadata({
     product.imageUrl && !product.imageUrl.includes('placeholder')
       ? product.imageUrl
       : undefined;
+  const description = descricaoDoProduto(product);
   return {
     title: product.name,
+    description,
     openGraph: {
       title: comMarca(product.name),
-      ...(foto ? { images: [{ url: foto }] } : {}),
+      description,
+      images: [{ url: foto || OG_PADRAO }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: comMarca(product.name),
+      description,
+      images: [foto || OG_PADRAO],
     },
   };
 }
@@ -38,5 +50,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const product = mapWPProductToProduct(wpProduct);
 
-  return <PageClient initialProduct={product} />;
+  return (
+    <>
+      <JsonLd dados={dadosDoProduto(product)} />
+      <PageClient initialProduct={product} />
+    </>
+  );
 }

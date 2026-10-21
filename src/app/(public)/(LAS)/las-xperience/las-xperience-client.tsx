@@ -17,6 +17,7 @@ export default function LasXperienceClient({
   return (
     <>
       <HeaderLas
+        titulo="LASxperience"
         logo={
           acfData?.howWeDoItToday?.logo?.node?.sourceUrl || '/las-xperience.png'
         }

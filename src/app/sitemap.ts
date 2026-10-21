@@ -4,8 +4,16 @@ import { getAllEventos } from '@/lib/api/events';
 import { eventoTemDetalhes } from '@/lib/eventos/agenda';
 import { getAllBlogPosts } from '@/lib/api/blog';
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://lasforlife.com.br';
+import { SITE_URL } from '@/lib/site';
+
+const BASE_URL = SITE_URL;
+
+/** Data de alteração vinda do WordPress (sem fuso), ou nada. */
+function alterado(data?: string): Date | undefined {
+  if (!data) return undefined;
+  const d = new Date(`${data.replace(/Z?$/, '')}-03:00`);
+  return isNaN(d.getTime()) ? undefined : d;
+}
 
 /**
  * Gerado na hora, na Vercel — nunca no build.
@@ -20,115 +28,105 @@ const BASE_URL =
  * sitemap incompleto por até uma hora. As consultas ao WordPress continuam
  * em cache de 60s (fetchWPGraphQL), então gerar na hora não as multiplica.
  */
+// Datas: só as que o WordPress conhece (produto, evento, post). Página fixa vai
+// sem data; antes todas levavam a hora em que o sitemap foi gerado, e o Google
+// passa a ignorar um campo que muda sempre.
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: `${BASE_URL}/articular-o-ecossistema`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${BASE_URL}/gerar-saude`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${BASE_URL}/tratar-doenca`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${BASE_URL}/eventos`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${BASE_URL}/produtos`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/instrucoes-de-uso-dos-produtos`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/seja-um-distribuidor`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/servicos-tecnicos`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/solicitar-orcamento`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/las-clubs`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/las-social`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/las-sports`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/las-talks`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/las-xperience`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/las-xperts`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/blog`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,
     },
     {
+      url: `${BASE_URL}/educacao`,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
       url: `${BASE_URL}/certificado`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.5,
     },
@@ -140,7 +138,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const products = await getAllProducts();
     productRoutes = products.map((product) => ({
       url: `${BASE_URL}/produtos/${product.slug}`,
-      lastModified: new Date(),
+      lastModified: alterado(product.modified),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     }));
@@ -156,7 +154,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // repete o card, e não devem concorrer na busca.
     eventoRoutes = eventos.filter(eventoTemDetalhes).map((evento) => ({
       url: `${BASE_URL}/eventos/${evento.slug}`,
-      lastModified: new Date(),
+      lastModified: alterado(evento.modified),
       changeFrequency: 'weekly' as const,
       priority: 0.75,
     }));
@@ -170,7 +168,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const posts = await getAllBlogPosts();
     blogRoutes = posts.map((post) => ({
       url: `${BASE_URL}/blog/${post.slug}`,
-      lastModified: new Date(),
+      lastModified: alterado(post.modified || post.date),
       changeFrequency: 'monthly' as const,
       priority: 0.65,
     }));

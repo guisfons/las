@@ -16,6 +16,7 @@ export default function LasSportsClient({ pageData }: LasSportsClientProps) {
   return (
     <>
       <HowWeDoItToday
+        nomeDoLogo="LASsports"
         banner={
           acfData?.howWeDoItToday?.banner?.node?.sourceUrl ||
           '/images/las-screen/card-sport-bicycle.png'

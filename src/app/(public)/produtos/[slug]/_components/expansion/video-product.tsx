@@ -36,12 +36,12 @@ export default function VideoProduct({ product }: { product: Product }) {
               />
             </div>
 
-            <p
+            <div
               className="max-w-3xl font-exo2 text-sm md:text-lg text-label"
               dangerouslySetInnerHTML={{
                 __html: item.description || '',
               }}
-            ></p>
+            />
           </div>
         );
       })}

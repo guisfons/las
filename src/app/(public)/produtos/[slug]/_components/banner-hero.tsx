@@ -48,18 +48,18 @@ export default function BannerHero({ product }: { product: Product }) {
           </div>
 
           <div>
-            <p className="font-exo2 font-bold text-2xl md:text-6xl">
+            <h1 className="font-exo2 font-bold text-2xl md:text-6xl">
               {product?.name}
-            </p>
+            </h1>
 
             <p className="max-w-xl font-exo2 mt-8 text-sm md:text-lg text-[#090909]">
               {product?.detail?.subtitle}
             </p>
 
-            <p
+            <div
               className="max-w-xl font-exo2 text-sm md:text-lg text-label"
               dangerouslySetInnerHTML={{ __html: product?.description || '' }}
-            ></p>
+            />
           </div>
 
           <Link

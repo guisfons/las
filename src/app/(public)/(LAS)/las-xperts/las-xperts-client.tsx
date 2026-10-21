@@ -15,6 +15,7 @@ export default function LasXpertsClient({ pageData }: LasXpertsClientProps) {
   return (
     <>
       <HeaderLas
+        titulo="LASxperts"
         logo={
           acfData?.howWeDoItToday?.logo?.node?.sourceUrl || '/las-xperts.png'
         }
