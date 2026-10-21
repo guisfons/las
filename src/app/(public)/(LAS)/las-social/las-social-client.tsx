@@ -18,7 +18,7 @@ export default function LasSocialClient({ pageData }: LasSocialClientProps) {
         nomeDoLogo="LASsocial"
         banner={
           acfData?.howWeDoItToday?.banner?.node?.sourceUrl ||
-          '/images/las-screen/card-social-friends.png'
+          '/images/las-screen/card-social-friends.webp'
         }
         logo={
           acfData?.howWeDoItToday?.logo?.node?.sourceUrl ||
@@ -46,7 +46,7 @@ export default function LasSocialClient({ pageData }: LasSocialClientProps) {
         }
         imageBanner={
           acfData?.bannerLas?.imageBanner?.node?.sourceUrl ||
-          '/images/las-screen/card-las-social.png'
+          '/images/las-screen/card-las-social.webp'
         }
         link={acfData?.bannerLas?.link || 'https://www.bemtevi.org.br/'}
         labelLink={acfData?.bannerLas?.labelLink || 'Conheça o Projeto'}

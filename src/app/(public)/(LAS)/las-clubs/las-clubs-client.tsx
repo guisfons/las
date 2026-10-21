@@ -30,10 +30,10 @@ export default function LasClubsClient({ pageData }: LasClubsClientProps) {
 
       <GridPictures
         pictures={[
-          '/images/las-screen/grid-las-clubs-1.png',
-          '/images/las-screen/grid-las-clubs-2.png',
-          '/images/las-screen/grid-las-clubs-3.png',
-          '/images/las-screen/grid-las-clubs-4.png',
+          '/images/las-screen/grid-las-clubs-1.webp',
+          '/images/las-screen/grid-las-clubs-2.webp',
+          '/images/las-screen/grid-las-clubs-3.webp',
+          '/images/las-screen/grid-las-clubs-4.webp',
         ]}
       />
 

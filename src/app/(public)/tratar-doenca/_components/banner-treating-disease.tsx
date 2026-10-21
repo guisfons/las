@@ -8,7 +8,7 @@ export default function BannerTreatingDisease() {
     <>
       <section className="w-full h-auto relative flex justify-center items-center overflow-hidden">
         <Image
-          src="/images/treating-disease/banner-treating-disease-2.png"
+          src="/images/treating-disease/banner-treating-disease-2.webp"
           width={1920}
           height={1080}
           alt="Banner BannerTreatingDisease"

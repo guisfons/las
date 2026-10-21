@@ -21,7 +21,9 @@ const exo2 = Exo_2({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-exo2',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  // Só os pesos que o site usa (light a bold). Eram os nove, e cada peso é um
+  // arquivo de fonte a mais no carregamento de toda página.
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 type Props = {

@@ -91,7 +91,7 @@ export default function Impact({
             style={{
               backgroundImage: mainBlock.backgroundImage
                 ? `url(${mainBlock.backgroundImage})`
-                : 'url(/runners.png)',
+                : 'url(/runners.webp)',
             }}
           >
             <div className="w-full !text-white relative flex flex-col gap-2 md:gap-4">

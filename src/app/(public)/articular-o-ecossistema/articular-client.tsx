@@ -29,7 +29,7 @@ export default function ArticulateClient({ pageData }: ArticulateClientProps) {
       />
 
       <HowWeDoItToday
-        banner="/images/articulate-the-ecosystem/card-articulate-the-ecosystem.png"
+        banner="/images/articulate-the-ecosystem/card-articulate-the-ecosystem.webp"
         title="Conexões que constroem o futuro da saúde"
         classNameTitle="text-[#00B5C8] "
         description={[
@@ -45,10 +45,10 @@ export default function ArticulateClient({ pageData }: ArticulateClientProps) {
       <GridPictures
         title="Dia do Médico e Dia da Secretária"
         pictures={[
-          '/images/articulate-the-ecosystem/grid-day-doctor-1.png',
-          '/images/articulate-the-ecosystem/grid-day-doctor-2.png',
-          '/images/articulate-the-ecosystem/grid-day-doctor-3.png',
-          '/images/articulate-the-ecosystem/grid-day-doctor-4.png',
+          '/images/articulate-the-ecosystem/grid-day-doctor-1.webp',
+          '/images/articulate-the-ecosystem/grid-day-doctor-2.webp',
+          '/images/articulate-the-ecosystem/grid-day-doctor-3.webp',
+          '/images/articulate-the-ecosystem/grid-day-doctor-4.webp',
         ]}
         acfData={acfData?.gridPictures}
       />

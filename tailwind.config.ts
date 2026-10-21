@@ -62,29 +62,29 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        BannerHeroWeb: 'url("/images/landingpage/bannerHero.png")',
-        bannerHeroMobile: 'url("/images/landingpage/bannerHeroMobile.png")',
-        createHealth: 'url("/images/landingpage/gerar-saude.jpg")',
+        BannerHeroWeb: 'url("/images/landingpage/bannerHero.webp")',
+        bannerHeroMobile: 'url("/images/landingpage/bannerHeroMobile.webp")',
+        createHealth: 'url("/images/landingpage/gerar-saude.webp")',
         'degrade-dows-up':
           'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
         treatDesease: 'url("/images/landingpage/tratar-doenca.jpg")',
         createTecnology:
-          'url("/images/landingpage/desenvolver-tecnologia.jpg")',
+          'url("/images/landingpage/desenvolver-tecnologia.webp")',
         articulatedEcosystem:
-          'url("/images/landingpage/articular-ecossistema.jpg")',
-        promoteEducation: 'url("/images/landingpage/promover-educacao.png")',
-        bannerEducation: 'url("/images/education/bannerEducation.png")',
+          'url("/images/landingpage/articular-ecossistema.webp")',
+        promoteEducation: 'url("/images/landingpage/promover-educacao.webp")',
+        bannerEducation: 'url("/images/education/bannerEducation.webp")',
         bannerEducationMobile:
-          'url("/images/education/bannerEducationMobile.png")',
-        programEducation: 'url("/images/education/programaEducation.png")',
-        technicalBanner: 'url("/images/technical/technical-banner.png")',
+          'url("/images/education/bannerEducationMobile.webp")',
+        programEducation: 'url("/images/education/programaEducation.webp")',
+        technicalBanner: 'url("/images/technical/technical-banner.webp")',
         generateHealthBanner:
-          'url("/images/generate-health/banner-generate-health.png")',
+          'url("/images/generate-health/banner-generate-health.webp")',
         treatingDiseaseBanner:
-          'url("/images/treating-disease/banner-treating-disease.png")',
+          'url("/images/treating-disease/banner-treating-disease.webp")',
         articulateEcosystemBanner:
-          'url("/images/articulate-the-ecosystem/banner-articulate-ecosystem.png")',
-        divRunners: 'url("/runners.png")',
+          'url("/images/articulate-the-ecosystem/banner-articulate-ecosystem.webp")',
+        divRunners: 'url("/runners.webp")',
       },
       borderRadius: {
         lg: 'var(--radius)',

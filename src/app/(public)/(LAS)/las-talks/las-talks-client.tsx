@@ -28,10 +28,10 @@ export default function LasTalksClient({ pageData }: LasTalksClientProps) {
 
       <GridPictures
         pictures={[
-          '/images/las-screen/grid-las-talks-1.png',
-          '/images/las-screen/grid-las-talks-2.png',
-          '/images/las-screen/grid-las-talks-3.png',
-          '/images/las-screen/grid-las-talks-4.png',
+          '/images/las-screen/grid-las-talks-1.webp',
+          '/images/las-screen/grid-las-talks-2.webp',
+          '/images/las-screen/grid-las-talks-3.webp',
+          '/images/las-screen/grid-las-talks-4.webp',
         ]}
       />
 

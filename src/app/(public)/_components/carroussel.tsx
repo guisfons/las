@@ -17,7 +17,7 @@ export default function Carroussel({
 }) {
   const defaultItems = [
     {
-      img: '/products/tennisPlayer.png',
+      img: '/products/tennisPlayer.webp',
       title: 'Superando Desafios',
       description:
         'Uma lesão rara. Perda óssea de 10 cm. E um enxerto com antibiótico local que entregou regeneração, proteção e recuperação total.',
@@ -26,7 +26,7 @@ export default function Carroussel({
       url: '/produtos/perossal',
     },
     {
-      img: '/products/momAndBaby.png',
+      img: '/products/momAndBaby.webp',
       title: 'Apoio que Faz a Diferença',
       description:
         'Após anos tentando engravidar, com o suporte do gel de barreira de adesão Oxiplex/IU, ela transformou a esperança em realidade.',
@@ -35,7 +35,7 @@ export default function Carroussel({
       url: '/produtos/oxiplex-iu',
     },
     {
-      img: '/products/babyAndGrandfather.png',
+      img: '/products/babyAndGrandfather.webp',
       title: 'Recuperação com Significado',
       description:
         'Um trauma. Uma cartilagem comprometida. E uma solução biológica que usa o que o próprio corpo tem de melhor.',
@@ -44,7 +44,7 @@ export default function Carroussel({
       url: '/produtos/cellharvest',
     },
     {
-      img: '/products/aYoungPatient.png',
+      img: '/products/aYoungPatient.webp',
       title: 'Precisão que Preserva',
       description:
         'Um nódulo de grandes dimensões. Uma paciente jovem. E uma tecnologia que trata com eficácia, sem comprometer a função da glândula.',

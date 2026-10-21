@@ -19,7 +19,7 @@ export default function LasSportsClient({ pageData }: LasSportsClientProps) {
         nomeDoLogo="LASsports"
         banner={
           acfData?.howWeDoItToday?.banner?.node?.sourceUrl ||
-          '/images/las-screen/card-sport-bicycle.png'
+          '/images/las-screen/card-sport-bicycle.webp'
         }
         logo={
           acfData?.howWeDoItToday?.logo?.node?.sourceUrl ||
@@ -46,7 +46,7 @@ export default function LasSportsClient({ pageData }: LasSportsClientProps) {
         }
         imageBanner={
           acfData?.bannerLas?.imageBanner?.node?.sourceUrl ||
-          '/images/las-screen/card-las-sports.png'
+          '/images/las-screen/card-las-sports.webp'
         }
       />
 

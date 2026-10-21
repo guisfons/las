@@ -28,10 +28,10 @@ export default function LasXpertsClient({ pageData }: LasXpertsClientProps) {
 
       <GridPictures
         pictures={[
-          '/images/las-screen/grid-las-xperts-1.png',
-          '/images/las-screen/grid-las-xperts-2.png',
-          '/images/las-screen/grid-las-xperts-3.png',
-          '/images/las-screen/grid-las-xperts-4.png',
+          '/images/las-screen/grid-las-xperts-1.webp',
+          '/images/las-screen/grid-las-xperts-2.webp',
+          '/images/las-screen/grid-las-xperts-3.webp',
+          '/images/las-screen/grid-las-xperts-4.webp',
         ]}
       />
 

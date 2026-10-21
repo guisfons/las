@@ -16,7 +16,8 @@ export default function Contact({
   const formAction =
     acfData?.formAction || 'https://formsubmit.co/m.sousa@lasforlife.com.br';
   const image =
-    acfData?.image?.node?.sourceUrl || '/images/landingpage/coffee-cup-las.png';
+    acfData?.image?.node?.sourceUrl ||
+    '/images/landingpage/coffee-cup-las.webp';
 
   return (
     <section id="Contact" className="relative overflow-hidden">

@@ -41,7 +41,7 @@ export default function Partners({
     { alf: 'KLS', url: '/images/brands/KLS_Logo.svg' },
     {
       alf: 'STORZ',
-      url: '/images/brands/STORZ-ENDOSKOPE-NODIA-KSBLUE-HR.jpg',
+      url: '/images/brands/STORZ-ENDOSKOPE-NODIA-KSBLUE-HR.webp',
     },
     { alf: 'Bioventus', url: '/images/brands/bioventus-logo-color-min.webp' },
   ];

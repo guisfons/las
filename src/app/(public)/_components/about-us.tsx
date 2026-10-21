@@ -65,7 +65,7 @@ export default function AboutUs({
           alt="hero image mask"
           src={
             acfData?.image?.node?.sourceUrl ||
-            '/images/landingpage/human-connection-mask.png'
+            '/images/landingpage/human-connection-mask.webp'
           }
           className="w-11/12 md:w-1/2 max-w-2xl object-contain"
         ></Image>

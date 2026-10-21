@@ -30,10 +30,10 @@ export default function LasXperienceClient({
 
       <GridPictures
         pictures={[
-          '/images/las-screen/grid-las-xperience-1.png',
-          '/images/las-screen/grid-las-xperience-2.png',
-          '/images/las-screen/grid-las-xperience-3.png',
-          '/images/las-screen/grid-las-xperience-4.png',
+          '/images/las-screen/grid-las-xperience-1.webp',
+          '/images/las-screen/grid-las-xperience-2.webp',
+          '/images/las-screen/grid-las-xperience-3.webp',
+          '/images/las-screen/grid-las-xperience-4.webp',
         ]}
       />
 

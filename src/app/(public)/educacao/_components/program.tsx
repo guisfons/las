@@ -32,7 +32,7 @@ export default function Program() {
 
         <figure id="right" className="w-1/2 max-w-3xl hidden md:block">
           <Image
-            src={'/images/education/gridEducation.png'}
+            src={'/images/education/gridEducation.webp'}
             width={760}
             height={500}
             alt="Grid Education"

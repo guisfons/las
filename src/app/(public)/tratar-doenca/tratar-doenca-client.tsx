@@ -33,7 +33,7 @@ export default function TratarDoencaClient({
       />
 
       <HowWeDoItToday
-        banner="/images/treating-disease/card-treating-disease.png"
+        banner="/images/treating-disease/card-treating-disease.webp"
         title="Soluções que tratam e transformam"
         classNameTitle="text-[#70C700] "
         description={[

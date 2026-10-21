@@ -17,13 +17,13 @@ export default function GerarSaudeClient({ pageData }: GerarSaudeClientProps) {
   const grid = [
     {
       logo: '/las-social.png',
-      picture: '/banner-las-social.png',
+      picture: '/banner-las-social.webp',
       description: `Acreditamos que temos como dever contribuir para o desenvolvimento do ambiente no qual estamos inseridos. O programa LASsocial ajuda e apoia programas sociais e educacionais com parte de seu lucro mensal.`,
       link: '/las-social',
     },
     {
       logo: '/las-sports.png',
-      picture: '/banner-las-sports.png',
+      picture: '/banner-las-sports.webp',
       description: `Acreditamos no esporte como um importante papel na formação de uma sociedade melhor. O LASsports  tem como propósito promover a melhora da qualidade de vida de todos em nosso entorno através da prática de esportes`,
       link: '/las-sports',
     },
@@ -44,7 +44,7 @@ export default function GerarSaudeClient({ pageData }: GerarSaudeClientProps) {
       />
 
       <HowWeDoItToday
-        banner="/images/generate-health/card-how-we-do-it-today.png"
+        banner="/images/generate-health/card-how-we-do-it-today.webp"
         title="Como Fazemos Hoje"
         classNameTitle="text-[#E7C221] "
         description={[
@@ -65,7 +65,7 @@ export default function GerarSaudeClient({ pageData }: GerarSaudeClientProps) {
           'Acreditamos que cuidar da saúde começa por quem está com a gente todos os dias. Por isso, nossos colaboradores podem iniciar o expediente uma hora mais tarde para se dedicarem à prática de exercícios. Uma rotina com mais energia, equilíbrio e bem-estar é o primeiro passo para gerar saúde de verdade.',
         ]}
         link="https://www.lasforlife.com.br/sobre-nos/#nossa-cultura"
-        imageBanner="/images/generate-health/banner-walking.png"
+        imageBanner="/images/generate-health/banner-walking.webp"
         acfData={acfData?.bannerLas}
       />
       <Footer />

@@ -5,15 +5,15 @@ import Image from 'next/image';
 export default function Segmentations() {
   const array = [
     {
-      image: '/images/treating-disease/grid-1.png',
+      image: '/images/treating-disease/grid-1.webp',
       title: 'Bucomaxilofacial, Cabeça & Pescoço e Otorrinolaringologia',
     },
     {
-      image: '/images/treating-disease/grid-2.png',
+      image: '/images/treating-disease/grid-2.webp',
       title: 'Cirurgia Geral e Ginecologia',
     },
     {
-      image: '/images/treating-disease/grid-3.png',
+      image: '/images/treating-disease/grid-3.webp',
       title: 'Coluna, Joelho, Quadril, Mão, Pé, Tornozelo e Trauma',
     },
   ];
@@ -58,7 +58,7 @@ export default function Segmentations() {
           <Image
             width={800}
             height={800}
-            src="/images/treating-disease/map-treating-disease.png"
+            src="/images/treating-disease/map-treating-disease.webp"
             alt="LAS no Ecossistema"
             className="w-full h-auto"
           />

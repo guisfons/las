@@ -12,19 +12,19 @@ export default function GridEvents({
 }) {
   const defaultGrid = [
     {
-      picture: '/images/articulate-the-ecosystem/card-grid-event.png',
+      picture: '/images/articulate-the-ecosystem/card-grid-event.webp',
       title: 'Eventos',
     },
     {
-      picture: '/images/articulate-the-ecosystem/card-grid-round-tables.png',
+      picture: '/images/articulate-the-ecosystem/card-grid-round-tables.webp',
       title: 'Mesas Redondas',
     },
     {
-      picture: '/images/articulate-the-ecosystem/card-grid-summit.png',
+      picture: '/images/articulate-the-ecosystem/card-grid-summit.webp',
       title: 'Summit',
     },
     {
-      picture: '/images/articulate-the-ecosystem/card-grid-podcast.png',
+      picture: '/images/articulate-the-ecosystem/card-grid-podcast.webp',
       title: 'Podcast',
     },
   ];

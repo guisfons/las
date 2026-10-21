@@ -17,7 +17,7 @@ export default function Sponsorship({
   ];
   const link = acfData?.link || '';
   const image =
-    acfData?.image?.node?.sourceUrl || '/images/las-screen/grid-sports.png';
+    acfData?.image?.node?.sourceUrl || '/images/las-screen/grid-sports.webp';
 
   return (
     <section className="relative max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-start gap-10 md:gap-20 py-24 px-6 md:px-0">
