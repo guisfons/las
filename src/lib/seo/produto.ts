@@ -1,5 +1,5 @@
 import { urlDoSite } from '@/lib/site';
-import { ORGANIZACAO_ID, trilha } from '@/lib/seo/organizacao';
+import { trilha } from '@/lib/seo/organizacao';
 
 type ProdutoSeo = {
   name: string;
@@ -90,8 +90,6 @@ export function dadosDoProduto(p: ProdutoSeo) {
           },
         }
       : {}),
-    // A LAS é quem traz e representa o produto no Brasil.
-    seller: { '@id': ORGANIZACAO_ID },
   };
 
   return [
