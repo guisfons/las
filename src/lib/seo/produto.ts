@@ -47,46 +47,73 @@ function daFicha(p: ProdutoSeo, rotulo: RegExp): string | undefined {
   return linha ? linha.slice(1).join(' ').trim() : undefined;
 }
 
+/** Especialidade do site → enumeração MedicalSpecialty do schema.org. */
+const ESPECIALIDADE: Record<string, string[]> = {
+  Ortopedia: ['Musculoskeletal'],
+  Coluna: ['Musculoskeletal'],
+  Ginecologia: ['Gynecologic'],
+  Uroginecologia: ['Gynecologic', 'Urologic'],
+  'Cabeça e Pescoço': ['Otolaryngologic'],
+};
+
 /**
  * O produto como dispositivo médico, para Google e IAs: o que é, quem fabrica,
- * quem distribui no Brasil e o registro na ANVISA. Sem preço nem oferta, de
- * propósito: o site não vende e não publica preço.
+ * a especialidade e o registro na ANVISA.
+ *
+ * É MedicalDevice, não Product, de propósito (22/10/2026): Product obriga a
+ * declarar preço, avaliação ou nota média ("offers", "review" ou
+ * "aggregateRating"), o site não publica nenhum dos três, e o Search Console
+ * acusava problema crítico em todas as páginas de produto. MedicalDevice não
+ * tem marca nem fabricante; o fabricante vai na descrição.
  */
 export function dadosDoProduto(p: ProdutoSeo) {
   const url = urlDoSite(`/produtos/${p.slug}`);
-  const registro = daFicha(p, /registro|anvisa/i);
+  const fichaRegistro = daFicha(p, /registro|anvisa/i);
+  // A ficha pode trazer mais de um registro na mesma linha ("80517190047 80517190048").
+  const numeros = fichaRegistro?.match(/\d[\d.\-/]{6,}\d/g) || [];
+  const registro = numeros.length ? numeros.join(' e ') : fichaRegistro;
   const modelo = daFicha(p, /modelo/i);
   const fabricante = (p.brands || [])[0];
   const imagem =
     p.imageUrl && !p.imageUrl.includes('placeholder') ? p.imageUrl : undefined;
+  const especialidades = Array.from(
+    new Set(
+      (p.specialities || []).flatMap((e) =>
+        (ESPECIALIDADE[e] || []).map((m) => `https://schema.org/${m}`),
+      ),
+    ),
+  );
+  const identificadores = [
+    ...(registro
+      ? [{ '@type': 'PropertyValue', name: 'Registro ANVISA', value: registro }]
+      : []),
+    ...(modelo
+      ? [{ '@type': 'PropertyValue', name: 'Modelo comercial', value: modelo }]
+      : []),
+  ];
+  const texto = resumo(
+    [p.detail?.subtitle, p.description].filter(Boolean).join('. '),
+    500,
+  );
 
   const produto: Record<string, unknown> = {
-    '@type': 'Product',
+    '@type': 'MedicalDevice',
     '@id': `${url}#produto`,
     name: p.name,
     url,
-    description: resumo(
-      [p.detail?.subtitle, p.description].filter(Boolean).join('. '),
-      500,
-    ),
-    category: [
-      'Dispositivo médico',
-      ...(p.specialities || []).filter((e) => e && e !== 'Todos'),
-    ].join(' > '),
+    description: fabricante
+      ? `${texto} Fabricante: ${fabricante}. Distribuído no Brasil pela LAS FOR LIFE.`
+      : texto,
     ...(imagem ? { image: imagem } : {}),
-    ...(fabricante
-      ? {
-          brand: { '@type': 'Brand', name: fabricante },
-          manufacturer: { '@type': 'Organization', name: fabricante },
-        }
-      : {}),
-    ...(modelo ? { model: modelo } : {}),
+    ...(especialidades.length ? { relevantSpecialty: especialidades } : {}),
+    ...(identificadores.length ? { identifier: identificadores } : {}),
     ...(registro
       ? {
-          additionalProperty: {
-            '@type': 'PropertyValue',
-            name: 'Registro ANVISA',
-            value: registro,
+          legalStatus: `Registro ANVISA nº ${registro}`,
+          recognizingAuthority: {
+            '@type': 'GovernmentOrganization',
+            name: 'Agência Nacional de Vigilância Sanitária (ANVISA)',
+            url: 'https://www.gov.br/anvisa',
           },
         }
       : {}),
