@@ -6,9 +6,10 @@ import LasClubsClient from './las-clubs-client';
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug('las-clubs');
   return generateSeoMetadata(pageData?.seo, {
-    title: 'LASclubs | LAS FOR LIFE',
+    title: 'LASclubs: encontros de médicos especialistas',
     description:
-      'O LASclubs conecta os principais médicos especialistas do Brasil através de eventos focados em ciência e troca de experiências.',
+      'Encontros da LASacademy para médicos especialistas, em grupos pequenos, com discussão científica e troca de experiência. Veja os próximos encontros e inscreva-se.',
+    forcar: true,
   });
 }
 

@@ -12,14 +12,24 @@ export function generateSeoMetadata(
     title?: string;
     description?: string;
     image?: string;
+    /**
+     * Título e descrição do código vencem os do Yoast. Para páginas cujo texto
+     * foi escrito a partir do Search Console (o que as pessoas buscam), sem
+     * depender de alguém editar o Yoast no WordPress.
+     */
+    forcar?: boolean;
   } = {},
 ): Metadata {
   const tituloBruto = grafiaDosProgramas(
-    seo?.title || defaults.title || 'LAS FOR LIFE',
+    (defaults.forcar ? defaults.title : seo?.title) ||
+      seo?.title ||
+      defaults.title ||
+      'LAS FOR LIFE',
   );
   const title = semMarca(tituloBruto);
   const description = marcaEmMaiusculas(
-    seo?.metaDesc ||
+    (defaults.forcar ? defaults.description : seo?.metaDesc) ||
+      seo?.metaDesc ||
       defaults.description ||
       'LAS FOR LIFE – Saúde para a vida.',
   );
@@ -36,18 +46,30 @@ export function generateSeoMetadata(
     // O canonical vem do layout raiz, sempre no www. O do Yoast ficava vazio ou
     // apontaria para o endereço do WordPress na Hostinger.
     openGraph: {
-      title: comMarca(grafiaDosProgramas(seo?.opengraphTitle || tituloBruto)),
-      description: marcaEmMaiusculas(seo?.opengraphDescription || description),
+      title: comMarca(
+        grafiaDosProgramas(
+          (defaults.forcar ? tituloBruto : seo?.opengraphTitle) || tituloBruto,
+        ),
+      ),
+      description: marcaEmMaiusculas(
+        (defaults.forcar ? description : seo?.opengraphDescription) ||
+          description,
+      ),
       images: [{ url: ogImage }],
     },
     twitter: {
       card: 'summary_large_image',
       title: comMarca(
         grafiaDosProgramas(
-          seo?.twitterTitle || seo?.opengraphTitle || tituloBruto,
+          (defaults.forcar
+            ? tituloBruto
+            : seo?.twitterTitle || seo?.opengraphTitle) || tituloBruto,
         ),
       ),
-      description: marcaEmMaiusculas(seo?.twitterDescription || description),
+      description: marcaEmMaiusculas(
+        (defaults.forcar ? description : seo?.twitterDescription) ||
+          description,
+      ),
       images: [twitterImage],
     },
   };
