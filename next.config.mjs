@@ -1,4 +1,5 @@
 import createNextIntlPlugin from 'next-intl/plugin';
+import siteAntigo from './redirects-site-antigo.mjs';
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -23,7 +24,7 @@ const nextConfig = {
       ['/produtos/rfa---ablacao-por-radiofrequencia', '/produtos/rfa-ablacao-por-radiofrequencia'],
       ['/produtos/rfa%E2%80%94ablacao-por-radiofrequencia', '/produtos/rfa-ablacao-por-radiofrequencia'],
     ];
-    return antigos.map(([source, destination]) => ({ source, destination, permanent: true }));
+    return [...antigos, ...siteAntigo].map(([source, destination]) => ({ source, destination, permanent: true }));
   },
   async rewrites() {
     return [
