@@ -14,10 +14,10 @@ interface Props {
   params: { slug: string };
 }
 
-export async function generateStaticParams() {
-  const eventos = await getAllEventos();
-  return eventos.map((e) => ({ slug: e.slug }));
-}
+// Sempre gerada na hora. O layout lê o endereço da requisição (canônico), e
+// página pré-gerada no build quebra com DYNAMIC_SERVER_USAGE ao revalidar:
+// foi o que derrubou o blog em 22/10/2026, num build em que o WordPress respondeu.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const evento = await getEventoBySlug(params.slug);
