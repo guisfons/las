@@ -53,14 +53,6 @@ export type WPBlogPost = {
   tags?: {
     nodes: WPBlogTag[];
   };
-  author?: {
-    node?: {
-      name?: string;
-      avatar?: {
-        url?: string;
-      };
-    };
-  };
 };
 
 export type WPBlogConnection = {
@@ -117,14 +109,6 @@ const BLOG_POST_FIELDS = `
     nodes {
       name
       slug
-    }
-  }
-  author {
-    node {
-      name
-      avatar {
-        url
-      }
     }
   }
 `;
