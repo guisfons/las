@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Search } from 'lucide-react';
+import { autorDoPost } from '@/lib/blog/autor';
 import { WPBlogPost } from '@/lib/api/blog';
 import { cn } from '@/lib/utils';
 import Footer from '@/components/footer';
@@ -39,7 +40,7 @@ function getPostImage(post: WPBlogPost): string | undefined {
 }
 
 function getAuthorName(post: WPBlogPost): string {
-  return post.blogacf?.authorName || post.author?.node?.name || 'LAS For Life';
+  return autorDoPost(post).nome;
 }
 
 // ─── Card Hero (destaque) ────────────────────────────────────────────────────

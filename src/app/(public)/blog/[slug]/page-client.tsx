@@ -11,6 +11,7 @@ import {
   ExternalLink,
   Tag,
 } from 'lucide-react';
+import { autorDoPost } from '@/lib/blog/autor';
 import { WPBlogPost } from '@/lib/api/blog';
 import Footer from '@/components/footer';
 
@@ -85,10 +86,13 @@ function RelatedCard({ post }: { post: WPBlogPost }) {
 export default function BlogPostClient({ post, relatedPosts }: Props) {
   const acf = post.blogacf;
   const img = getPostImage(post);
-  const authorName =
-    acf?.authorName || post.author?.node?.name || 'LAS For Life';
-  const authorPhoto =
-    acf?.authorPhoto?.node?.sourceUrl || post.author?.node?.avatar?.url;
+  const autor = autorDoPost(post);
+  const authorName = autor.nome;
+  const authorPhoto = autor.foto;
+  // O logo não pode ser recortado pelo círculo como uma foto de rosto.
+  const fotoClasse = autor.organizacao
+    ? 'object-contain bg-white p-1'
+    : 'object-cover';
   const categories = post.categories?.nodes || [];
   const tags = post.tags?.nodes || [];
 
@@ -155,7 +159,7 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
                     src={authorPhoto}
                     alt={authorName}
                     fill
-                    className="object-cover"
+                    className={fotoClasse}
                     sizes="24px"
                   />
                 </span>
@@ -252,7 +256,7 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
                   src={authorPhoto}
                   alt={authorName}
                   fill
-                  className="object-cover"
+                  className={fotoClasse}
                   sizes="64px"
                 />
               </div>

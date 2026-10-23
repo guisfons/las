@@ -1,6 +1,7 @@
 import { WPBlogPost } from '@/lib/api/blog';
 import { OG_PADRAO, urlDoSite } from '@/lib/site';
 import { ORGANIZACAO_ID, trilha } from '@/lib/seo/organizacao';
+import { autorDoPost } from '@/lib/blog/autor';
 
 const iso = (d?: string) => (d ? `${d.replace(/Z?$/, '')}-03:00` : undefined);
 
@@ -14,7 +15,7 @@ export function dadosDoArtigo(post: WPBlogPost, descricao: string) {
     post.blogacf?.coverImage?.node?.sourceUrl ||
     post.featuredImage?.node?.sourceUrl ||
     OG_PADRAO;
-  const autor = post.blogacf?.authorName || post.author?.node?.name;
+  const autor = autorDoPost(post);
   return [
     {
       '@type': 'BlogPosting',
@@ -27,15 +28,13 @@ export function dadosDoArtigo(post: WPBlogPost, descricao: string) {
       datePublished: iso(post.date),
       dateModified: iso(post.modified || post.date),
       inLanguage: 'pt-BR',
-      author: autor
-        ? {
+      author: autor.organizacao
+        ? { '@id': ORGANIZACAO_ID }
+        : {
             '@type': 'Person',
-            name: autor,
-            ...(post.blogacf?.authorRole
-              ? { jobTitle: post.blogacf.authorRole }
-              : {}),
-          }
-        : { '@id': ORGANIZACAO_ID },
+            name: autor.nome,
+            ...(autor.cargo ? { jobTitle: autor.cargo } : {}),
+          },
       publisher: { '@id': ORGANIZACAO_ID },
       ...(post.categories?.nodes?.length
         ? { articleSection: post.categories.nodes.map((c) => c.name) }
