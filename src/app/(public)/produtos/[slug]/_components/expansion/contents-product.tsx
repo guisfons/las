@@ -247,7 +247,7 @@ export default function ContentsProduct({ product }: ContentsProductProps) {
   return (
     <>
       <p className="max-w-3xl font-exo2 text-xs lg:text-lg text-label">
-        Acesse materiais exclusivos que comprovam a eficácia do {product?.name}
+        Acesse catálogo, instruções de uso e outros materiais sobre {product?.name}.
         {/* {' '} */}
         {/* e apoiam o cuidado de excelência ao paciente. */}
       </p>

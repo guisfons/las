@@ -47,6 +47,19 @@ function daFicha(p: ProdutoSeo, rotulo: RegExp): string | undefined {
   return linha ? linha.slice(1).join(' ').trim() : undefined;
 }
 
+/**
+ * Registro ou notificação: produto de risco baixo tem notificação na ANVISA, não
+ * registro, e quem diz qual é o rótulo da própria ficha técnica no WordPress.
+ */
+function tipoAnvisa(p: ProdutoSeo): string {
+  const linhas = [
+    ...(p.detail?.technical_data || []),
+    ...(p.detail?.technical_data2 || []),
+  ];
+  const linha = linhas.find((l) => l.length > 1 && /registro|anvisa/i.test(l[0]));
+  return linha && /notifica/i.test(linha[0]) ? 'Notificação ANVISA' : 'Registro ANVISA';
+}
+
 /** Especialidade do site → enumeração MedicalSpecialty do schema.org. */
 const ESPECIALIDADE: Record<string, string[]> = {
   Ortopedia: ['Musculoskeletal'],
@@ -72,6 +85,7 @@ export function dadosDoProduto(p: ProdutoSeo) {
   // A ficha pode trazer mais de um registro na mesma linha ("80517190047 80517190048").
   const numeros = fichaRegistro?.match(/\d[\d.\-/]{6,}\d/g) || [];
   const registro = numeros.length ? numeros.join(' e ') : fichaRegistro;
+  const anvisa = tipoAnvisa(p);
   const modelo = daFicha(p, /modelo/i);
   const fabricante = (p.brands || [])[0];
   const imagem =
@@ -85,7 +99,7 @@ export function dadosDoProduto(p: ProdutoSeo) {
   );
   const identificadores = [
     ...(registro
-      ? [{ '@type': 'PropertyValue', name: 'Registro ANVISA', value: registro }]
+      ? [{ '@type': 'PropertyValue', name: anvisa, value: registro }]
       : []),
     ...(modelo
       ? [{ '@type': 'PropertyValue', name: 'Modelo comercial', value: modelo }]
@@ -109,7 +123,7 @@ export function dadosDoProduto(p: ProdutoSeo) {
     ...(identificadores.length ? { identifier: identificadores } : {}),
     ...(registro
       ? {
-          legalStatus: `Registro ANVISA nº ${registro}`,
+          legalStatus: `${anvisa} nº ${registro}`,
           recognizingAuthority: {
             '@type': 'GovernmentOrganization',
             name: 'Agência Nacional de Vigilância Sanitária (ANVISA)',
