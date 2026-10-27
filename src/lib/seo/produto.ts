@@ -56,8 +56,12 @@ function tipoAnvisa(p: ProdutoSeo): string {
     ...(p.detail?.technical_data || []),
     ...(p.detail?.technical_data2 || []),
   ];
-  const linha = linhas.find((l) => l.length > 1 && /registro|anvisa/i.test(l[0]));
-  return linha && /notifica/i.test(linha[0]) ? 'Notificação ANVISA' : 'Registro ANVISA';
+  const linha = linhas.find(
+    (l) => l.length > 1 && /registro|anvisa/i.test(l[0]),
+  );
+  return linha && /notifica/i.test(linha[0])
+    ? 'Notificação ANVISA'
+    : 'Registro ANVISA';
 }
 
 /** Especialidade do site → enumeração MedicalSpecialty do schema.org. */
