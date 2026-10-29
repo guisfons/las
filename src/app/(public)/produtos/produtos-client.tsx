@@ -30,7 +30,29 @@ export default function Home({
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
-    const specialtiesFromUrl = params.getAll('specialty');
+    // A URL pode chegar sem acento ou como slug (cabeca-e-pescoco), porque
+    // há plataformas que recusam "ç": casa pelo nome normalizado e usa o
+    // nome real da especialidade.
+    const normalizar = (texto: string) =>
+      texto
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim();
+    const especialidades = new Map(
+      initialProducts
+        .flatMap((product) => product.specialities)
+        .map((s) => [normalizar(s), s] as const),
+    );
+    const specialtiesFromUrl = Array.from(
+      new Set(
+        params
+          .getAll('specialty')
+          .map((s) => especialidades.get(normalizar(s)))
+          .filter((s): s is string => Boolean(s)),
+      ),
+    );
     const brandsFromUrl = params.getAll('brand');
 
     if (specialtiesFromUrl.length) {
@@ -39,7 +61,7 @@ export default function Home({
     if (brandsFromUrl.length) {
       setSelectedBrands(brandsFromUrl);
     }
-  }, []);
+  }, [initialProducts]);
 
   // Atualiza URL quando filtros mudam, exceto no primeiro render
   useEffect(() => {
