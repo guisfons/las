@@ -105,3 +105,4 @@ The responsive layout is mobile-first, with Tailwind breakpoints ensuring a cons
 - **Internationalization:** The platform serves both Portuguese and English-speaking users from a single codebase, with zero duplication of routing or component logic.
 - **Developer experience:** Zod schema validation shared between form validation and API response parsing ensures that data contracts are defined once and enforced everywhere.
 - **Scalability:** TanStack Query's caching and background refetch strategy means the UI stays responsive and up-to-date without manual cache management, supporting growth in data volume and user concurrency.
+-
