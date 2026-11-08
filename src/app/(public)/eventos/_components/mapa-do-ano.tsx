@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Clock } from 'lucide-react';
 import { WPEventoNode } from '@/lib/types/events';
@@ -15,7 +15,12 @@ import { eventoFuturo, periodoDoEvento } from '@/lib/eventos/agenda';
 
 interface MapaDoAnoProps {
   eventos: WPEventoNode[];
+  /** A especialidade escolhida no filtro do topo da página (null = todas). */
+  especialidadeDoTopo?: string | null;
 }
+
+/** Um mês (0 a 11) ou o ano inteiro. */
+type RecorteDeMes = number | 'todos';
 
 const MONTH_NAMES = [
   'Janeiro',
@@ -84,7 +89,10 @@ interface EventoComMes extends WPEventoNode {
   _year: number;
 }
 
-export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
+export default function MapaDoAno({
+  eventos,
+  especialidadeDoTopo = null,
+}: MapaDoAnoProps) {
   const currentYear = new Date().getFullYear();
 
   /**
@@ -113,13 +121,19 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
       ? currentYear
       : (availableYears[availableYears.length - 1] ?? currentYear),
   );
-  const [filter, setFilter] = useState('Todos');
+  const [filter, setFilter] = useState(especialidadeDoTopo || 'Todos');
+
+  // O filtro do topo manda no daqui. O contrário não vale: os chips do Mapa
+  // recortam só o Mapa, para olhar o histórico sem mexer na agenda de cima.
+  useEffect(() => {
+    setFilter(especialidadeDoTopo || 'Todos');
+  }, [especialidadeDoTopo]);
 
   /**
    * Filtro por mês (Bruno, 02/10/2026): o ano inteiro numa lista só ficava
-   * extenso demais. Abre no mês mais recente que já teve evento. O seletor
-   * de ano vive no começo da mesma fileira; a opção de ver o ano inteiro
-   * existiu e saiu no mesmo dia, a pedido dele.
+   * extenso demais, então abre no mês mais recente que já teve evento. O
+   * botão "Todos" dá a visão do ano inteiro (Bruno, 08/11/2026). O seletor de
+   * ano vive no começo da mesma fileira.
    */
   const mesesComEventoNoAno = (ano: number) =>
     Array.from(
@@ -136,11 +150,11 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
     return meses.length ? meses[meses.length - 1] : 0;
   };
 
-  const [mes, setMes] = useState<number>(() => mesInicial(selectedYear));
+  const [mes, setMes] = useState<RecorteDeMes>(() => mesInicial(selectedYear));
 
   const escolherAno = (ano: number) => {
     setSelectedYear(ano);
-    setMes(mesInicial(ano));
+    setMes((atual) => (atual === 'todos' ? 'todos' : mesInicial(ano)));
   };
 
   /**
@@ -181,8 +195,19 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
     [enrichedEventos],
   );
 
+  // Trocar de especialidade não pode largar a pessoa num mês vazio: se o mês
+  // aberto não tem evento dela, abre o mais recente que tem.
+  useEffect(() => {
+    if (mes === 'todos' || mesesDisponiveis.size === 0) return;
+    if (!mesesDisponiveis.has(mes))
+      setMes(Math.max(...Array.from(mesesDisponiveis)));
+  }, [mes, mesesDisponiveis]);
+
   const visiveis = useMemo(
-    () => enrichedEventos.filter((e) => e._monthIndex === mes),
+    () =>
+      enrichedEventos.filter((e) =>
+        mes === 'todos' ? e._monthIndex >= 0 : e._monthIndex === mes,
+      ),
     [enrichedEventos, mes],
   );
 
@@ -262,6 +287,20 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
           <span className="h-5 w-px bg-gray-200" aria-hidden="true" />
 
           <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Mês">
+            <button
+              type="button"
+              aria-pressed={mes === 'todos'}
+              onClick={() => setMes('todos')}
+              title="Todos os meses"
+              className={cn(
+                'font-exo2 text-xs font-semibold uppercase tracking-wide px-3 py-1.5 rounded-lg border transition-all',
+                mes === 'todos'
+                  ? 'bg-[#31A1FF] text-white border-[#31A1FF]'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-[#31A1FF]/50 hover:text-[#31A1FF]',
+              )}
+            >
+              Todos
+            </button>
             {MONTH_SHORT.map((rotulo, m) => {
               const ativo = mes === m;
               const vazio = !mesesDisponiveis.has(m);
@@ -292,7 +331,7 @@ export default function MapaDoAno({ eventos }: MapaDoAnoProps) {
         {/* Timeline */}
         {monthsWithEvents.length === 0 ? (
           <p className="font-exo2 text-gray-400 text-center py-12">
-            {`Nenhum evento${filter !== 'Todos' ? ` de ${filter}` : ''} em ${MONTH_NAMES[mes].toLowerCase()} de ${selectedYear}.`}
+            {`Nenhum evento${filter !== 'Todos' ? ` de ${filter}` : ''} em ${mes === 'todos' ? '' : `${MONTH_NAMES[mes].toLowerCase()} de `}${selectedYear}.`}
           </p>
         ) : (
           <div className="relative flex flex-col gap-0">

@@ -147,7 +147,7 @@ export default function EventosClient({
       </section>
 
       {/* 4. Mapa do Ano — timeline visual */}
-      <MapaDoAno eventos={eventos} />
+      <MapaDoAno eventos={eventos} especialidadeDoTopo={filter} />
 
       <Footer />
     </>

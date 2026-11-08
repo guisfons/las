@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { Bell, Send, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+// Plugin "LAS Avisos de Eventos": guarda cada cadastro no admin do WordPress.
+const URL_BACKUP_AVISOS =
+  'https://mediumblue-swallow-341910.hostingersite.com/wp-json/las-avisos/v1/inscrever';
+
 interface FiltroEmailEspecialidadeProps {
   especialidades: string[];
   filter: string | null;
@@ -46,6 +50,20 @@ export default function FiltroEmailEspecialidade({
     setLoading(true);
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
+
+    // O backup no WordPress corre em paralelo e não decide nada: se ele falhar,
+    // o aviso por e-mail e a captura do RD continuam como sempre foram.
+    fetch(URL_BACKUP_AVISOS, {
+      method: 'POST',
+      body: new URLSearchParams({
+        email,
+        tipo_evento: selectedAlertType,
+        especialidade: selectedAlertEsp,
+        pagina: window.location.pathname + window.location.search,
+        _honey: String(formData.get('_honey') || ''),
+      }),
+      keepalive: true,
+    }).catch(() => undefined);
 
     try {
       await fetch('https://formsubmit.co/ajax/m.sousa@lasforlife.com.br', {
@@ -178,6 +196,15 @@ export default function FiltroEmailEspecialidade({
               />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
+              {/* Armadilha para robô: o FormSubmit e o plugin descartam quem preenche. */}
+              <input
+                type="text"
+                name="_honey"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
 
               <div className="flex flex-col gap-1.5">
                 <label className="font-exo2 text-xs text-white/80">
