@@ -123,17 +123,13 @@ export default function MapaDoAno({
   );
   const [filter, setFilter] = useState(especialidadeDoTopo || 'Todos');
 
-  // O filtro do topo manda no daqui. O contrário não vale: os chips do Mapa
-  // recortam só o Mapa, para olhar o histórico sem mexer na agenda de cima.
-  useEffect(() => {
-    setFilter(especialidadeDoTopo || 'Todos');
-  }, [especialidadeDoTopo]);
-
   /**
    * Filtro por mês (Bruno, 02/10/2026): o ano inteiro numa lista só ficava
    * extenso demais, então abre no mês mais recente que já teve evento. O
-   * botão "Todos" dá a visão do ano inteiro (Bruno, 08/11/2026). O seletor de
-   * ano vive no começo da mesma fileira.
+   * botão "Todos" dá a visão do ano inteiro (Bruno, 08/11/2026). Com uma
+   * especialidade filtrada a lista é curta e o que se quer é o histórico dela,
+   * então o recorte vai para "Todos" (Bruno, 09/11/2026). O seletor de ano vive
+   * no começo da mesma fileira.
    */
   const mesesComEventoNoAno = (ano: number) =>
     Array.from(
@@ -150,7 +146,23 @@ export default function MapaDoAno({
     return meses.length ? meses[meses.length - 1] : 0;
   };
 
-  const [mes, setMes] = useState<RecorteDeMes>(() => mesInicial(selectedYear));
+  const [mes, setMes] = useState<RecorteDeMes>(() =>
+    especialidadeDoTopo ? 'todos' : mesInicial(selectedYear),
+  );
+
+  const escolherEspecialidade = (especialidade: string) => {
+    setFilter(especialidade);
+    setMes(especialidade === 'Todos' ? mesInicial(selectedYear) : 'todos');
+  };
+
+  // O filtro do topo manda no daqui. O contrário não vale: os chips do Mapa
+  // recortam só o Mapa, para olhar o histórico sem mexer na agenda de cima.
+  useEffect(() => {
+    escolherEspecialidade(especialidadeDoTopo || 'Todos');
+    // Só a mudança do filtro do topo deve recortar de novo: trocar de ano aqui
+    // não pode desfazer o mês que a pessoa escolheu.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [especialidadeDoTopo]);
 
   const escolherAno = (ano: number) => {
     setSelectedYear(ano);
@@ -250,7 +262,7 @@ export default function MapaDoAno({
           {availableSpecialties.map((sp) => (
             <button
               key={sp}
-              onClick={() => setFilter(sp)}
+              onClick={() => escolherEspecialidade(sp)}
               className={cn(
                 'font-exo2 text-sm px-4 py-1.5 rounded-full border transition-all',
                 filter === sp
