@@ -38,8 +38,7 @@ export default function BannerHero({
           Somos o Movimento
         </p>
         <p class="font-exo2 font-light text-3xl sm:text-4xl md:text-7xl text-white">
-          <strong class="font-semibold">LAS</strong>FOR
-          <strong class="font-semibold">LIFE</strong>, mas pode
+          <strong class="font-semibold">LAS</strong>FOR<strong class="font-semibold">LIFE</strong>, mas pode
         </p>
         <p class="font-exo2 font-normal text-3xl sm:text-4xl md:text-7xl text-white">
           nos chamar de <strong class="font-semibold">LAS</strong>
