@@ -192,7 +192,10 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
               'font-exo2 font-bold text-lg leading-snug transition-colors',
               style.isPast
                 ? 'text-gray-600 hover:text-gray-900'
-                : cn('text-gray-950', eventoTemDetalhes(evento) && style.textoHover),
+                : cn(
+                    'text-gray-950',
+                    eventoTemDetalhes(evento) && style.textoHover,
+                  ),
             )}
           >
             {evento.title}
