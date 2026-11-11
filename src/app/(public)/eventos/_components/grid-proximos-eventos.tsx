@@ -192,12 +192,19 @@ function CardQuadrado({ evento }: { evento: WPEventoNode }) {
               'font-exo2 font-bold text-lg leading-snug transition-colors',
               style.isPast
                 ? 'text-gray-600 hover:text-gray-900'
-                : eventoTemDetalhes(evento) && style.textoHover,
+                : cn('text-gray-950', eventoTemDetalhes(evento) && style.textoHover),
             )}
           >
             {evento.title}
           </h3>
         </LinkDoEvento>
+        {/* Os médicos ficam no campo palestrante, não no título: o nome do
+            evento fica limpo e eles aparecem embaixo, com outro peso. */}
+        {acf?.speaker && (
+          <p className="font-exo2 font-normal text-sm leading-snug text-gray-600 -mt-1">
+            {acf.speaker}
+          </p>
+        )}
 
         {acf?.local && (
           <p className="flex items-center gap-1.5 font-exo2 text-xs text-gray-500">
@@ -308,6 +315,11 @@ function CardBanner({ evento }: { evento: WPEventoNode }) {
               <h3 className="font-exo2 font-bold text-2xl md:text-3xl text-white drop-shadow-md">
                 {evento.title}
               </h3>
+              {acf?.speaker && (
+                <p className="font-exo2 font-light text-base md:text-lg text-white/90 drop-shadow-sm">
+                  {acf.speaker}
+                </p>
+              )}
               {acf?.local && (
                 <p className="flex items-center gap-1.5 font-exo2 text-white/80 text-sm drop-shadow-sm">
                   <MapPin className="size-3.5" /> {acf.local}

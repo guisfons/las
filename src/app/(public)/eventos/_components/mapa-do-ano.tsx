@@ -432,6 +432,11 @@ export default function MapaDoAno({
                             <p className="font-exo2 font-semibold text-sm text-gray-900 truncate">
                               {evento.title}
                             </p>
+                            {acf?.speaker && (
+                              <p className="font-exo2 font-normal text-xs text-gray-600 truncate -mt-1">
+                                {acf.speaker}
+                              </p>
+                            )}
 
                             <div className="flex flex-wrap items-center gap-3 text-gray-500">
                               {acf?.dateNumber && (
