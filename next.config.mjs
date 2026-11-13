@@ -21,6 +21,8 @@ const nextConfig = {
       ['/produtos/oxiplexap', '/produtos/oxiplex-ap'],
       ['/produtos/oxiplexiu', '/produtos/oxiplex-iu'],
       ['/produtos/motor-acf', '/produtos/motor-cirurgico-acf-sign'],
+      // Página antiga da apresentação 2×6 (hoje as duas apresentações estão na página única do PerOssal).
+      ['/produtos/perossal-2x6-3cm', '/produtos/perossal'],
       ['/produtos/rfa---ablacao-por-radiofrequencia', '/produtos/rfa-ablacao-por-radiofrequencia'],
       ['/produtos/rfa%E2%80%94ablacao-por-radiofrequencia', '/produtos/rfa-ablacao-por-radiofrequencia'],
     ];
