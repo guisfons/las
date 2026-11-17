@@ -9,8 +9,10 @@ import ContentsProduct from './expansion/contents-product';
 import ProductTestimonials from './expansion/product-testimonials';
 import SourceProduct from './expansion/source-product';
 import UnidadesProduct from './expansion/unidades-product';
+import { mapaDoProduto } from './expansion/unidades';
 
 export default function AboutExpansion({ product }: { product: Product }) {
+  const mapa = mapaDoProduto(product.slug);
   const expansion = [
     {
       number: '01',
@@ -28,9 +30,9 @@ export default function AboutExpansion({ product }: { product: Product }) {
     },
     {
       number: '02',
-      title: 'Unidades de Atendimento',
-      content: <UnidadesProduct />,
-      is_active: product.slug === 'spinemed',
+      title: mapa?.titulo ?? '',
+      content: mapa ? <UnidadesProduct mapa={mapa} /> : null,
+      is_active: !!mapa,
     },
     {
       number: '03',

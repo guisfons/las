@@ -3,229 +3,7 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
-interface Clinic {
-  name: string;
-  city: string;
-  address: string;
-  cep: string;
-  email?: string;
-  phone?: string;
-  waze?: string;
-}
-
-interface StateData {
-  name: string;
-  clinics: Clinic[];
-}
-
-const SPINEMED_UNITS: Record<string, StateData> = {
-  MA: {
-    name: 'Maranhão',
-    clinics: [
-      {
-        name: 'Instituto do Cérebro e Coluna Dr. Cruz',
-        city: 'Imperatriz – MA',
-        address: 'R. Luís Domingues, 1649 – Entroncamento – Imperatriz – MA',
-        cep: 'CEP: 65001-120',
-        email: 'drcruzneuro@hotmail.com',
-        phone: '(99) 3524-4422',
-      },
-    ],
-  },
-  TO: {
-    name: 'Tocantins',
-    clinics: [
-      {
-        name: 'Instituto de Neurociências de Palmas',
-        city: 'Palmas – TO',
-        address:
-          '501 Sul Rua NS 1 Conj 01 lote 9, Dentro Do Life Center Hospital, Térreo – Plano Diretor Sul – Palmas – TO',
-        cep: 'CEP: 77016-524',
-        email: 'spinemed.to@gmail.com',
-        phone: '(63) 98444-4430',
-      },
-      {
-        name: 'Instituto de Neurociências de Palmas (2)',
-        city: 'Palmas – TO',
-        address:
-          '501 Sul Rua NS 1 Conj 01 lote 9, Dentro Do Life Center Hospital, Térreo – Plano Diretor Sul – Palmas – TO',
-        cep: 'CEP: 77016-524',
-        email: 'spinemed.to@gmail.com',
-        phone: '(63) 98444-4430',
-      },
-    ],
-  },
-  GO: {
-    name: 'Goiás',
-    clinics: [
-      {
-        name: 'Clinica Traumat – Dr Tulio Rocha',
-        city: 'Goiânia – GO',
-        address:
-          'Av. Dr. Ismerino Soares de Carvalho, 660 – St. Aeroporto – Goiânia – GO',
-        cep: 'CEP: 74075-040',
-        email: 'traumatclinica@gmail.com',
-        phone: '(62) 9981-9447',
-        waze: 'https://ul.waze.com/ul?place=ChIJ7-JXUOLzXpMR-JC_vYIM1k0&ll=-16.67563880%2C-49.27099460&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location',
-      },
-      {
-        name: 'Eficaz Clinica da Coluna Ltda',
-        city: 'Rio Verde – GO',
-        address:
-          'Av. Eurico Veloso do Carmo, 1500 – Sala 05 – Jardim Bela Vista – Rio Verde – GO',
-        cep: 'CEP: 75901-970',
-        email: 'spinemedrioverdego@gmail.com',
-      },
-    ],
-  },
-  DF: {
-    name: 'Distrito Federal',
-    clinics: [
-      {
-        name: 'Instituto dos Reis – Dr. Felipe Reis',
-        city: 'Brasília – DF',
-        address:
-          'SGAS 611 – Centro Clínico Lúcio Costa, Conjunto F, Bloco 2, Sala 13 (subsolo) – Asa Sul – Brasília – DF',
-        cep: 'CEP: 70200-700',
-        phone: '(61) 99984-9628',
-      },
-    ],
-  },
-  MT: {
-    name: 'Mato Grosso',
-    clinics: [
-      {
-        name: 'Studio Pilates do Bosque Cuiabá',
-        city: 'Cuiabá – MT',
-        address: 'Rua T – Jardim Aclimação, Cuiabá – MT',
-        cep: 'CEP: 78050-256',
-        email: 'a.barbosa.leite@gmail.com',
-        phone: '(65) 98102-0324',
-      },
-      {
-        name: 'Medcoluna – Clínica Miranda',
-        city: 'Sinop – MT',
-        address: 'Avenida das Itaúbas, 3101 – St Comercial – Sinop – MT',
-        cep: 'CEP: 78550-88',
-        email: 'a.barbosa.leite@gmail.com',
-        phone: '(66) 98151-2552',
-      },
-      {
-        name: 'Neurocenter',
-        city: 'Rondonópolis – MT',
-        address: 'R. Pedro Ferrer, 157 – Rondonópolis – MT',
-        cep: 'CEP: 78710-408',
-        email: 'secretaria.dr.edilson.marques@hotmail.com',
-        phone: '(66) 99913-7229',
-      },
-    ],
-  },
-  MS: {
-    name: 'Mato Grosso do Sul',
-    clinics: [
-      {
-        name: 'NeuroVitali',
-        city: 'Campo Grande – MS',
-        address:
-          'R Alagoas, 396 – Sala 1201 – Jd dos Estados – Campo Grande – MS',
-        cep: 'CEP: 79020-120',
-        email: 'neurovitali@outlook.com',
-        phone: '(67) 99658-6798',
-      },
-    ],
-  },
-  SP: {
-    name: 'São Paulo',
-    clinics: [
-      {
-        name: 'Clínica InMulti Marília',
-        city: 'Marília – SP',
-        address: 'Rua Carlos Botelho, 703 – Jardim Maria Izabel – Marília – SP',
-        cep: 'CEP: 17515-240',
-        email: 'instituto_inmulti@outlook.com',
-        phone: '(14) 3433-6198',
-      },
-      {
-        name: 'Clínica Brigante',
-        city: 'Itapetininga – SP',
-        address: 'Rua João Adolfo, 510 – Centro – Itapetininga – SP',
-        cep: 'CEP: 18200-353',
-        email: 'clinicabrigante@gmail.com',
-        phone: '(15) 99611-6067',
-      },
-    ],
-  },
-  PR: {
-    name: 'Paraná',
-    clinics: [
-      {
-        name: 'Instituto Neuro Bela Suiça',
-        city: 'Londrina – PR',
-        address:
-          'Rua Alberto Mauricio Barroso Jr, 110 – Sala 01 – B. Colonial – Londrina – PR',
-        cep: 'CEP: 86047-260',
-      },
-    ],
-  },
-  SC: {
-    name: 'Santa Catarina',
-    clinics: [
-      {
-        name: 'Neurosul Neuroespecialistas',
-        city: 'Criciúma – SC',
-        address: 'Rua Léo Lombardi, 365 – Pio Corrêa – Criciúma – SC',
-        cep: 'CEP: 88811-600',
-        email: 'wlevati@bol.com.br',
-      },
-    ],
-  },
-  RS: {
-    name: 'Rio Grande do Sul',
-    clinics: [
-      {
-        name: 'Clínica da Coluna',
-        city: 'Novo Hamburgo – RS',
-        address:
-          'Av. Dr. Maurício Cardoso, 833 – Sala 310 – Hamburgo Velho – Novo Hamburgo – RS',
-        cep: 'CEP: 93510-223',
-        phone: '(51) 9983-75005',
-      },
-      {
-        name: 'Clínica Dr. Telmo Tiburcio',
-        city: 'Santa Cruz do Sul – RS',
-        address:
-          'R. Cap. Fernando Tatsch, 210 – Sala 1701 – Centro, Santa Cruz do Sul – RS',
-        cep: 'CEP: 96810-342',
-        phone: '(51) 3053-1610',
-      },
-      {
-        name: 'Cadore e Guarise',
-        city: 'Caxias do Sul – RS',
-        address:
-          'Rua Marechal Floriano, 949 – Sala Térreo – Bairro Pio X – Caxias do Sul – RS',
-        cep: 'CEP: 95034-105',
-        email: 'pguarise@gmail.com',
-      },
-    ],
-  },
-  ES: {
-    name: 'Espírito Santo',
-    clinics: [
-      {
-        name: 'Clínica Dr Thanguy',
-        city: 'Vila Velha – ES',
-        address:
-          'Av. Luciano das Neves, 2418 – Divino Shopping – Vila Velha – ES',
-        cep: 'CEP: 29107-900',
-        email: 'drthanguy@gmail.com',
-        phone: '(27) 3062-0400',
-        waze: 'https://ul.waze.com/ul?place=ChIJW_SrBagXuAARaa_RFffiSVw&ll=-20.35235400%2C-40.29804990&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location',
-      },
-    ],
-  },
-};
-
-const ACTIVE_STATES = Object.keys(SPINEMED_UNITS);
+import type { MapaUnidades } from './unidades/tipos';
 
 const COLOR_ACTIVE = '#1a5fa8';
 const COLOR_ACTIVE_HOVER = '#1e74d0';
@@ -233,7 +11,8 @@ const COLOR_SELECTED = '#0d3d6e';
 const COLOR_INACTIVE = '#b8cfe0';
 const COLOR_INACTIVE_HOVER = '#9ab5ca';
 
-export default function UnidadesProduct() {
+export default function UnidadesProduct({ mapa }: { mapa: MapaUnidades }) {
+  const ACTIVE_STATES = Object.keys(mapa.estados);
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [hoveredState, setHoveredState] = useState<string | null>(null);
 
@@ -266,14 +45,12 @@ export default function UnidadesProduct() {
     onMouseLeave: () => setHoveredState(null),
   });
 
-  const selectedData = selectedState ? SPINEMED_UNITS[selectedState] : null;
+  const selectedData = selectedState ? mapa.estados[selectedState] : null;
 
   return (
     <div className="w-full">
       <div className="mb-6">
-        <p className="font-exo2 text-sm text-label">
-          Selecione um estado no mapa para ver as unidades SpineMED disponíveis.
-        </p>
+        <p className="font-exo2 text-sm text-label">{mapa.instrucao}</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -284,7 +61,7 @@ export default function UnidadesProduct() {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 353.845 367.766"
             className="w-full max-w-lg mx-auto"
-            aria-label="Mapa do Brasil – Unidades SpineMED"
+            aria-label={mapa.ariaMapa}
           >
             {/* Background decorative polygon */}
             <polygon
@@ -494,7 +271,7 @@ export default function UnidadesProduct() {
                 style={{ backgroundColor: COLOR_ACTIVE }}
               />
               <span className="font-exo2 text-xs text-label">
-                Com unidade SpineMED
+                {mapa.legendaCom}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -502,7 +279,9 @@ export default function UnidadesProduct() {
                 className="w-3 h-3 rounded"
                 style={{ backgroundColor: COLOR_INACTIVE }}
               />
-              <span className="font-exo2 text-xs text-label">Sem unidade</span>
+              <span className="font-exo2 text-xs text-label">
+                {mapa.legendaSem}
+              </span>
             </div>
           </div>
         </div>
@@ -533,9 +312,7 @@ export default function UnidadesProduct() {
               <p className="font-exo2 font-semibold text-[#1a5fa8] text-base">
                 Selecione um estado
               </p>
-              <p className="font-exo2 text-sm text-label mt-1">
-                Clique em um estado azul no mapa para ver as unidades
-              </p>
+              <p className="font-exo2 text-sm text-label mt-1">{mapa.vazio}</p>
             </div>
           )}
 
@@ -553,8 +330,8 @@ export default function UnidadesProduct() {
                   <p className="font-exo2 text-sm text-label">
                     {selectedData.clinics.length}{' '}
                     {selectedData.clinics.length === 1
-                      ? 'unidade encontrada'
-                      : 'unidades encontradas'}
+                      ? mapa.singular
+                      : mapa.plural}
                   </p>
                 </div>
               </div>
@@ -574,6 +351,12 @@ export default function UnidadesProduct() {
                     <p className="font-exo2 text-xs font-semibold text-label uppercase tracking-wide mb-3">
                       {clinic.city}
                     </p>
+
+                    {clinic.doctors && clinic.doctors.length > 0 && (
+                      <p className="font-exo2 text-sm text-[#272833] -mt-1 mb-3">
+                        {clinic.doctors.join(' · ')}
+                      </p>
+                    )}
 
                     <div className="flex flex-col gap-2">
                       {/* Address */}
@@ -688,6 +471,10 @@ export default function UnidadesProduct() {
           )}
         </div>
       </div>
+
+      {mapa.nota && (
+        <p className="font-exo2 text-xs text-label mt-6">{mapa.nota}</p>
+      )}
     </div>
   );
 }
