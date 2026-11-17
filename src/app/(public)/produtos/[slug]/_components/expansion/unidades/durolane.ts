@@ -23,9 +23,9 @@ import type { MapaUnidades, StateData } from './tipos';
 export const DUROLANE_ESTADOS: Record<string, StateData> = {};
 
 export const DUROLANE: MapaUnidades = {
-  titulo: 'Onde encontrar o DUROLANE®',
+  titulo: 'Encontre um médico ou clínica parceira',
   instrucao:
-    'Selecione um estado no mapa para ver clínicas que oferecem o DUROLANE®.',
+    'Selecione um estado no mapa para ver clínicas e médicos que já fazem tratamentos com o DUROLANE®.',
   ariaMapa: 'Mapa do Brasil – Clínicas que oferecem o DUROLANE®',
   legendaCom: 'Com clínica',
   legendaSem: 'Sem clínica listada',
