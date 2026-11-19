@@ -5,6 +5,7 @@ import type { BannerProdutoDados } from './banner-produto';
 // "único", "menor do mercado" nem promessa de resultado.
 export const BANNERS_PRODUTO: BannerProdutoDados[] = [
   {
+    id: 'kim',
     tema: 'escuro',
     especialidade: 'Uroginecologia',
     titulo: 'A diferença começa no [poro da malha].',
@@ -27,6 +28,7 @@ export const BANNERS_PRODUTO: BannerProdutoDados[] = [
     registro: 'ANVISA 80517190047',
   },
   {
+    id: 'vertestable-spine',
     tema: 'navy',
     especialidade: 'Coluna',
     titulo: 'Cimento ósseo [radiopaco] para vertebroplastia e cifoplastia.',
@@ -56,6 +58,7 @@ export const BANNERS_PRODUTO: BannerProdutoDados[] = [
     registro: 'ANVISA 80517190050',
   },
   {
+    id: 'spinemed',
     tema: 'claro',
     especialidade: 'Coluna',
     titulo: 'Tratamento [não cirúrgico] da dor na coluna.',

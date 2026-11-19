@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Icon from '@/shared/icon/icon';
+import { registrarBanner } from '@/lib/medicao/banner';
 
 /**
  * Banner de produto da home: texto de verdade e imagem do produto, num layout
@@ -9,6 +10,8 @@ import Icon from '@/shared/icon/icon';
  * selo branco "LAS | parceiro", botão amarelo.
  */
 export interface BannerProdutoDados {
+  /** Identificador nos eventos de medição (banner_id). */
+  id: string;
   tema: 'escuro' | 'claro' | 'navy';
   especialidade: string;
   /** Título com o trecho em destaque entre colchetes: "Texto [destaque]." */
@@ -105,13 +108,24 @@ function Arcos() {
 export default function BannerProduto({
   dados,
   prioridade = false,
+  posicao,
 }: {
   dados: BannerProdutoDados;
   prioridade?: boolean;
+  /** Posição do slide no carrossel, começando em 1. */
+  posicao: number;
 }) {
   const t = TEMAS[dados.tema];
-  const link = (c: { url: string; externo?: boolean }) =>
-    c.externo ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+  const link = (c: { rotulo: string; url: string; externo?: boolean }) => ({
+    ...(c.externo ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+    onClick: () =>
+      registrarBanner('banner_clique', {
+        id: dados.id,
+        posicao,
+        botao: c.rotulo,
+        url: c.url,
+      }),
+  });
 
   return (
     <div className={`relative h-full w-full overflow-hidden ${t.fundo}`}>
@@ -139,6 +153,7 @@ export default function BannerProduto({
               width={72}
               height={28}
               className="h-5 w-auto sm:h-6"
+              loading="eager"
             />
             <span className="h-5 w-px bg-[#3f3f3f]/25 sm:h-6" />
             <Image
@@ -147,6 +162,7 @@ export default function BannerProduto({
               width={dados.parceiro.largura}
               height={dados.parceiro.altura}
               className="h-5 w-auto sm:h-6"
+              loading="eager"
             />
           </div>
 
@@ -216,6 +232,7 @@ export default function BannerProduto({
               width={dados.imagem.largura}
               height={dados.imagem.altura}
               priority={prioridade}
+              loading={prioridade ? undefined : 'eager'}
               sizes="(min-width: 1024px) 45vw, 90vw"
               className="relative max-h-full w-auto max-w-full object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.25)] lg:max-h-[72%]"
             />

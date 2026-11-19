@@ -11,6 +11,19 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import BannerProduto from './banner-produto';
 import { BANNERS_PRODUTO } from './banners-produto-dados';
+import { registrarBanner } from '@/lib/medicao/banner';
+import type { Swiper as SwiperTipo } from 'swiper';
+
+/** Banner visível agora: lê o data-banner-id do slide ativo. */
+function registrarVisualizacao(swiper: SwiperTipo) {
+  const slide = swiper.slides[swiper.activeIndex] as HTMLElement | undefined;
+  const id = slide?.dataset.bannerId;
+  if (id)
+    registrarBanner('banner_visualizacao', {
+      id,
+      posicao: swiper.realIndex + 1,
+    });
+}
 export default function BannerHero({
   acfData,
 }: {
@@ -58,6 +71,8 @@ export default function BannerHero({
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 7000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
+        onAfterInit={registrarVisualizacao}
+        onSlideChange={registrarVisualizacao}
         loop
         className="banner-hero w-full h-[calc(100dvh-100px)] lg:h-[calc(100dvh-82px)]"
       >
@@ -66,7 +81,7 @@ export default function BannerHero({
             isMobile && banner.imageMobile ? banner.imageMobile : banner.image;
 
           return (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} data-banner-id="institucional">
               <div
                 className={`relative w-full h-[calc(100dvh-100px)] lg:h-[calc(100dvh-82px)] flex items-center justify-center ${
                   banner.customBg
@@ -92,6 +107,13 @@ export default function BannerHero({
                     href={banner.url}
                     target={banner.target}
                     className="absolute inset-0 z-10"
+                    onClick={() =>
+                      registrarBanner('banner_clique', {
+                        id: 'institucional',
+                        posicao: index + 1,
+                        url: banner.url,
+                      })
+                    }
                   />
                 )}
 
@@ -106,6 +128,14 @@ export default function BannerHero({
                     <Link
                       href={banner.url}
                       target={banner.target}
+                      onClick={() =>
+                        registrarBanner('banner_clique', {
+                          id: 'institucional',
+                          posicao: index + 1,
+                          botao: 'Entre em contato',
+                          url: banner.url,
+                        })
+                      }
                       className="flex items-center justify-center gap-1 bg-[#f9d229] text-base font-exo2 font-medium rounded-full px-6 py-3 text-black hover:bg-[#f1c400] transition-all"
                     >
                       Entre em contato <Icon name="arrow_right" />
@@ -116,9 +146,9 @@ export default function BannerHero({
             </SwiperSlide>
           );
         })}
-        {BANNERS_PRODUTO.map((dados) => (
-          <SwiperSlide key={dados.cta.url}>
-            <BannerProduto dados={dados} />
+        {BANNERS_PRODUTO.map((dados, i) => (
+          <SwiperSlide key={dados.id} data-banner-id={dados.id}>
+            <BannerProduto dados={dados} posicao={banners.length + i + 1} />
           </SwiperSlide>
         ))}
       </Swiper>
