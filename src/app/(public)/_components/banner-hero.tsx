@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import Icon from '@/shared/icon/icon';
 
 import 'swiper/css';
+import 'swiper/css/pagination';
+import BannerProduto from './banner-produto';
+import { BANNERS_PRODUTO } from './banners-produto-dados';
 export default function BannerHero({
   acfData,
 }: {
@@ -47,25 +50,16 @@ export default function BannerHero({
       customBg: true,
       button: true,
     },
-    {
-      image: '/images/landingpage/Banner-site-SpineMED.avif',
-      imageMobile: '/images/landingpage/Banner-site-SpineMEDMobile.avif',
-      alt: 'Banner - Laís Chat Bot',
-      url: 'https://udify.app/chat/TPKKnNAf0hPmq1CM',
-      target: '_blank',
-      textContent: '',
-      customBg: false,
-      button: false,
-    },
   ];
 
   return (
-    <section className="relative w-full h-dvh overflow-hidden">
+    <section className="relative w-full h-[calc(100dvh-100px)] lg:h-[calc(100dvh-82px)] overflow-hidden">
       <Swiper
-        modules={[Autoplay]}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        modules={[Autoplay, Pagination]}
+        autoplay={{ delay: 7000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
         loop
-        className="w-full h-dvh"
+        className="banner-hero w-full h-[calc(100dvh-100px)] lg:h-[calc(100dvh-82px)]"
       >
         {banners.map((banner, index) => {
           const imageSrc =
@@ -74,7 +68,7 @@ export default function BannerHero({
           return (
             <SwiperSlide key={index}>
               <div
-                className={`relative w-full h-dvh flex items-center justify-center ${
+                className={`relative w-full h-[calc(100dvh-100px)] lg:h-[calc(100dvh-82px)] flex items-center justify-center ${
                   banner.customBg
                     ? 'bg-black bg-bannerHeroMobile md:bg-BannerHeroWeb bg-no-repeat bg-top bg-cover px-1'
                     : ''
@@ -122,6 +116,11 @@ export default function BannerHero({
             </SwiperSlide>
           );
         })}
+        {BANNERS_PRODUTO.map((dados) => (
+          <SwiperSlide key={dados.cta.url}>
+            <BannerProduto dados={dados} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </section>
   );

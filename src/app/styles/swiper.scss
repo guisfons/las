@@ -21,3 +21,24 @@
     }
   }
 }
+
+/* Bolinhas do banner da home: visíveis em fundo claro e escuro */
+.banner-hero {
+  .swiper-pagination {
+    bottom: max(18px, env(safe-area-inset-bottom)) !important;
+  }
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.85);
+    opacity: 1;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+    transition: all 0.2s;
+  }
+  .swiper-pagination-bullet-active {
+    width: 28px;
+    border-radius: 999px;
+    background: #7ee000;
+    opacity: 1;
+  }
+}
