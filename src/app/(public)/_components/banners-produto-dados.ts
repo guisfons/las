@@ -85,4 +85,36 @@ export const BANNERS_PRODUTO: BannerProdutoDados[] = [
     },
     registro: 'Notificação ANVISA 80517190003',
   },
+  {
+    id: 'durolane',
+    tema: 'escuro',
+    especialidade: 'Ortopedia',
+    // Tagline definida pela LAS (João Bianchi, 16/11/2026), com o 3D em destaque.
+    titulo: 'O único ácido hialurônico com tecnologia [3D NASHA®].',
+    texto:
+      'DUROLANE®, ácido hialurônico de origem não animal em aplicação única, indicado para a osteoartrite de joelho e quadril.',
+    destaques: [
+      'Aplicação única',
+      '+2 milhões de pacientes tratados',
+      '+25 anos de uso clínico',
+    ],
+    imagem: {
+      src: '/images/banners/durolane-caixa-seringa.webp',
+      largura: 1200,
+      altura: 808,
+      alt: 'Caixa e seringa do DUROLANE® 60 mg/3 mL',
+    },
+    parceiro: {
+      src: '/images/banners/logo-durolane.png',
+      alt: 'DUROLANE',
+      largura: 500,
+      altura: 105,
+    },
+    cta: { rotulo: 'Conheça o DUROLANE®', url: '/produtos/durolane' },
+    cta2: {
+      rotulo: 'Encontre um médico ou clínica',
+      url: '/produtos/durolane#unidades',
+    },
+    registro: 'ANVISA 80117580552',
+  },
 ];
