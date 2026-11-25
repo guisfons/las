@@ -74,7 +74,10 @@ export default function Footer() {
   ];
 
   return (
-    <section className="relative w-full max-w-7xl px-6 pt-20 mx-auto flex flex-col gap-10 py-4">
+    <section
+      data-cta-local="rodape"
+      className="relative w-full max-w-7xl px-6 pt-20 mx-auto flex flex-col gap-10 py-4"
+    >
       <div className="flex flex-row gap-20  justify-center md:justify-start">
         <div className="md:col-span-2 flex justify-center items-center flex-col md:justify-start md:items-start md:mr-auto">
           <form

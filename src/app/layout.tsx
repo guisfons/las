@@ -12,6 +12,7 @@ import { OG_PADRAO, SITE_URL, urlDoSite } from '@/lib/site';
 import { JsonLd } from '@/components/json-ld';
 import { organizacao, site } from '@/lib/seo/organizacao';
 import { Toaster } from '@/components/ui/toaster';
+import { MedicaoCliques } from '@/components/medicao-cliques';
 
 import QueryProvider from './query-provider';
 
@@ -74,6 +75,7 @@ export default async function LocaleLayout({ children }: Props) {
             {children}
             {/* </SmoothScrollProvider> */}
             <Toaster />
+            <MedicaoCliques />
           </NextIntlClientProvider>
         </QueryProvider>
       </body>

@@ -128,7 +128,10 @@ export default function BannerProduto({
   });
 
   return (
-    <div className={`relative h-full w-full overflow-hidden ${t.fundo}`}>
+    <div
+      data-cta-produto={dados.id}
+      className={`relative h-full w-full overflow-hidden ${t.fundo}`}
+    >
       <Arcos />
       <svg
         aria-hidden="true"

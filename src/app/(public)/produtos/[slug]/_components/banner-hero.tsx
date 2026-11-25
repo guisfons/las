@@ -10,7 +10,10 @@ export default function BannerHero({ product }: { product: Product }) {
   const rotuloMapa = botaoDoMapa(product?.slug);
   return (
     <>
-      <div className="w-full max-w-7xl px-3 lg:pt-36 mx-auto flex justify-between flex-col-reverse md:flex-row items-center gap-6 py-12 overflow-hidden">
+      <div
+        data-cta-produto={product?.name || undefined}
+        className="w-full max-w-7xl px-3 lg:pt-36 mx-auto flex justify-between flex-col-reverse md:flex-row items-center gap-6 py-12 overflow-hidden"
+      >
         <div id="left" className="flex flex-col gap-6">
           <div className="flex items-center gap-3">
             <Image
@@ -78,7 +81,10 @@ export default function BannerHero({ product }: { product: Product }) {
                 className="inline-flex items-center gap-2 px-6 border-2 border-green text-green hover:bg-green hover:text-white transition-colors font-exo2 text-lg font-bold w-max h-14 rounded-full"
                 href="#unidades"
               >
-                <Icon name="local" className="text-xl [&_svg]:h-5 [&_svg]:w-auto"></Icon>
+                <Icon
+                  name="local"
+                  className="text-xl [&_svg]:h-5 [&_svg]:w-auto"
+                ></Icon>
                 {rotuloMapa}
               </a>
             )}

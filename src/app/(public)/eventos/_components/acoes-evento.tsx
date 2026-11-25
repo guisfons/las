@@ -27,6 +27,7 @@ export function BotaoWhatsApp({
   return (
     <a
       href={linkWhatsApp(evento)}
+      data-cta-evento={evento.title || undefined}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Compartilhar no WhatsApp"
@@ -91,7 +92,11 @@ export function BotaoCalendario({
     'flex w-full items-center gap-2 px-4 py-3 font-exo2 text-sm text-gray-800 hover:bg-gray-50 transition-colors text-left';
 
   return (
-    <div ref={raiz} className="relative">
+    <div
+      ref={raiz}
+      className="relative"
+      data-cta-evento={evento.title || undefined}
+    >
       <button
         type="button"
         onClick={() => setAberto((v) => !v)}
@@ -148,6 +153,7 @@ export function BotaoCalendario({
           <button
             role="menuitem"
             type="button"
+            data-cta="agenda"
             onClick={baixarIcs}
             className={cn(item, 'border-t border-gray-100')}
           >
