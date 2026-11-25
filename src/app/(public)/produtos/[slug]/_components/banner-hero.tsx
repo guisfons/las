@@ -4,8 +4,10 @@ import Image from 'next/image';
 import Icon from '@/shared/icon/icon';
 import { Product } from '../../_components/card-product';
 import Link from 'next/link';
+import { botaoDoMapa } from './expansion/unidades';
 
 export default function BannerHero({ product }: { product: Product }) {
+  const rotuloMapa = botaoDoMapa(product?.slug);
   return (
     <>
       <div className="w-full max-w-7xl px-3 lg:pt-36 mx-auto flex justify-between flex-col-reverse md:flex-row items-center gap-6 py-12 overflow-hidden">
@@ -62,13 +64,25 @@ export default function BannerHero({ product }: { product: Product }) {
             />
           </div>
 
-          <Link
-            className="inline-flex items-center px-6 bg-green focus:bg-green active:bg-green hover:bg-green text-white font-exo2 text-lg font-bold w-max h-14 rounded-full"
-            href={`/solicitar-orcamento?product=${product?.name}`}
-          >
-            Solicite um orçamento
-            <Icon name="arrow_right" className="text-2xl"></Icon>
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              className="inline-flex items-center px-6 bg-green focus:bg-green active:bg-green hover:bg-green text-white font-exo2 text-lg font-bold w-max h-14 rounded-full"
+              href={`/solicitar-orcamento?product=${product?.name}`}
+            >
+              Solicite um orçamento
+              <Icon name="arrow_right" className="text-2xl"></Icon>
+            </Link>
+
+            {rotuloMapa && (
+              <a
+                className="inline-flex items-center gap-2 px-6 border-2 border-green text-green hover:bg-green hover:text-white transition-colors font-exo2 text-lg font-bold w-max h-14 rounded-full"
+                href="#unidades"
+              >
+                <Icon name="local" className="text-xl"></Icon>
+                {rotuloMapa}
+              </a>
+            )}
+          </div>
 
           <div className="max-w-72 flex gap-2 flex-wrap">
             {product?.specialities?.map((tag, index) => (

@@ -18,4 +18,16 @@ export function mapaDoProduto(slug?: string): MapaUnidades | null {
   return temClinica ? mapa : null;
 }
 
+/** Rótulo do botão do topo da página que leva ao mapa (#unidades), igual ao dos banners da home. */
+const BOTAO_MAPA: Record<string, string> = {
+  spinemed: 'Encontre uma unidade',
+  durolane: 'Encontre um médico ou clínica',
+};
+
+/** Devolve o rótulo do botão só quando a página tem mapa com clínica. */
+export function botaoDoMapa(slug?: string): string | null {
+  if (!slug || !mapaDoProduto(slug)) return null;
+  return BOTAO_MAPA[slug] ?? 'Ver no mapa';
+}
+
 export type { MapaUnidades } from './tipos';
