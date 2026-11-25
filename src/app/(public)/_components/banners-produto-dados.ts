@@ -34,11 +34,8 @@ export const BANNERS_PRODUTO: BannerProdutoDados[] = [
     titulo: 'Cimento ósseo [radiopaco] para vertebroplastia e cifoplastia.',
     texto:
       'VERTESTABLE® Spine: 45% de dióxido de zircônio no pó, visível em tempo real sob fluoroscopia.',
-    destaques: [
-      'Sem magnetismo',
-      'Luer-lock e cânulas de 11G a 15G',
-      'Engenharia alemã',
-    ],
+    // Destaques pedidos pela LAS em 25/11/2026 (saiu "Luer-lock e cânulas").
+    destaques: ['Radiopaco', 'Média viscosidade', 'Tecnologia alemã'],
     imagem: {
       src: '/images/banners/vertestable-spine.webp',
       largura: 1099,
