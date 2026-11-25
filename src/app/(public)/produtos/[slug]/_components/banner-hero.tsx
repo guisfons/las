@@ -78,7 +78,7 @@ export default function BannerHero({ product }: { product: Product }) {
                 className="inline-flex items-center gap-2 px-6 border-2 border-green text-green hover:bg-green hover:text-white transition-colors font-exo2 text-lg font-bold w-max h-14 rounded-full"
                 href="#unidades"
               >
-                <Icon name="local" className="text-xl"></Icon>
+                <Icon name="local" className="text-xl [&_svg]:h-5 [&_svg]:w-auto"></Icon>
                 {rotuloMapa}
               </a>
             )}
