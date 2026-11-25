@@ -143,9 +143,9 @@ export default function BannerProduto({
         />
       </svg>
 
-      <div className="relative z-10 mx-auto grid h-full w-full max-w-7xl grid-rows-[auto_1fr] items-center gap-4 px-6 pb-14 pt-8 sm:px-10 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-1 lg:gap-10 lg:pb-12 lg:pt-0">
+      <div className="relative z-10 mx-auto grid h-full w-full max-w-7xl grid-rows-[auto_1fr] items-center gap-[clamp(0.5rem,2vh,1rem)] px-6 pb-[clamp(2.75rem,7vh,3.5rem)] pt-[clamp(1rem,3.5vh,2rem)] sm:px-10 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-1 lg:gap-10 lg:pb-[clamp(2.75rem,6vh,3.25rem)] lg:pt-4 lg:[align-items:safe_center]">
         {/* Texto */}
-        <div className="flex flex-col items-start gap-3 sm:gap-4 lg:gap-6">
+        <div className="flex flex-col items-start gap-[clamp(0.4rem,1.5vh,0.75rem)] sm:gap-[clamp(0.6rem,2vh,1rem)] lg:gap-[clamp(0.6rem,2.4vh,1.5rem)]">
           <div className="flex items-center gap-3 rounded-full bg-white px-4 py-2 shadow-sm">
             <Image
               src="/logo.svg"
@@ -173,19 +173,19 @@ export default function BannerProduto({
           </p>
 
           <h2
-            className={`font-exo2 font-bold leading-[1.08] ${t.texto} text-[clamp(1.75rem,6.4vw,2.4rem)] lg:text-[clamp(2.5rem,3.9vw,3.75rem)]`}
+            className={`font-exo2 font-bold leading-[1.08] ${t.texto} text-[clamp(1.4rem,min(7vw,4.4vh),2.4rem)] lg:text-[clamp(1.9rem,min(3.9vw,6.1vh),3.75rem)]`}
             style={{ textWrap: 'balance' }}
           >
             <Titulo texto={dados.titulo} classeDestaque={t.destaque} />
           </h2>
 
           <p
-            className={`max-w-xl font-exo2 text-[0.95rem] leading-snug sm:text-lg lg:text-xl ${t.suave}`}
+            className={`max-w-xl font-exo2 text-[clamp(0.85rem,2.1vh,0.95rem)] leading-snug sm:text-lg lg:text-[clamp(1rem,2.5vh,1.25rem)] ${t.suave}`}
           >
             {dados.texto}
           </p>
 
-          <ul className="hidden flex-wrap gap-2 sm:flex">
+          <ul className="hidden flex-wrap gap-2 sm:flex [@media(min-width:1024px)_and_(max-height:640px)]:!hidden">
             {dados.destaques.map((d) => (
               <li
                 key={d}
@@ -200,7 +200,7 @@ export default function BannerProduto({
             <Link
               href={dados.cta.url}
               {...link(dados.cta)}
-              className="flex items-center gap-1 rounded-full bg-[#F9D229] px-6 py-3 font-exo2 text-base font-medium text-black transition-colors hover:bg-[#f1c400]"
+              className="flex items-center gap-1 rounded-full bg-[#F9D229] px-6 py-[clamp(0.55rem,1.5vh,0.75rem)] font-exo2 text-base font-medium text-black transition-colors hover:bg-[#f1c400]"
             >
               {dados.cta.rotulo} <Icon name="arrow_right" />
             </Link>
@@ -208,7 +208,7 @@ export default function BannerProduto({
               <Link
                 href={dados.cta2.url}
                 {...link(dados.cta2)}
-                className={`rounded-full border px-6 py-3 font-exo2 text-base font-medium transition-colors ${t.cta2}`}
+                className={`rounded-full border px-6 py-[clamp(0.55rem,1.5vh,0.75rem)] font-exo2 text-base font-medium transition-colors ${t.cta2}`}
               >
                 {dados.cta2.rotulo}
               </Link>
@@ -222,7 +222,7 @@ export default function BannerProduto({
 
         {/* Produto */}
         <div className="relative flex h-full min-h-0 flex-col items-center justify-center gap-4">
-          <div className="relative flex min-h-0 w-full flex-1 items-center justify-center">
+          <div className="relative flex min-h-[18vh] w-full flex-1 items-center justify-center lg:min-h-0">
             <div
               className={`absolute aspect-square w-[70%] max-w-[520px] rounded-full blur-3xl ${t.halo}`}
             />
@@ -243,7 +243,7 @@ export default function BannerProduto({
             <Link
               href={dados.cta.url}
               {...link(dados.cta)}
-              className="flex w-full max-w-sm items-center justify-center gap-1 rounded-full bg-[#F9D229] px-6 py-3 font-exo2 text-base font-medium text-black"
+              className="flex w-full max-w-sm items-center justify-center gap-1 rounded-full bg-[#F9D229] px-6 py-[clamp(0.5rem,1.4vh,0.75rem)] font-exo2 text-base font-medium text-black"
             >
               {dados.cta.rotulo} <Icon name="arrow_right" />
             </Link>
@@ -251,7 +251,7 @@ export default function BannerProduto({
               <Link
                 href={dados.cta2.url}
                 {...link(dados.cta2)}
-                className={`w-full max-w-sm rounded-full border px-6 py-2.5 text-center font-exo2 text-sm font-medium ${t.cta2}`}
+                className={`w-full max-w-sm rounded-full border px-6 py-[clamp(0.4rem,1.1vh,0.625rem)] text-center font-exo2 text-sm font-medium ${t.cta2}`}
               >
                 {dados.cta2.rotulo}
               </Link>
